@@ -1,0 +1,2194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kinnred — People. Nearby. On your wavelength.</title>
+<meta name="description" content="Open the app. See real people around you. Tap anyone. Message or move on. No algorithm. No endless swiping. Kinnred is location-based social discovery for dating, friends, activities and networking.">
+<meta property="og:title" content="Kinnred — People. Nearby. On your wavelength.">
+<meta property="og:description" content="See real people around you. Tap anyone. Message or move on. No algorithm. No endless swiping.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F2001C">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --red: #F2001C;
+    --red-hover: #D60018;
+    --accent: #FF3E5B;
+    --accent-glow: rgba(255, 62, 91, 0.12);
+    --cream: #FAF8F5;
+    --ink: #0E0204;
+    --maroon: #1D0509;
+    --maroon-2: #3D0F15;
+    --muted: rgba(14, 2, 4, 0.6);
+    --line: rgba(14, 2, 4, 0.08);
+    --radius: 24px;
+    --radius-lg: 32px;
+    --radius-sm: 16px;
+    --shadow: 0 32px 80px -20px rgba(14, 2, 4, 0.12);
+    --shadow-premium: 0 40px 90px -25px rgba(242, 0, 28, 0.18);
+    --head: 'Poppins', system-ui, sans-serif;
+    --body: 'Manrope', system-ui, sans-serif;
+    
+    /* Animation Speeds */
+    --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font-family: var(--body); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: rgba(14, 2, 4, 0.15); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+  a { color: inherit; text-decoration: none; transition: var(--transition-fast); }
+  h1, h2, h3, h4 { font-family: var(--head); margin: 0; letter-spacing: -0.03em; line-height: 1.1; }
+  p { margin: 0; }
+
+  .wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--head); font-weight: 700; font-size: 15px;
+    padding: 14px 28px; border-radius: 999px; border: none; cursor: pointer;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), background-color var(--transition-smooth);
+    user-select: none;
+  }
+  .btn-red { background: var(--red); color: #fff; box-shadow: 0 12px 28px -8px rgba(242, 0, 28, 0.45); }
+  .btn-red:hover { background: var(--red-hover); transform: translateY(-3px); box-shadow: 0 16px 36px -10px rgba(242, 0, 28, 0.55); }
+  .btn-red:active { transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--ink); background: rgba(14, 2, 4, 0.03); }
+
+  .eyebrow { 
+    font-family: var(--head); font-weight: 800; font-size: 13px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--red); display: inline-flex; align-items: center; gap: 8px;
+  }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; background: var(--red); border-radius: 50%; display: inline-block; }
+
+  /* Glow Effects */
+  .glow-container { position: relative; }
+  .glow-orb {
+    position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.6; pointer-events: none;
+  }
+
+  /* ---- Header ---- */
+  header {
+    position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px);
+    background: rgba(250, 248, 245, 0.85); border-bottom: 1px solid var(--line);
+    transition: transform var(--transition-smooth);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand .mark {
+    width: 42px; height: 42px; background: var(--red); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+    box-shadow: 0 8px 20px -6px rgba(242, 0, 28, 0.4); transition: var(--transition-fast);
+  }
+  .brand:hover .mark { transform: rotate(-5deg) scale(1.05); }
+  .brand .mark svg { transform: rotate(-16deg); margin-top: 1px; }
+  .brand .name { font-family: var(--head); font-weight: 800; font-size: 25px; letter-spacing: -0.02em; color: var(--ink); }
+  
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a.link { font-weight: 700; font-size: 15px; color: var(--muted); position: relative; padding: 6px 0; }
+  .nav-links a.link::after {
+    content: ""; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+    background: var(--red); transition: width var(--transition-fast);
+  }
+  .nav-links a.link:hover { color: var(--ink); }
+  .nav-links a.link:hover::after { width: 100%; }
+  
+  @media(max-width:820px) {
+    .nav-links a.link { display: none; }
+  }
+
+  /* ---- Hero ---- */
+  .hero { position: relative; padding: 80px 0 100px; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
+  @media(max-width:960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 56px; text-align: center; }
+    .hero-grid .waitlist { justify-content: center; margin-left: auto; margin-right: auto; }
+    .hero-grid .badges { justify-content: center; }
+  }
+  .hero h1 { font-size: clamp(44px, 5.5vw, 72px); font-weight: 900; line-height: 0.98; margin-top: 16px; }
+  .hero h1 .em { color: var(--red); position: relative; display: inline-block; }
+  .hero .lead { font-size: clamp(20px, 2.4vw, 24px); color: var(--ink); margin: 28px 0 12px; font-weight: 600; line-height: 1.3; }
+  .hero .sub { font-size: 16.5px; color: var(--muted); max-width: 48ch; margin: 0 auto 32px; }
+  @media(min-width:961px) { .hero .sub { margin-left: 0; } }
+
+  .waitlist { display: flex; gap: 12px; max-width: 480px; flex-wrap: wrap; position: relative; z-index: 10; }
+  .waitlist input {
+    flex: 1; min-width: 240px; padding: 16px 24px; border-radius: 999px; border: 1.5px solid var(--line);
+    font-family: var(--body); font-size: 16px; background: #fff; color: var(--ink); outline: none;
+    box-shadow: 0 4px 12px rgba(14, 2, 4, 0.02); transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .waitlist input:focus { border-color: var(--red); box-shadow: 0 4px 16px rgba(242, 0, 28, 0.08); }
+  .waitlist button { padding: 16px 32px; font-size: 15.5px; }
+  .waitlist .note { width: 100%; font-size: 13.5px; color: var(--muted); margin-top: 4px; font-weight: 500; text-align: left; }
+  @media(max-width:960px) { .waitlist .note { text-align: center; } }
+
+  .badges { display: flex; gap: 24px; margin-top: 44px; flex-wrap: wrap; }
+  .badge { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .badge .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none;
+    box-shadow: 0 0 0 4px var(--accent-glow); animation: pulseDot 2s infinite;
+  }
+  @keyframes pulseDot { 
+    0% { box-shadow: 0 0 0 0 rgba(255, 62, 91, 0.4); } 
+    70% { box-shadow: 0 0 0 8px rgba(255, 62, 91, 0); } 
+    100% { box-shadow: 0 0 0 0 rgba(255, 62, 91, 0); } 
+  }
+
+  /* ---- Interactive Wavelength Radar Map ---- */
+  .radar-stage { display: flex; justify-content: center; align-items: center; position: relative; width: 100%; }
+  .radar-container {
+    width: 480px; height: 480px; position: relative; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+  }
+  @media(max-width: 480px) {
+    .radar-container { width: 340px; height: 340px; }
+  }
+  
+  .radar-ring {
+    position: absolute; border-radius: 50%; border: 1px dashed rgba(242, 0, 28, 0.14);
+    background: transparent; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
+  }
+  .ring-outer { width: 440px; height: 440px; }
+  .ring-middle { width: 300px; height: 300px; }
+  .ring-inner { width: 160px; height: 160px; }
+  @media(max-width: 480px) {
+    .ring-outer { width: 320px; height: 320px; }
+    .ring-middle { width: 220px; height: 220px; }
+    .ring-inner { width: 120px; height: 120px; }
+  }
+
+  .radar-center {
+    width: 56px; height: 56px; border-radius: 18px; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 24px rgba(242, 0, 28, 0.45); z-index: 10; position: relative;
+    animation: pulseCenter 2.5s infinite;
+  }
+  .radar-center svg { width: 22px; height: 22px; fill: #fff; transform: rotate(-16deg); }
+  @keyframes pulseCenter {
+    0% { transform: scale(1); box-shadow: 0 0 20px rgba(242,0,28,0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(242,0,28,0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 20px rgba(242,0,28,0.4); }
+  }
+
+  /* Radar Floating User Nodes and Orbiting Redesign */
+  .radar-sweep {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 240px;
+    height: 240px;
+    background: conic-gradient(from 0deg, rgba(242, 0, 28, 0.16) 0deg, transparent 120deg, transparent 360deg);
+    transform-origin: top left;
+    border-radius: 0 0 0 100%;
+    pointer-events: none;
+    animation: radarSweepSpin 12s linear infinite;
+    z-index: 2;
+    margin-left: 0;
+    margin-top: 0;
+  }
+  @media(max-width: 480px) {
+    .radar-sweep { width: 170px; height: 170px; }
+  }
+
+  .radar-orbit {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    animation: radarOrbitSpin 90s linear infinite;
+    transform-origin: center;
+    pointer-events: none;
+  }
+
+  .radar-node-wrapper {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    margin-left: -24px;
+    margin-top: -24px;
+    animation: radarNodeCounterSpin 90s linear infinite;
+    transform-origin: center;
+    pointer-events: auto;
+  }
+
+  .radar-node {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #fff;
+    box-shadow: 0 8px 24px rgba(14,2,4,0.12);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, filter 0.3s ease;
+  }
+  .radar-node:hover {
+    transform: scale(1.22);
+    border-color: var(--red);
+    z-index: 15;
+    filter: blur(0px) !important;
+  }
+  .radar-node.locked-node { filter: blur(1.5px); }
+  .radar-node .lock-badge {
+    position: absolute; bottom: -3px; right: -3px; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #fff; box-shadow: 0 2px 6px rgba(242,0,28,0.3);
+  }
+  .radar-node .lock-badge svg { width: 8px; height: 8px; fill: #fff; }
+
+  /* Node Tooltip Card */
+  .radar-tooltip {
+    position: absolute; bottom: 58px; left: 50%; transform: translateX(-50%) translateY(10px);
+    width: 200px; padding: 12px; border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 12px 28px -6px rgba(14, 2, 4, 0.15);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    z-index: 20; color: var(--ink); text-align: left;
+  }
+  .radar-node:hover .radar-tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .radar-tooltip::after {
+    content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) rotate(45deg);
+    width: 12px; height: 12px; background: rgba(255, 255, 255, 0.85);
+    border-right: 1px solid rgba(255, 255, 255, 0.6); border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  }
+  .radar-tooltip .name { font-weight: 800; font-size: 13.5px; display: flex; align-items: center; justify-content: space-between; }
+  .radar-tooltip .name .badge-type { font-size: 8px; font-weight: 800; padding: 2px 6px; background: rgba(242,0,28,0.08); color: var(--red); border-radius: 4px; text-transform: uppercase; }
+  .radar-tooltip .dist { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 2px; }
+  .radar-tooltip .desc { font-size: 11px; color: var(--ink); margin-top: 8px; font-weight: 500; line-height: 1.4; }
+  .radar-tooltip .desc.locked-desc { color: var(--red); font-weight: 700; font-size: 10px; }
+
+  /* Node Coordinates on Radar circles (applied to counter-spinning wrappers) */
+  #node-sana-wrap { top: 12%; left: 50%; }
+  #node-aarav-wrap { top: 25%; left: 78%; }
+  #node-priya-wrap { top: 38%; left: 32%; }
+  #node-meera-wrap { top: 62%; left: 58%; }
+  #node-rohan-wrap { top: 72%; left: 24%; }
+  #node-dev-wrap { top: 82%; left: 70%; }
+  
+  @media(max-width: 480px) {
+    #node-sana-wrap { top: 10%; left: 50%; }
+    #node-aarav-wrap { top: 22%; left: 82%; }
+    #node-priya-wrap { top: 36%; left: 24%; }
+    #node-meera-wrap { top: 64%; left: 66%; }
+    #node-rohan-wrap { top: 75%; left: 16%; }
+    #node-dev-wrap { top: 85%; left: 74%; }
+  }
+
+  @keyframes radarSweepSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes radarOrbitSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes radarNodeCounterSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+
+  /* ---- Interactive App Showcase Section ( relocated phone mockup ) ---- */
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  @media(max-width: 960px) {
+    .exp-grid { grid-template-columns: 1fr; gap: 56px; text-align: center; }
+    .exp-steps { max-width: 500px; margin: 0 auto; }
+  }
+  .exp-info { position: relative; z-index: 2; }
+  .exp-steps { display: flex; flex-direction: column; gap: 16px; margin-top: 36px; }
+  .exp-step {
+    display: flex; gap: 20px; padding: 18px; border-radius: var(--radius);
+    border: 1.5px solid transparent; background: transparent; cursor: pointer;
+    transition: var(--transition-smooth); text-align: left;
+  }
+  .exp-step:hover { background: rgba(14, 2, 4, 0.02); border-color: var(--line); }
+  .exp-step.active { background: #fff; border-color: var(--red); box-shadow: var(--shadow); }
+  .exp-step .num {
+    flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--line);
+    color: var(--ink); display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14.5px; font-family: var(--head); transition: var(--transition-smooth);
+  }
+  .exp-step.active .num { background: var(--red); color: #fff; box-shadow: 0 4px 12px rgba(242, 0, 28, 0.25); }
+  .exp-step .text h4 { font-size: 16.5px; font-weight: 800; margin-bottom: 4px; color: var(--ink); }
+  .exp-step .text p { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+
+  /* Phone stage container */
+  .phone-stage { display: flex; justify-content: center; position: relative; width: 100%; }
+  .phone-glow {
+    position: absolute; width: 120%; height: 120%; top: -10%; left: -10%;
+    background: radial-gradient(circle at 50% 50%, rgba(242,0,28,0.18), transparent 70%);
+    z-index: 0; pointer-events: none;
+  }
+  .phone-wrapper {
+    position: relative; z-index: 1; width: 330px; height: 670px; border-radius: 48px;
+    background: var(--ink); padding: 12px; box-shadow: var(--shadow-premium);
+    border: 3px solid rgba(255, 255, 255, 0.08); transition: transform var(--transition-smooth);
+  }
+  .phone-wrapper:hover { transform: translateY(-4px) scale(1.01); }
+  
+  .phone-screen {
+    width: 100%; height: 100%; border-radius: 38px; background: var(--maroon);
+    overflow: hidden; display: flex; flex-direction: column; position: relative;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .phone-status-bar {
+    height: 36px; padding: 0 24px; display: flex; justify-content: space-between;
+    align-items: center; color: #fff; font-size: 11px; font-weight: 700; z-index: 10;
+  }
+  .phone-status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .phone-island {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 90px; height: 20px; background: #000; border-radius: 99px; z-index: 15;
+  }
+
+  .app-header { padding: 10px 20px 10px; color: #fff; position: relative; z-index: 5; }
+  .app-header .live-wavelength {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800;
+    color: rgba(255, 255, 255, 0.9); background: rgba(255, 255, 255, 0.08);
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 8px; backdrop-filter: blur(10px);
+  }
+  .app-header .live-wavelength .pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: #3DDC84;
+    box-shadow: 0 0 0 0 rgba(61,220,132,0.6); animation: pulseGreen 1.8s infinite;
+  }
+  @keyframes pulseGreen {
+    0% { box-shadow: 0 0 0 0 rgba(61,220,132,0.55); }
+    70% { box-shadow: 0 0 0 6px rgba(61,220,132,0); }
+    100% { box-shadow: 0 0 0 0 rgba(61,220,132,0); }
+  }
+  .app-header h4 { font-size: 22px; font-weight: 800; }
+  .app-header p { font-size: 12px; color: rgba(255, 255, 255, 0.55); margin-top: 2px; font-weight: 500; }
+
+  .app-content { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; padding: 0 16px 16px; }
+  .app-content::-webkit-scrollbar { display: none; }
+  
+  .app-tab-panel { display: none; width: 100%; height: 100%; }
+  .app-tab-panel.active { display: block; animation: tabFadeIn 0.3s ease; }
+  @keyframes tabFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* App Tab: Grid */
+  .app-grid-filters { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 12px; margin-top: -4px; }
+  .app-grid-filters::-webkit-scrollbar { display: none; }
+  .app-filter-chip {
+    padding: 6px 12px; background: rgba(255,255,255,0.06); border-radius: 99px;
+    font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.03); white-space: nowrap; transition: var(--transition-fast);
+  }
+  .app-filter-chip.active { background: var(--red); color: #fff; border-color: var(--red); }
+  
+  .grid-simulator { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .sim-card {
+    border-radius: 18px; aspect-ratio: 3/4; position: relative; overflow: hidden;
+    color: #fff; display: flex; align-items: flex-end; padding: 12px;
+    background-size: cover; background-position: center; transition: var(--transition-smooth);
+    box-shadow: inset 0 -40px 40px -10px rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.05);
+  }
+  .sim-card::before {
+    content: ""; position: absolute; inset: 0; background: rgba(29, 5, 9, 0.4);
+    opacity: 0; transition: opacity var(--transition-fast);
+  }
+  .sim-card:hover::before { opacity: 1; }
+  .sim-card .info { position: relative; z-index: 3; }
+  .sim-card .name-age { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+  .sim-card .details { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 600; display: block; margin-top: 1px; }
+  .sim-card .tag-pill {
+    display: inline-block; font-size: 8px; font-weight: 700; padding: 2px 6px;
+    background: rgba(255,255,255,0.15); border-radius: 4px; margin-top: 5px;
+  }
+  
+  .sim-card.locked-photo .blur-overlay {
+    position: absolute; inset: 0; backdrop-filter: blur(14px);
+    background: rgba(29, 5, 9, 0.45); z-index: 2; display: flex;
+    flex-direction: column; align-items: center; justify-content: center;
+    transition: opacity var(--transition-smooth), backdrop-filter var(--transition-smooth);
+  }
+  .sim-card.locked-photo .lock-icon {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(242,0,28,0.4); transition: transform 0.3s ease;
+  }
+  .sim-card.locked-photo:hover .lock-icon { transform: scale(1.1); }
+  .sim-card.locked-photo .lock-icon svg { width: 12px; height: 12px; fill: #fff; }
+  .sim-card.locked-photo .lock-label { font-size: 9px; font-weight: 700; margin-top: 6px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* App Tab: Pings */
+  .pings-tabs { display: flex; background: rgba(0,0,0,0.25); border-radius: 99px; padding: 3px; margin-bottom: 12px; }
+  .pings-tab-btn {
+    flex: 1; padding: 7px; border-radius: 99px; text-align: center; font-size: 11px;
+    font-weight: 800; color: rgba(255,255,255,0.5); cursor: pointer; transition: var(--transition-fast);
+  }
+  .pings-tab-btn.active { background: rgba(255,255,255,0.12); color: #fff; }
+  .pings-tab-btn .badge-dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--red); margin-left: 4px; vertical-align: middle;
+  }
+
+  .ping-list { display: flex; flex-direction: column; gap: 8px; }
+  .ping-item {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 12px;
+    transition: var(--transition-fast);
+  }
+  .ping-item:hover { background: rgba(255,255,255,0.07); }
+  .ping-avatar {
+    width: 44px; height: 44px; border-radius: 50%; background-size: cover;
+    background-position: center; border: 1px solid rgba(255,255,255,0.1); position: relative;
+  }
+  .ping-avatar.blurred { filter: blur(4px); border-color: rgba(255,255,255,0.2); }
+  .ping-avatar .lock-tag {
+    position: absolute; -right: 2px; -bottom: 2px; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center;
+  }
+  .ping-avatar .lock-tag svg { width: 7px; height: 7px; fill: #fff; }
+  
+  .ping-info { flex: 1; min-width: 0; }
+  .ping-info .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .ping-info .name { font-size: 13px; font-weight: 800; color: #fff; }
+  .ping-info .time { font-size: 9px; color: rgba(255,255,255,0.4); }
+  .ping-info .msg { font-size: 11px; color: rgba(255,255,255,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .ping-action { padding: 6px 12px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; border-radius: 99px; cursor: pointer; transition: var(--transition-fast); }
+  .ping-action:hover { background: var(--red-hover); transform: scale(1.05); }
+
+  /* App Tab: Circles */
+  .circle-list { display: flex; flex-direction: column; gap: 10px; }
+  .circle-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px; overflow: hidden; display: flex; flex-direction: column;
+    transition: var(--transition-fast);
+  }
+  .circle-card:hover { border-color: rgba(255,255,255,0.15); }
+  .circle-img { height: 74px; background-size: cover; background-position: center; position: relative; }
+  .circle-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(29,5,9,0.9), transparent); }
+  .circle-body { padding: 12px; position: relative; }
+  .circle-body h5 { font-family: var(--head); font-size: 13px; font-weight: 800; color: #fff; }
+  .circle-body .meta { font-size: 9px; color: rgba(255,255,255,0.4); font-weight: 700; margin-top: 1px; }
+  .circle-body .desc { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 6px; line-height: 1.4; }
+  .circle-join-btn {
+    align-self: flex-start; margin-top: 10px; font-size: 10px; font-weight: 800;
+    padding: 5px 12px; border-radius: 99px; background: rgba(255,255,255,0.1);
+    color: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    transition: var(--transition-fast); border: 1px solid rgba(255,255,255,0.05);
+  }
+  .circle-join-btn:hover { background: rgba(255,255,255,0.2); }
+  .circle-join-btn.joined { background: #3DDC84; color: var(--ink); border-color: #3DDC84; }
+
+  /* App Tab: MySpace */
+  .myspace-profile { text-align: center; padding-top: 8px; }
+  .myspace-avatar {
+    width: 64px; height: 64px; border-radius: 50%; margin: 0 auto;
+    border: 2px solid var(--red); background-size: cover; background-position: center;
+    box-shadow: 0 8px 24px rgba(242, 0, 28, 0.3); position: relative;
+  }
+  .myspace-avatar .verified-tick {
+    position: absolute; right: -2px; bottom: -2px; width: 18px; height: 18px;
+    border-radius: 50%; background: #4A90E2; display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid var(--maroon);
+  }
+  .myspace-avatar .verified-tick svg { width: 10px; height: 10px; fill: #fff; }
+  .myspace-profile h5 { font-size: 15px; font-weight: 800; color: #fff; margin-top: 10px; }
+  .myspace-profile .loc { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 600; margin-top: 2px; }
+
+  .myspace-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 16px 0; }
+  .myspace-photo-slot {
+    aspect-ratio: 1; border-radius: 10px; background: rgba(255,255,255,0.04);
+    border: 1.5px dashed rgba(255,255,255,0.12); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; color: rgba(255,255,255,0.4); cursor: pointer;
+    font-size: 9px; font-weight: 700; transition: var(--transition-fast);
+  }
+  .myspace-photo-slot:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); }
+  .myspace-photo-slot svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; margin-bottom: 2px; }
+  .myspace-photo-slot.has-img { border: none; background-size: cover; background-position: center; }
+
+  .myspace-settings { display: flex; flex-direction: column; gap: 8px; text-align: left; }
+  .myspace-setting-item {
+    background: rgba(0,0,0,0.15); border-radius: 12px; padding: 10px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .myspace-setting-item .info { max-width: 80%; }
+  .myspace-setting-item label { font-size: 11.5px; font-weight: 800; color: #fff; display: block; }
+  .myspace-setting-item span { font-size: 9.5px; color: rgba(255,255,255,0.45); font-weight: 600; margin-top: 1px; display: block; }
+  
+  /* Toggle Switch styling */
+  .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer; inset: 0; background-color: rgba(255,255,255,0.15);
+    border-radius: 34px; transition: .2s;
+  }
+  .slider:before {
+    position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+    background-color: white; border-radius: 50%; transition: .2s;
+  }
+  input:checked + .slider { background-color: var(--red); }
+  input:checked + .slider:before { transform: translateX(14px); }
+
+  .phone-tabbar {
+    height: 64px; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.3);
+    display: flex; justify-content: space-around; align-items: center; z-index: 10;
+  }
+  .tab-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    color: rgba(255,255,255,0.4); cursor: pointer; user-select: none; transition: var(--transition-fast);
+  }
+  .tab-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; transition: var(--transition-fast); }
+  .tab-btn span { font-size: 8.5px; font-weight: 700; transition: var(--transition-fast); }
+  .tab-btn.active { color: #fff; }
+  .tab-btn.active svg { stroke: var(--red); fill: rgba(242,0,28,0.1); }
+  .tab-btn.active span { color: #fff; }
+  .tab-btn:hover { color: rgba(255,255,255,0.8); }
+
+  /* ---- Section styles ---- */
+  section { position: relative; }
+  .band { padding: 100px 0; overflow: hidden; }
+  .band.ink { background: var(--ink); color: var(--cream); }
+  .band.maroon { background: linear-gradient(180deg, var(--maroon), #0E0204); color: var(--cream); }
+  .sec-head { max-width: 680px; margin-bottom: 60px; position: relative; z-index: 2; }
+  .sec-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+  .sec-head h2 { font-size: clamp(32px, 4.5vw, 48px); font-weight: 900; margin-top: 16px; }
+  .sec-head p { font-size: 18px; color: var(--muted); margin-top: 20px; font-weight: 500; }
+  .band.ink .sec-head p, .band.maroon .sec-head p { color: rgba(250, 248, 245, 0.65); }
+
+  /* ---- Compare Section ---- */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative; z-index: 2; }
+  @media(max-width:760px) { .compare { grid-template-columns: 1fr; } }
+  .compare-col { border-radius: var(--radius); padding: 40px; border: 1px solid var(--line); background: #fff; transition: var(--transition-smooth); }
+  .compare-col:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .compare-col.them h3 { color: var(--muted); }
+  .compare-col.us { background: var(--red); color: #fff; border-color: transparent; box-shadow: var(--shadow-premium); }
+  .compare-col h3 { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px; }
+  .compare-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  .compare-col li { display: flex; gap: 16px; padding-bottom: 16px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--line); }
+  .compare-col.us li { border-bottom-color: rgba(255, 255, 255, 0.12); }
+  .compare-col li:last-child { border-bottom: none; padding-bottom: 0; }
+  .compare-col li .ic {
+    flex: none; font-size: 18px; width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-weight: 800;
+  }
+  .compare-col.them .ic { background: rgba(14,2,4,0.05); color: var(--muted); }
+  .compare-col.us .ic { background: rgba(255,255,255,0.18); color: #fff; }
+
+  /* ---- Pillars ---- */
+  .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; z-index: 2; }
+  @media(max-width:960px) { .pillars { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:560px) { .pillars { grid-template-columns: 1fr; } }
+  .pillar {
+    background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius); padding: 32px; transition: var(--transition-smooth);
+  }
+  .pillar:hover {
+    transform: translateY(-6px); border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+  .pillar .pi {
+    width: 48px; height: 48px; border-radius: 14px; background: var(--red); display: flex;
+    align-items: center; justify-content: center; margin-bottom: 24px;
+    box-shadow: 0 6px 16px rgba(242, 0, 28, 0.3);
+  }
+  .pillar .pi svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .pillar h3 { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+  .pillar p { font-size: 14.5px; color: rgba(250, 248, 245, 0.6); margin: 0; line-height: 1.55; }
+
+  /* ---- Safety Sandbox & Feature ---- */
+  .safety-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: center; position: relative; z-index: 2; }
+  @media(max-width:900px) { .safety-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .safe-list { list-style: none; padding: 0; margin: 32px 0 0; display: flex; flex-direction: column; gap: 16px; }
+  .safe-list li { display: flex; gap: 14px; font-size: 16px; font-weight: 600; align-items: center; }
+  .safe-list .ck {
+    flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--red); display: flex;
+    align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(242, 0, 28, 0.25);
+  }
+  .safe-list .ck svg { width: 11px; height: 11px; fill: none; stroke: #fff; stroke-width: 3.5; }
+
+  /* Sandbox Demo Card style */
+  .sandbox-card {
+    background: #fff; border-radius: var(--radius-lg); padding: 36px;
+    box-shadow: var(--shadow); border: 1px solid var(--line); display: flex;
+    flex-direction: column; gap: 24px; position: relative;
+  }
+  .sandbox-demo { display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .sandbox-profile {
+    width: 140px; height: 180px; border-radius: var(--radius-sm); position: relative;
+    overflow: hidden; display: flex; align-items: flex-end; padding: 16px; color: #fff;
+    background-size: cover; background-position: center; border: 1px solid rgba(14,2,4,0.08);
+    box-shadow: inset 0 -60px 40px -10px rgba(0,0,0,0.7);
+  }
+  .sandbox-profile span { font-weight: 800; font-size: 14px; position: relative; z-index: 3; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+  
+  .sandbox-profile .blur-layer {
+    position: absolute; inset: 0; backdrop-filter: blur(16px);
+    background: rgba(29, 5, 9, 0.45); z-index: 2; display: flex;
+    align-items: center; justify-content: center; transition: backdrop-filter 0.5s ease, background-color 0.5s ease;
+  }
+  .sandbox-profile .lock-ico-box {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(242, 0, 28, 0.45); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .sandbox-profile .lock-ico-box svg { width: 16px; height: 16px; fill: #fff; transition: var(--transition-fast); }
+  
+  .sandbox-arrow { font-size: 28px; font-weight: 900; color: var(--red); text-shadow: 0 2px 10px rgba(242,0,28,0.1); }
+  
+  /* Unblurred preview state */
+  .sandbox-profile.unlocked .blur-layer { backdrop-filter: blur(0px); background: transparent; }
+  .sandbox-profile.unlocked .lock-ico-box { transform: scale(0); }
+  
+  .sandbox-btn-container { text-align: center; }
+  .sandbox-btn { width: 100%; font-size: 15px; padding: 14px; display: inline-flex; justify-content: center; }
+  .sandbox-card p.caption { text-align: center; font-size: 13.5px; color: var(--muted); font-weight: 600; line-height: 1.4; margin: 0; }
+
+  /* ---- Purpose / Multi-use ---- */
+  .tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; justify-content: center; position: relative; z-index: 2; }
+  .tag {
+    font-family: var(--head); font-weight: 700; font-size: 15px; padding: 12px 24px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(255, 255, 255, 0.1);
+    color: #fff; transition: var(--transition-smooth); cursor: pointer; user-select: none;
+  }
+  .tag.active {
+    background: var(--red); color: #fff; border-color: var(--red);
+    box-shadow: 0 10px 24px -6px rgba(242, 0, 28, 0.45); transform: translateY(-2px);
+  }
+  .tag:hover:not(.active) { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.25); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; position: relative; z-index: 2; }
+  @media(max-width:820px) { .stats { grid-template-columns: 1fr; } }
+  .stat {
+    text-align: center; padding: 36px 24px; border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(255, 255, 255, 0.06);
+    transition: var(--transition-smooth);
+  }
+  .stat:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.12); }
+  .stat .n { font-family: var(--head); font-weight: 900; font-size: 46px; color: var(--accent); line-height: 1; }
+  .stat .l { font-size: 15px; color: rgba(250, 248, 245, 0.65); margin-top: 10px; font-weight: 600; }
+
+  /* ---- New Onboarding & Profile Card Section (Redesigned CTA Section) ---- */
+  .cta-section {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--maroon) 16%, #090203 100%);
+    color: #fff; padding: 120px 0; overflow: hidden; position: relative;
+  }
+  .cta-section .sec-head h2 { color: #fff; }
+  .cta-section .sec-head p { color: rgba(250, 248, 245, 0.7); }
+  
+  .onboarding-wrapper {
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px;
+    align-items: start; margin-top: 48px; position: relative; z-index: 5;
+  }
+  @media(max-width: 960px) {
+    .onboarding-wrapper { grid-template-columns: 1fr; gap: 48px; }
+  }
+  
+  .onboarding-card {
+    background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px); border-radius: var(--radius); padding: 44px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.35); position: relative;
+  }
+  @media(max-width: 560px) { .onboarding-card { padding: 28px 20px; } }
+  
+  .progress-tracker { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; position: relative; }
+  .progress-line { position: absolute; top: 50%; left: 0; width: 100%; height: 3px; background: rgba(255, 255, 255, 0.08); z-index: 1; transform: translateY(-50%); }
+  .progress-fill { height: 100%; width: 0%; background: var(--red); box-shadow: 0 0 10px var(--red); transition: width var(--transition-smooth); }
+  .progress-step {
+    width: 32px; height: 32px; border-radius: 50%; background: #2D0A0E; border: 2px solid rgba(255, 255, 255, 0.15);
+    display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+    color: rgba(255, 255, 255, 0.45); position: relative; z-index: 2; transition: var(--transition-smooth);
+  }
+  .progress-step.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 0 16px var(--red); }
+  .progress-step.completed { background: #3DDC84; border-color: #3DDC84; color: var(--ink); }
+
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: panelSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes panelSlideIn {
+    from { opacity: 0; transform: translateX(18px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .onboarding-card label.q { color: #fff; font-size: 15.5px; font-weight: 800; font-family: var(--head); display: block; margin-bottom: 12px; }
+  .onboarding-card .fq { margin-bottom: 30px; }
+  
+  .onboarding-card input[type=text],
+  .onboarding-card input[type=email],
+  .onboarding-card textarea {
+    background: rgba(0, 0, 0, 0.25); border: 1.5px solid rgba(255, 255, 255, 0.1);
+    color: #fff; padding: 14px 18px; border-radius: 12px; width: 100%; outline: none;
+    font-family: var(--body); font-size: 15.5px; transition: var(--transition-fast);
+  }
+  .onboarding-card input[type=text]:focus,
+  .onboarding-card input[type=email]:focus,
+  .onboarding-card textarea:focus {
+    border-color: var(--red); box-shadow: 0 0 16px rgba(242, 0, 28, 0.22); background: rgba(0, 0, 0, 0.35);
+  }
+  
+  .city-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .city-pill {
+    padding: 6px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255,255,255,0.7); border-radius: 99px; font-size: 12px; font-weight: 700; cursor: pointer; transition: var(--transition-fast);
+  }
+  .city-pill:hover { background: rgba(255, 255, 255, 0.12); color: #fff; border-color: rgba(255,255,255,0.18); }
+  .city-pill.active { background: var(--red); color: #fff; border-color: var(--red); }
+
+  .onboarding-card .chip span { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.1); color: rgba(255,255,255,0.85); }
+  .onboarding-card .chip span:hover { border-color: rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.06); }
+  .onboarding-card .chip input:checked + span { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 12px rgba(242, 0, 28, 0.3); }
+  
+  .onboarding-card .rad span { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.1); color: rgba(255,255,255,0.9); }
+  .onboarding-card .rad span::before { border-color: rgba(255, 255, 255, 0.2); }
+  .onboarding-card .rad span:hover { border-color: rgba(255, 255, 255, 0.2); }
+  .onboarding-card .rad input:checked + span { border-color: var(--red); background: rgba(242, 0, 28, 0.08); }
+  
+  .step-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 36px; }
+  .step-actions .btn { flex: 1; padding: 15px; }
+
+  /* Profile Card Preview Block */
+  .preview-sticky { position: sticky; top: 120px; z-index: 10; text-align: center; }
+  .profile-preview-title {
+    font-family: var(--head); font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .profile-preview-title .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  
+  .preview-card {
+    background: linear-gradient(135deg, var(--maroon-2) 0%, #160406 100%); border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-premium); position: relative; overflow: hidden; text-align: left;
+  }
+  .preview-card::after {
+    content: ""; position: absolute; top: -100px; right: -100px; width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 62, 91, 0.1) 0%, transparent 70%); z-index: 0; pointer-events: none;
+  }
+
+  .preview-photo-block {
+    width: 100%; aspect-ratio: 4/3; border-radius: 16px; background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+  .preview-photo-bg {
+    position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 10px, transparent 10px, transparent 20px);
+    background-size: cover; background-position: center; transition: filter 0.5s ease; filter: blur(16px);
+  }
+  .preview-photo-lock {
+    position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: rgba(14,2,4,0.45); padding: 10px 18px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+  }
+  .preview-photo-lock svg { width: 14px; height: 14px; fill: #fff; }
+  .preview-photo-lock span { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; color: #fff; }
+  
+  .preview-info { margin-top: 20px; position: relative; z-index: 2; }
+  .preview-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .preview-name-age { font-family: var(--head); font-weight: 900; font-size: 20px; display: flex; align-items: center; gap: 6px; }
+  .preview-ver-tick { width: 16px; height: 16px; border-radius: 50%; background: #4A90E2; display: flex; align-items: center; justify-content: center; }
+  .preview-ver-tick svg { width: 9px; height: 9px; fill: #fff; }
+  .preview-city { font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 600; margin-top: 2px; }
+  
+  .preview-tags-section { margin-top: 16px; }
+  .preview-tags-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 6px; display: block; }
+  .preview-tags { display: flex; flex-wrap: wrap; gap: 6px; min-height: 24px; }
+  .preview-tag-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.05); }
+  
+  /* Onboarding success state overlay */
+  .onboarding-success { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 380px; }
+  .success-ring {
+    width: 64px; height: 64px; border-radius: 50%; background: rgba(61, 220, 132, 0.1);
+    border: 2px solid #3DDC84; display: flex; align-items: center; justify-content: center;
+    color: #3DDC84; font-size: 24px; margin-bottom: 24px; box-shadow: 0 0 20px rgba(61, 220, 132, 0.2);
+  }
+  .success-ring svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 3.5; }
+  .success-v-id {
+    font-family: var(--head); font-size: 15px; font-weight: 800; color: #fff;
+    background: rgba(255,255,255,0.08); padding: 8px 18px; border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.1); margin-top: 18px;
+  }
+
+  /* ---- Footer Redesign ---- */
+  .footer-redesign {
+    background: #080102;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 80px 0 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 5;
+    font-family: var(--body);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.1fr 1.9fr;
+    gap: 64px;
+    margin-bottom: 56px;
+  }
+  @media(max-width: 820px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  .footer-brand-col .brand .name {
+    color: #fff;
+  }
+  .footer-brand-col .brand-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 20px 0 24px;
+    max-width: 36ch;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Social Icons */
+  .social-row {
+    display: flex;
+    gap: 12px;
+  }
+  .social-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    transition: var(--transition-fast);
+  }
+  .social-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  .social-icon:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(242, 0, 28, 0.35);
+  }
+
+  /* Links Column Layout */
+  .footer-links-col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  @media(max-width: 520px) {
+    .footer-links-col {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+  
+  .footer-link-group h5 {
+    font-family: var(--head);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+  }
+  .footer-link-group a {
+    display: block;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    transition: var(--transition-fast);
+  }
+  .footer-link-group a:hover {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  /* Footer Bottom */
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  .footer-bottom a {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 700;
+    transition: var(--transition-fast);
+  }
+  .footer-bottom a:hover {
+    color: var(--red);
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG Reusable Glyphs -->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="lock" viewBox="0 0 24 24">
+    <path d="M6 10V7a6 6 0 1112 0v3h1a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2h1zm2 0h8V7a4 4 0 10-8 0v3z"/>
+  </symbol>
+  <symbol id="lock-open" viewBox="0 0 24 24">
+    <path d="M6 10V7a6 6 0 019.9-4.6l-1.4 1.4A4 4 0 008 7v3h11a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2h1z"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="mark"><svg viewBox="0 0 240 240" width="22" height="22"><text x="120" y="130" text-anchor="middle" dominant-baseline="central" font-family="Poppins,sans-serif" font-weight="900" font-size="168" fill="#fff" letter-spacing="-2">k</text></svg></span>
+      <span class="name">kinnred</span>
+    </a>
+    <nav class="nav-links">
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#safety">Safety</a>
+      <a class="link" href="#purpose">Not just dating</a>
+      <a class="btn btn-red" href="#waitlist">Join the waitlist</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero glow-container">
+  <div class="glow-orb" style="width: 400px; height: 400px; background: radial-gradient(circle, rgba(242,0,28,0.12) 0%, transparent 70%); top: 10%; right: 5%;"></div>
+  <div class="glow-orb" style="width: 350px; height: 350px; background: radial-gradient(circle, rgba(255,62,91,0.08) 0%, transparent 70%); bottom: 10%; left: 5%;"></div>
+  
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Location-based social discovery</span>
+      <h1>People. Nearby.<br><span class="em">On your wavelength.</span></h1>
+      <p class="lead">Open the app. See real people around you. Tap anyone. Message or move on.</p>
+      <p class="sub">No algorithm. No endless swiping. Just a live grid of real people nearby — for dating, friends, activity partners or networking.</p>
+
+      <form class="waitlist" id="hero-form">
+        <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+        <button class="btn btn-red" type="submit">Get early access</button>
+        <span class="note">Be first in your city. No spam — just a launch invite.</span>
+      </form>
+
+      <div class="badges">
+        <span class="badge"><span class="dot"></span>Photos locked, not profiles</span>
+        <span class="badge"><span class="dot"></span>OTP + selfie verified</span>
+        <span class="badge"><span class="dot"></span>Approximate distance only</span>
+      </div>
+    </div>
+
+    <!-- Unique Wavelength Radar Map (Hero Right) -->
+    <div class="radar-stage">
+      <div class="radar-container">
+        <!-- Circles -->
+        <div class="radar-ring ring-outer"></div>
+        <div class="radar-ring ring-middle"></div>
+        <div class="radar-ring ring-inner"></div>
+        
+        <!-- Radar Active Sonar Sweep Line -->
+        <div class="radar-sweep"></div>
+        
+        <!-- Center node (You) -->
+        <div class="radar-center">
+          <svg viewBox="0 0 24 24"><text x="12" y="13" text-anchor="middle" dominant-baseline="central" font-family="Poppins,sans-serif" font-weight="900" font-size="18" fill="#fff">k</text></svg>
+        </div>
+        
+        <!-- Orbiting Nodes Group -->
+        <div class="radar-orbit">
+          
+          <!-- Sana (Dating - Locked) -->
+          <div class="radar-node-wrapper" id="node-sana-wrap">
+            <div class="radar-node locked-node" style="background-image: url('assets/avatar_sana.jpg');">
+              <div class="lock-badge"><svg><use href="#lock"/></svg></div>
+              <div class="radar-tooltip">
+                <div class="name">Sana, 25 <span class="badge-type">Dating</span></div>
+                <div class="dist">📍 2.1 km away</div>
+                <div class="desc locked-desc">🔒 Photo locked until you send a request and she accepts.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aarav (Networking - Unlocked) -->
+          <div class="radar-node-wrapper" id="node-aarav-wrap">
+            <div class="radar-node" style="background-image: url('assets/avatar_aarav.jpg');">
+              <div class="radar-tooltip">
+                <div class="name">Aarav, 24 <span class="badge-type">Network</span></div>
+                <div class="dist">📍 1.2 km away</div>
+                <div class="desc">"Looking for co-founders &amp; hackers in tech."</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Priya (Friends - Locked) -->
+          <div class="radar-node-wrapper" id="node-priya-wrap">
+            <div class="radar-node locked-node" style="background-image: url('assets/avatar_priya.jpg');">
+              <div class="lock-badge"><svg><use href="#lock"/></svg></div>
+              <div class="radar-tooltip">
+                <div class="name">Priya, 23 <span class="badge-type">Friends</span></div>
+                <div class="dist">📍 600m away</div>
+                <div class="desc locked-desc">🔒 Photo locked. Tying photos to requests keeps users safe.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meera (Dating - Locked) -->
+          <div class="radar-node-wrapper" id="node-meera-wrap">
+            <div class="radar-node locked-node" style="background-image: url('assets/avatar_meera.jpg');">
+              <div class="lock-badge"><svg><use href="#lock"/></svg></div>
+              <div class="radar-tooltip">
+                <div class="name">Meera, 22 <span class="badge-type">Dating</span></div>
+                <div class="dist">📍 800m away</div>
+                <div class="desc locked-desc">🔒 Photo locked. Tap to view profile card and send request.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rohan (Activities - Unlocked) -->
+          <div class="radar-node-wrapper" id="node-rohan-wrap">
+            <div class="radar-node" style="background-image: url('assets/avatar_rohan.jpg');">
+              <div class="radar-tooltip">
+                <div class="name">Rohan, 26 <span class="badge-type">Activity</span></div>
+                <div class="dist">📍 1.8 km away</div>
+                <div class="desc">"Jogging at Cubbon Park tomorrow. Join in!"</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dev (Networking - Unlocked) -->
+          <div class="radar-node-wrapper" id="node-dev-wrap">
+            <div class="radar-node" style="background-image: url('assets/avatar_dev.jpg');">
+              <div class="radar-tooltip">
+                <div class="name">Dev, 27 <span class="badge-type">Network</span></div>
+                <div class="dist">📍 2.5 km away</div>
+                <div class="desc">"Up for quick coffee meetings with designers."</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Problem / Grid over swipe -->
+<section class="band" id="how" style="background:#fff;">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Grid over swipe</span>
+      <h2>Swiping is a slot machine.<br>Kinnred is a room full of people.</h2>
+      <p>An algorithm decides who you see, matches go silent, and it's dating-only even when you just wanted to make friends in a new city. So we threw the whole model out.</p>
+    </div>
+    <div class="compare">
+      <div class="compare-col them">
+        <h3>Swipe apps</h3>
+        <ul>
+          <li><span class="ic">✕</span>One profile at a time</li>
+          <li><span class="ic">✕</span>An algorithm decides who you see</li>
+          <li><span class="ic">✕</span>You must match before you can message</li>
+          <li><span class="ic">✕</span>Dating only</li>
+          <li><span class="ic">✕</span>"Matched with 50, talked to 2"</li>
+        </ul>
+      </div>
+      <div class="compare-col us">
+        <h3>Kinnred</h3>
+        <ul>
+          <li><span class="ic">✓</span>30–50 real people nearby, in a grid</li>
+          <li><span class="ic">✓</span>You browse freely — no algorithm</li>
+          <li><span class="ic">✓</span>Tap → view → decide for yourself</li>
+          <li><span class="ic">✓</span>Dating + friends + activities + networking</li>
+          <li><span class="ic">✓</span>One icebreaker to start — no ghost-piles</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Interactive App Showcase -->
+<section class="band" id="experience" style="background: linear-gradient(180deg, #fff, var(--cream)); border-top: 1px solid var(--line);">
+  <div class="wrap exp-grid">
+    <div class="exp-info">
+      <span class="eyebrow">Interactive Simulator</span>
+      <h2>Experience Kinnred in Action</h2>
+      <p style="font-size: 18px; margin-top: 18px; color: var(--muted); font-weight: 500;">We built a live simulator. Click the steps below to switch features and interact directly with the mockup on the right.</p>
+      
+      <div class="exp-steps">
+        <div class="exp-step active" id="step-grid" onclick="activateSimDemo('grid')">
+          <div class="num">1</div>
+          <div class="text">
+            <h4>Browse the Nearby Grid</h4>
+            <p>See who's nearby and check what they're looking for. Tap category filters on the simulator to filter profile cards.</p>
+          </div>
+        </div>
+        <div class="exp-step" id="step-pings" onclick="activateSimDemo('pings')">
+          <div class="num">2</div>
+          <div class="text">
+            <h4>Accept Requests &amp; Chat</h4>
+            <p>Go to requests, tap **Accept** on a request, and watch photos smoothly unblur and the chat unlock in one tap.</p>
+          </div>
+        </div>
+        <div class="exp-step" id="step-circles" onclick="activateSimDemo('circles')">
+          <div class="num">3</div>
+          <div class="text">
+            <h4>Explore Local Communities</h4>
+            <p>Find interest circles, check local meetups, and join local circles nearby directly inside the app.</p>
+          </div>
+        </div>
+        <div class="exp-step" id="step-myspace" onclick="activateSimDemo('myspace')">
+          <div class="num">4</div>
+          <div class="text">
+            <h4>Customize Your Safety Panel</h4>
+            <p>Toggle your photo lock mode, verification badge, or approximate distance directly in your MySpace settings.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Phone Simulator -->
+    <div class="phone-stage">
+      <div class="phone-glow"></div>
+      <div class="phone-wrapper">
+        <div class="phone-screen">
+          <div class="phone-island"></div>
+          <div class="phone-status-bar">
+            <span class="time" id="sim-time">09:41</span>
+            <div class="icons">
+              <span>📶</span><span>🛜</span><span>🔋</span>
+            </div>
+          </div>
+          
+          <div class="app-header">
+            <span class="live-wavelength"><span class="pulse"></span><span id="wavelength-count">34</span> people on your wavelength</span>
+            <h4 id="sim-title">Grid</h4>
+            <p id="sim-subtitle">Real people within 2.5 km · right now</p>
+          </div>
+
+          <div class="app-content">
+            
+            <!-- Tab: Grid -->
+            <div class="app-tab-panel active" id="tab-grid">
+              <div class="app-grid-filters">
+                <span class="app-filter-chip active" onclick="filterSimGrid('All', this)">All</span>
+                <span class="app-filter-chip" onclick="filterSimGrid('Dating', this)">Dating</span>
+                <span class="app-filter-chip" onclick="filterSimGrid('Friends', this)">Friends</span>
+                <span class="app-filter-chip" onclick="filterSimGrid('Activities', this)">Activities</span>
+                <span class="app-filter-chip" onclick="filterSimGrid('Networking', this)">Networking</span>
+              </div>
+              
+              <div class="grid-simulator" id="sim-grid-container">
+                <!-- Aarav -->
+                <div class="sim-card" style="background-image: url('assets/avatar_aarav.jpg');" data-category="Networking">
+                  <div class="info">
+                    <span class="name-age">Aarav, 24</span>
+                    <span class="details">1.2 km · Active now</span>
+                    <span class="tag-pill">💼 Networking</span>
+                  </div>
+                </div>
+                <!-- Priya (locked) -->
+                <div class="sim-card locked-photo" id="card-priya" style="background-image: url('assets/avatar_priya.jpg');" data-category="Friends">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Priya, 23</span>
+                    <span class="details">600 m · 10m ago</span>
+                    <span class="tag-pill">👋 Friends</span>
+                  </div>
+                </div>
+                <!-- Rohan -->
+                <div class="sim-card" style="background-image: url('assets/avatar_rohan.jpg');" data-category="Activities">
+                  <div class="info">
+                    <span class="name-age">Rohan, 26</span>
+                    <span class="details">1.8 km · Active now</span>
+                    <span class="tag-pill">🏃 Activities</span>
+                  </div>
+                </div>
+                <!-- Sana (locked) -->
+                <div class="sim-card locked-photo" id="card-sana" style="background-image: url('assets/avatar_sana.jpg');" data-category="Dating">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Sana, 25</span>
+                    <span class="details">2.1 km · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+                <!-- Dev -->
+                <div class="sim-card" style="background-image: url('assets/avatar_dev.jpg');" data-category="Networking">
+                  <div class="info">
+                    <span class="name-age">Dev, 27</span>
+                    <span class="details">2.5 km · 1h ago</span>
+                    <span class="tag-pill">💼 Networking</span>
+                  </div>
+                </div>
+                <!-- Meera (locked) -->
+                <div class="sim-card locked-photo" id="card-meera" style="background-image: url('assets/avatar_meera.jpg');" data-category="Dating">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Meera, 22</span>
+                    <span class="details">800 m · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab: Pings -->
+            <div class="app-tab-panel" id="tab-pings">
+              <div class="pings-tabs">
+                <span class="pings-tab-btn active" id="btn-sub-chats" onclick="switchSubPings('chats')">Chats</span>
+                <span class="pings-tab-btn" id="btn-sub-reqs" onclick="switchSubPings('requests')">Requests <span class="badge-dot"></span></span>
+              </div>
+              
+              <!-- Sub Pings: Chats -->
+              <div class="ping-list" id="sub-pings-chats">
+                <div class="ping-item">
+                  <div class="ping-avatar" style="background-image: url('assets/avatar_rohan.jpg');"></div>
+                  <div class="ping-info">
+                    <div class="top">
+                      <span class="name">Rohan</span>
+                      <span class="time">12m</span>
+                    </div>
+                    <p class="msg">Sounds good, let's meet at Cubbon at 6 AM!</p>
+                  </div>
+                </div>
+                <div class="ping-item">
+                  <div class="ping-avatar" style="background-image: url('assets/avatar_aarav.jpg');"></div>
+                  <div class="ping-info">
+                    <div class="top">
+                      <span class="name">Aarav</span>
+                      <span class="time">1h</span>
+                    </div>
+                    <p class="msg">Check out that co-working place tomorrow?</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Sub Pings: Requests -->
+              <div class="ping-list" id="sub-pings-requests" style="display:none;">
+                <!-- Vikram Request -->
+                <div class="ping-item" id="req-vikram">
+                  <div class="ping-avatar blurred" style="background-image: url('assets/avatar_rohan.jpg');">
+                    <div class="lock-tag"><svg><use href="#lock"/></svg></div>
+                  </div>
+                  <div class="ping-info">
+                    <div class="top">
+                      <span class="name">Vikram 27</span>
+                      <span class="time">Just now</span>
+                    </div>
+                    <p class="msg">Hey! I see we both love bouldering...</p>
+                  </div>
+                  <div class="ping-action" onclick="acceptPing('vikram', 'Rohan')">Accept</div>
+                </div>
+                <!-- Sana Request -->
+                <div class="ping-item" id="req-sana">
+                  <div class="ping-avatar blurred" id="req-sana-avatar" style="background-image: url('assets/avatar_sana.jpg');">
+                    <div class="lock-tag" id="req-sana-lock"><svg><use href="#lock"/></svg></div>
+                  </div>
+                  <div class="ping-info">
+                    <div class="top">
+                      <span class="name">Sana 25</span>
+                      <span class="time">20m</span>
+                    </div>
+                    <p class="msg">I'm hosting a small film circle meetup...</p>
+                  </div>
+                  <div class="ping-action" id="req-sana-btn" onclick="acceptPing('sana', 'Sana')">Accept</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab: Circles -->
+            <div class="app-tab-panel" id="tab-circles">
+              <div class="circle-list">
+                <div class="circle-card">
+                  <div class="circle-img" style="background-image: url('assets/circle_climbing.jpg');"></div>
+                  <div class="circle-body">
+                    <h5>Saturday Climbers</h5>
+                    <span class="meta">342 members · Bangalore</span>
+                    <p class="desc">Bouldering and lead climbing group. We meet every Saturday morning at different gyms.</p>
+                    <div class="circle-join-btn" onclick="toggleJoinCircle(this)">Join Circle</div>
+                  </div>
+                </div>
+                <div class="circle-card">
+                  <div class="circle-img" style="background-image: url('assets/circle_running.jpg');"></div>
+                  <div class="circle-body">
+                    <h5>5AM Run Club</h5>
+                    <span class="meta">520 members · Hyderabad</span>
+                    <p class="desc">Early runners on weekdays. Helping you build consistency, runners of all paces welcome.</p>
+                    <div class="circle-join-btn" onclick="toggleJoinCircle(this)">Join Circle</div>
+                  </div>
+                </div>
+                <div class="circle-card">
+                  <div class="circle-img" style="background-image: url('assets/circle_tech.jpg');"></div>
+                  <div class="circle-body">
+                    <h5>Tech &amp; AI Founders</h5>
+                    <span class="meta">890 members · Pune</span>
+                    <p class="desc">Brainstorming, building, and talking all things tech. Coffee meetups bi-weekly.</p>
+                    <div class="circle-join-btn" onclick="toggleJoinCircle(this)">Join Circle</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab: MySpace -->
+            <div class="app-tab-panel" id="tab-myspace">
+              <div class="myspace-profile">
+                <div class="myspace-avatar" style="background-image: url('assets/avatar_priya.jpg');">
+                  <div class="verified-tick"><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></div>
+                </div>
+                <h5>Aanya, 26</h5>
+                <span class="loc">📍 Indiranagar · Verified</span>
+                
+                <div class="myspace-photos">
+                  <div class="myspace-photo-slot has-img" style="background-image: url('assets/avatar_priya.jpg');"></div>
+                  <div class="myspace-photo-slot">
+                    <svg fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                    Add
+                  </div>
+                  <div class="myspace-photo-slot">
+                    <svg fill="none" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                    Add
+                  </div>
+                </div>
+
+                <div class="myspace-settings">
+                  <div class="myspace-setting-item">
+                    <div class="info">
+                      <label>Lock my photos</label>
+                      <span>Reveal only after I accept a ping</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked onchange="toggleLockSwitch(this)">
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div class="myspace-setting-item">
+                    <div class="info">
+                      <label>ID verified badge</label>
+                      <span>Show the verified tick on my profile</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div class="myspace-setting-item">
+                    <div class="info">
+                      <label>Approximate distance</label>
+                      <span>Always shown — never exact GPS</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Navigation Tab Bar -->
+          <div class="phone-tabbar" id="sim-tabbar">
+            <div class="tab-btn active" id="tab-btn-grid" onclick="switchSimTab('grid', this)">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              <span>Grid</span>
+            </div>
+            <div class="tab-btn" id="tab-btn-pings" onclick="switchSimTab('pings', this)" style="position:relative;">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>Pings</span>
+              <span class="badge-dot" id="pings-unread-dot" style="position:absolute; top: 8px; right: 26px; width: 6px; height: 6px; background: var(--red); border-radius: 50%;"></span>
+            </div>
+            <div class="tab-btn" id="tab-btn-circles" onclick="switchSimTab('circles', this)">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20a5.5 5.5 0 0111 0M15 20a4.5 4.5 0 016 0"/></svg>
+              <span>Circles</span>
+            </div>
+            <div class="tab-btn" id="tab-btn-myspace" onclick="switchSimTab('myspace', this)">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+              <span>MySpace</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Four pillars -->
+<section class="band ink glow-container">
+  <div class="glow-orb" style="width: 450px; height: 450px; background: radial-gradient(circle, rgba(242,0,28,0.1) 0%, transparent 70%); top: -10%; left: -10%;"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" style="color:var(--accent)">The whole app in four tabs</span>
+      <h2>Built around how people<br>actually meet.</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <h3>Grid</h3>
+        <p>A live matrix of real people within 2.5 km — filter by age, distance, who's online now and what they're here for.</p>
+      </div>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Pings</h3>
+        <p>No free-texting strangers. Every conversation starts with a single icebreaker the other person has to accept.</p>
+      </div>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20a5.5 5.5 0 0111 0M15 20a4.5 4.5 0 016 0"/></svg></div>
+        <h3>Circles</h3>
+        <p>Nearby and topic-based communities across 20 categories — from Tech &amp; AI to Sports — each with its own QR to share.</p>
+      </div>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg></div>
+        <h3>MySpace</h3>
+        <p>Your profile as a canvas — photo carousel, interests, "I'm here for" preferences, and a full privacy panel you control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Safety mechanic -->
+<section class="band" id="safety" style="background:var(--cream);">
+  <div class="wrap safety-grid">
+    <div>
+      <span class="eyebrow">The real product</span>
+      <h2>Photos locked,<br>not profiles.</h2>
+      <p style="font-size: 18px; margin-top: 18px; color: var(--muted); font-weight: 500;">Everyone sees every profile card — name, age, distance, bio, interests. Women's photos stay blurred by default. They unlock automatically, and only for one person, the moment she accepts that person's request.</p>
+      <ul class="safe-list">
+        <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>No "reveal" step to learn — the unlock <em>is</em> the accept</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>OTP phone + selfie liveness verification</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Approximate distance only — never exact GPS</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Invisible browsing, instant block &amp; report</li>
+      </ul>
+    </div>
+    
+    <!-- Interactive Safety Sandbox Card -->
+    <div class="sandbox-card">
+      <h4 style="color: var(--ink); text-align: center; font-size: 18px; font-weight: 800;">Live Safety Sandbox</h4>
+      <div class="sandbox-demo">
+        <div class="sandbox-profile" id="sandbox-card-photo" style="background-image: url('assets/avatar_priya.jpg');">
+          <div class="blur-layer" id="sandbox-blur">
+            <div class="lock-ico-box" id="sandbox-lock-icon"><svg><use href="#lock"/></svg></div>
+          </div>
+          <span>Priya, 23</span>
+        </div>
+      </div>
+      
+      <div class="sandbox-btn-container">
+        <button class="btn btn-red sandbox-btn" id="sandbox-toggle-btn" onclick="toggleSandboxAccept()">Simulate: Accept Request</button>
+      </div>
+      <p class="caption">She accepts your request → your conversation opens <b style="color:var(--ink)">and</b> your photos unlock — for that one person, in a single tap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Purpose -->
+<section class="band maroon glow-container" id="purpose">
+  <div class="glow-orb" style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,62,91,0.07) 0%, transparent 70%); bottom: -20%; right: -10%;"></div>
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow" style="color:var(--accent)">Not just dating</span>
+      <h2>Find a partner. Or a running buddy.<br>Or your next co-founder.</h2>
+      <p>Pick what you're here for and the same grid works for all of it. A user who finds a partner still opens Kinnred for a friend, a founder, or a Circle. No single-purpose ceiling.</p>
+    </div>
+    <div class="tags">
+      <span class="tag active">💘 Dating</span>
+      <span class="tag active">👋 Friends</span>
+      <span class="tag active">🏃 Activities &amp; Sports</span>
+      <span class="tag active">💼 Networking</span>
+      <span class="tag active">🧠 Tech &amp; AI</span>
+      <span class="tag active">☕ Just talking</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">380M+</div><div class="l">Global dating-app users — none run a nearby grid</div></div>
+      <div class="stat"><div class="n">25 km</div><div class="l">Live radius of real people you can browse right now</div></div>
+      <div class="stat"><div class="n">4 tabs</div><div class="l">Grid · Pings · Circles · MySpace — the whole app</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Redesigned Onboarding & Profile Card waitlist section (CTA Section) -->
+<section class="cta-section glow-container" id="waitlist">
+  <div class="glow-orb" style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(242,0,28,0.1) 0%, transparent 70%); top: 10%; right: -10%;"></div>
+  <div class="glow-orb" style="width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,62,91,0.06) 0%, transparent 70%); bottom: 10%; left: -10%;"></div>
+  
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow" style="color: var(--accent);">Create Your Profile</span>
+      <h2>Lock in your founding spot.</h2>
+      <p>We launch city by city. Create your virtual waitlist profile, customize your intent, and see how your card looks in the app.</p>
+    </div>
+
+    <div class="onboarding-wrapper">
+      
+      <!-- Multi-step Onboarding Card -->
+      <div class="onboarding-card">
+        
+        <!-- Progress Line Tracker -->
+        <div class="progress-tracker">
+          <div class="progress-line"><div class="progress-fill" id="onb-progress-fill"></div></div>
+          <div class="progress-step active" id="onb-step-dot-1">1</div>
+          <div class="progress-step" id="onb-step-dot-2">2</div>
+          <div class="progress-step" id="onb-step-dot-3">3</div>
+        </div>
+
+        <form id="cta-form" novalidate>
+          
+          <!-- Step 1: Identity & Location -->
+          <div class="step-panel active" id="step-panel-1">
+            <div class="fq">
+              <label class="q" for="f-name">1. What's your full name?</label>
+              <input type="text" id="f-name" name="name" placeholder="Your full name" autocomplete="name" oninput="updatePreviewCard()" required>
+            </div>
+            
+            <div class="fq">
+              <label class="q" for="f-email">2. Your email address</label>
+              <input type="email" id="f-email" name="email" placeholder="your@email.com" autocomplete="email" required>
+            </div>
+
+            <div class="fq">
+              <label class="q" for="f-city">3. Select your city</label>
+              <input type="text" id="f-city" name="city" list="cities" placeholder="Start typing your city…" autocomplete="address-level2" oninput="updatePreviewCard()" required>
+              <datalist id="cities">
+                <option value="Hyderabad"><option value="Bangalore"><option value="Pune">
+                <option value="Mumbai"><option value="Delhi NCR"><option value="Chennai">
+                <option value="Kolkata"><option value="Ahmedabad"><option value="Jaipur">
+                <option value="Kochi"><option value="Chandigarh"><option value="Indore">
+                <option value="Visakhapatnam"><option value="Vijayawada"><option value="Coimbatore">
+                <option value="Lucknow"><option value="Nagpur"><option value="Surat">
+              </datalist>
+              
+              <!-- Quick Hub Pills -->
+              <div class="city-pills">
+                <span class="city-pill" onclick="quickSelectCity('Bangalore')">Bangalore</span>
+                <span class="city-pill" onclick="quickSelectCity('Hyderabad')">Hyderabad</span>
+                <span class="city-pill" onclick="quickSelectCity('Pune')">Pune</span>
+                <span class="city-pill" onclick="quickSelectCity('Mumbai')">Mumbai</span>
+                <span class="city-pill" onclick="quickSelectCity('Delhi NCR')">Delhi NCR</span>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button class="btn btn-red" type="button" onclick="goToStep(2)">Continue to Vibe ➔</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Vibe & Interests -->
+          <div class="step-panel" id="step-panel-2">
+            <div class="fq" data-max="3" data-group="lookingfor">
+              <label class="q">4. What are you here for? <span class="hint">Select up to 3</span></label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Friends" onchange="updatePreviewCard()"><span>👥 Friends</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Dating" onchange="updatePreviewCard()"><span>❤️ Dating</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Activity Partners" onchange="updatePreviewCard()"><span>🏃 Activities</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Networking" onchange="updatePreviewCard()"><span>💼 Networking</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Creative Collaborations" onchange="updatePreviewCard()"><span>🎨 Creative</span></label>
+              </div>
+            </div>
+
+            <div class="fq" data-max="5" data-group="interests">
+              <label class="q">5. Select your interests <span class="hint">Select up to 5</span></label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="interests" value="Fitness" onchange="updatePreviewCard()"><span>Fitness</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Travel" onchange="updatePreviewCard()"><span>Travel</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Music" onchange="updatePreviewCard()"><span>Music</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Food" onchange="updatePreviewCard()"><span>Food</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Gaming" onchange="updatePreviewCard()"><span>Gaming</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Tech" onchange="updatePreviewCard()"><span>Tech</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Art" onchange="updatePreviewCard()"><span>Art</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Movies" onchange="updatePreviewCard()"><span>Movies</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Photography" onchange="updatePreviewCard()"><span>Photography</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Reading" onchange="updatePreviewCard()"><span>Reading</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Startups" onchange="updatePreviewCard()"><span>Startups</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Pets" onchange="updatePreviewCard()"><span>Pets</span></label>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" onclick="goToStep(1)">Back</button>
+              <button class="btn btn-red" type="button" onclick="goToStep(3)">Preferences ➔</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Preferences & Submit -->
+          <div class="step-panel" id="step-panel-3">
+            <div class="fq">
+              <label class="q">6. What's your biggest social challenge today?</label>
+              <div class="radios">
+                <label class="rad"><input type="radio" name="challenge" value="Making new friends" checked><span>Making new friends</span></label>
+                <label class="rad"><input type="radio" name="challenge" value="Finding genuine relationships"><span>Finding genuine relationships</span></label>
+                <label class="rad"><input type="radio" name="challenge" value="Meeting people with similar interests"><span>Meeting people with similar interests</span></label>
+                <label class="rad"><input type="radio" name="challenge" value="Networking in a new city"><span>Networking in a new city</span></label>
+              </div>
+            </div>
+
+            <div class="fq">
+              <label class="q">7. Select early access level</label>
+              <div class="radios row">
+                <label class="rad"><input type="radio" name="earlyaccess" value="Yes" checked><span>Yes 🚀</span></label>
+                <label class="rad"><input type="radio" name="earlyaccess" value="Notify me at launch"><span>Notify at launch</span></label>
+              </div>
+            </div>
+
+            <div class="fq">
+              <label class="q" for="f-feature">Bonus feature idea <span class="hint">Optional</span></label>
+              <textarea id="f-feature" name="feature" placeholder="One feature you'd love to see in Kinnred…"></textarea>
+            </div>
+
+            <p class="err" id="form-err"></p>
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" onclick="goToStep(2)">Back</button>
+              <button class="btn btn-red" type="submit">Join the Waitlist 🚀</button>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- Onboarding Success Panel -->
+        <div class="onboarding-success" id="onb-success">
+          <div class="success-ring"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3 style="color:#fff; font-size:24px; font-weight:800;">You're on the list!</h3>
+          <p style="color:rgba(255,255,255,0.7); max-width: 320px; font-size:14.5px; margin-top:10px;">Your waitlist profile is locked. We will invite you the moment Kinnred goes live near you.</p>
+          <div class="success-v-id" id="success-id">VERIFICATION ID: #KNRD-4890</div>
+        </div>
+
+      </div>
+
+      <!-- Sticky Profile Preview Card (Right Column) -->
+      <div class="preview-sticky">
+        <div class="profile-preview-title">
+          <span class="pulse"></span> Live Profile Card Preview
+        </div>
+        <div class="preview-card" id="my-preview-card">
+          <div class="preview-photo-block">
+            <div class="preview-photo-bg" id="preview-photo" style="background-image: url('assets/avatar_priya.jpg');"></div>
+            <div class="preview-photo-lock" id="preview-lock-overlay">
+              <svg><use href="#lock"/></svg>
+              <span>Photos Locked</span>
+            </div>
+          </div>
+          
+          <div class="preview-info">
+            <div class="preview-header">
+              <span class="preview-name-age" id="preview-name">Your Name</span>
+              <span class="preview-ver-tick" id="preview-tick" style="display:none;"><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></span>
+            </div>
+            <div class="preview-city" id="preview-city">Your City</div>
+            
+            <div class="preview-tags-section" id="preview-looking-for-sec" style="display:none;">
+              <span class="preview-tags-title">I'm here for</span>
+              <div class="preview-tags" id="preview-looking-for-tags"></div>
+            </div>
+
+            <div class="preview-tags-section" id="preview-interests-sec" style="display:none;">
+              <span class="preview-tags-title">Interests</span>
+              <div class="preview-tags" id="preview-interests-tags"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer-redesign">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <a class="brand" href="#top">
+          <span class="mark"><svg viewBox="0 0 240 240" width="20" height="20"><text x="120" y="130" text-anchor="middle" dominant-baseline="central" font-family="Poppins,sans-serif" font-weight="900" font-size="168" fill="#fff" letter-spacing="-2">k</text></svg></span>
+          <span class="name">kinnred</span>
+        </a>
+        <p class="brand-desc">People. Nearby. On your wavelength. A proximity-based social discovery app designed for real-world connections.</p>
+        
+        <!-- Social Icons Row -->
+        <div class="social-row">
+          <a class="social-icon" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051C.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a class="social-icon" href="#" aria-label="Twitter">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a class="social-icon" href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <div class="footer-link-group">
+          <h5>Product</h5>
+          <a href="#how">How it works</a>
+          <a href="#experience">Simulator</a>
+          <a href="#safety">Safety</a>
+          <a href="#purpose">Intent tags</a>
+        </div>
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <a href="#">About Us</a>
+          <a href="#">Careers</a>
+          <a href="mailto:hello@kinnred.app">Contact Support</a>
+        </div>
+        <div class="footer-link-group">
+          <h5>Legal</h5>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Community Guidelines</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="copy-text">© 2026 Kinnred Inc. All rights reserved.</span>
+      <span class="madtech">Built by <b>Mad Tech Solutions</b> — Make Anything Digital</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">You're on the list! 🎉</div>
+
+<!-- JavaScript Logic -->
+<script>
+  // 1. Live Time Update for Phone Mockup
+  function updateTime() {
+    var now = new Date();
+    var hrs = String(now.getHours()).padStart(2, '0');
+    var mins = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('sim-time').textContent = hrs + ':' + mins;
+  }
+  setInterval(updateTime, 60000);
+  updateTime();
+
+  // 2. Live Wavelength Heartbeat Counter
+  var countEl = document.getElementById('wavelength-count');
+  var currentWavelengthCount = 34;
+  function updateWavelength() {
+    var delta = Math.random() > 0.5 ? 1 : -1;
+    currentWavelengthCount += delta;
+    if (currentWavelengthCount < 28) currentWavelengthCount = 28;
+    if (currentWavelengthCount > 42) currentWavelengthCount = 42;
+    countEl.textContent = currentWavelengthCount;
+  }
+  setInterval(updateWavelength, 4000);
+
+  // 3. Phone Simulator Tab Switching
+  function switchSimTab(tabId, btn) {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    document.querySelectorAll('.app-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    var targetPanel = document.getElementById('tab-' + tabId);
+    targetPanel.classList.add('active');
+
+    var title = document.getElementById('sim-title');
+    var subtitle = document.getElementById('sim-subtitle');
+    
+    if (tabId === 'grid') {
+      title.textContent = 'Grid';
+      subtitle.textContent = 'Real people within 2.5 km · right now';
+    } else if (tabId === 'pings') {
+      title.textContent = 'Pings';
+      subtitle.textContent = 'Your inbox & requests';
+      document.getElementById('pings-unread-dot').style.display = 'none';
+    } else if (tabId === 'circles') {
+      title.textContent = 'Circles';
+      subtitle.textContent = 'Local communities nearby';
+    } else if (tabId === 'myspace') {
+      title.textContent = 'MySpace';
+      subtitle.textContent = 'Aanya, 26 · Profile Preview';
+    }
+  }
+
+  // 4. Activate Simulator Demo from explanation steps
+  function activateSimDemo(tabId) {
+    document.querySelectorAll('.exp-step').forEach(function(step) {
+      step.classList.remove('active');
+    });
+    document.getElementById('step-' + tabId).classList.add('active');
+
+    var btn = document.getElementById('tab-btn-' + tabId);
+    switchSimTab(tabId, btn);
+  }
+
+  // 5. Grid Filter chip interaction
+  function filterSimGrid(category, chip) {
+    document.querySelectorAll('.app-filter-chip').forEach(function(c) { c.classList.remove('active'); });
+    chip.classList.add('active');
+
+    var cards = document.querySelectorAll('.sim-card');
+    cards.forEach(function(card) {
+      if (category === 'All' || card.dataset.category === category) {
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+      } else {
+        card.style.opacity = '0.15';
+        card.style.transform = 'scale(0.95)';
+      }
+    });
+  }
+
+  // 6. Switch Sub Pings (Chats vs Requests)
+  function switchSubPings(subTab) {
+    document.querySelectorAll('.pings-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    if (subTab === 'chats') {
+      document.getElementById('btn-sub-chats').classList.add('active');
+      document.getElementById('sub-pings-chats').style.display = 'flex';
+      document.getElementById('sub-pings-requests').style.display = 'none';
+    } else {
+      document.getElementById('btn-sub-reqs').classList.add('active');
+      document.getElementById('sub-pings-chats').style.display = 'none';
+      document.getElementById('sub-pings-requests').style.display = 'flex';
+    }
+  }
+
+  // 7. Accept Request inside simulator
+  function acceptPing(id, name) {
+    var reqItem = document.getElementById('req-' + id);
+    if (!reqItem) return;
+
+    var actionBtn = reqItem.querySelector('.ping-action');
+    actionBtn.textContent = 'Accepted ✓';
+    actionBtn.style.background = '#3DDC84';
+    actionBtn.style.color = '#0E0204';
+    
+    var avatar = reqItem.querySelector('.ping-avatar');
+    avatar.classList.remove('blurred');
+    var lockTag = avatar.querySelector('.lock-tag');
+    if (lockTag) lockTag.style.display = 'none';
+
+    setTimeout(function() {
+      reqItem.style.transition = 'all 0.5s ease';
+      reqItem.style.opacity = '0';
+      reqItem.style.transform = 'translateX(-100px)';
+      
+      setTimeout(function() {
+        reqItem.style.display = 'none';
+        
+        var chatsList = document.getElementById('sub-pings-chats');
+        var newItemHtml = `
+          <div class="ping-item" style="animation: tabFadeIn 0.3s ease;">
+            <div class="ping-avatar" style="background-image: url('${id === 'sana' ? 'assets/avatar_sana.jpg' : 'assets/avatar_rohan.jpg'}');"></div>
+            <div class="ping-info">
+              <div class="top">
+                <span class="name">${name}</span>
+                <span class="time">1s</span>
+              </div>
+              <p class="msg">Thanks for accepting! How's your week going?</p>
+            </div>
+          </div>
+        `;
+        chatsList.insertAdjacentHTML('afterbegin', newItemHtml);
+        showToast(`Unlocked photos & chat with ${name}! 🎉`);
+
+        if (id === 'sana') {
+          var sanaGridCard = document.getElementById('card-sana');
+          if (sanaGridCard) {
+            sanaGridCard.classList.remove('locked-photo');
+            var blurOverlay = sanaGridCard.querySelector('.blur-overlay');
+            if (blurOverlay) blurOverlay.style.display = 'none';
+          }
+        }
+      }, 500);
+    }, 1000);
+  }
+
+  // 8. Join Circle inside simulator
+  function toggleJoinCircle(btn) {
+    if (btn.classList.contains('joined')) {
+      btn.classList.remove('joined');
+      btn.textContent = 'Join Circle';
+    } else {
+      btn.classList.add('joined');
+      btn.textContent = 'Joined ✓';
+      showToast('You joined this Circle! 👥');
+    }
+  }
+
+  // 9. Toggling Safety Lock switch in MySpace updates the Grid tab (toggles blurred overlays)
+  function toggleLockSwitch(cb) {
+    var lockedCards = document.querySelectorAll('.sim-card.locked-photo, .sim-card');
+    var femaleIds = ['card-priya', 'card-sana', 'card-meera'];
+    
+    femaleIds.forEach(function(id) {
+      var card = document.getElementById(id);
+      if (!card) return;
+      
+      if (cb.checked) {
+        card.classList.add('locked-photo');
+        var overlay = card.querySelector('.blur-overlay');
+        if (overlay) overlay.style.display = 'flex';
+      } else {
+        card.classList.remove('locked-photo');
+        var overlay = card.querySelector('.blur-overlay');
+        if (overlay) overlay.style.display = 'none';
+      }
+    });
+
+    showToast(cb.checked ? 'Your photos are now locked by default.' : 'Your photos are now visible to everyone.');
+  }
+
+  // 10. Interactive Safety Sandbox Demo Trigger
+  var isSandboxUnlocked = false;
+  function toggleSandboxAccept() {
+    var photoCard = document.getElementById('sandbox-card-photo');
+    var btn = document.getElementById('sandbox-toggle-btn');
+    var lockIcon = document.getElementById('sandbox-lock-icon');
+
+    if (!isSandboxUnlocked) {
+      photoCard.classList.add('unlocked');
+      lockIcon.innerHTML = '<svg><use href="#lock-open"/></svg>';
+      btn.textContent = 'Reset Simulation';
+      btn.style.background = '#3DDC84';
+      btn.style.color = '#0E0204';
+      isSandboxUnlocked = true;
+    } else {
+      photoCard.classList.remove('unlocked');
+      lockIcon.innerHTML = '<svg><use href="#lock"/></svg>';
+      btn.textContent = 'Simulate: Accept Request';
+      btn.style.background = 'var(--red)';
+      btn.style.color = '#fff';
+      isSandboxUnlocked = false;
+    }
+  }
+
+  // 11. Form Logic: Email Carry-down
+  document.getElementById('hero-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = e.target.querySelector('input[type=email]').value;
+    if (email) { 
+      document.getElementById('f-email').value = email; 
+      updatePreviewCard();
+    }
+    document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(function() { 
+      document.getElementById('f-name').focus(); 
+      goToStep(1);
+    }, 600);
+  });
+
+  // 12. Form Checkbox Select Limits
+  document.querySelectorAll('.fq[data-max]').forEach(function(group) {
+    var max = parseInt(group.dataset.max, 10);
+    var boxes = group.querySelectorAll('input[type=checkbox]');
+    group.addEventListener('change', function() {
+      var checked = group.querySelectorAll('input:checked').length;
+      boxes.forEach(function(b) { if (!b.checked) { b.disabled = checked >= max; } });
+    });
+  });
+
+  // 13. Multi-step Waitlist Onboarding Navigation
+  var currentOnbStep = 1;
+  var totalOnbSteps = 3;
+
+  function updateProgressTracker() {
+    var fillPercent = ((currentOnbStep - 1) / (totalOnbSteps - 1)) * 100;
+    document.getElementById('onb-progress-fill').style.width = fillPercent + '%';
+
+    for (var i = 1; i <= totalOnbSteps; i++) {
+      var dot = document.getElementById('onb-step-dot-' + i);
+      if (i < currentOnbStep) {
+        dot.className = 'progress-step completed';
+        dot.textContent = '✓';
+      } else if (i === currentOnbStep) {
+        dot.className = 'progress-step active';
+        dot.textContent = i;
+      } else {
+        dot.className = 'progress-step';
+        dot.textContent = i;
+      }
+    }
+  }
+
+  function goToStep(stepNum) {
+    if (stepNum > currentOnbStep) {
+      // Validate current step fields before going forward
+      if (currentOnbStep === 1) {
+        var nameVal = document.getElementById('f-name').value.trim();
+        var emailVal = document.getElementById('f-email').value.trim();
+        var cityVal = document.getElementById('f-city').value.trim();
+        
+        if (!nameVal) { return showErr('Please tell us your full name.', document.getElementById('f-name')); }
+        if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { return showErr('Please enter a valid email address.', document.getElementById('f-email')); }
+        if (!cityVal) { return showErr('Please select your city.', document.getElementById('f-city')); }
+      }
+      if (currentOnbStep === 2) {
+        var lookingForChecked = document.querySelectorAll('input[name=lookingfor]:checked').length;
+        if (lookingForChecked === 0) { return showErr('Please choose at least one thing you’re looking for.'); }
+      }
+    }
+
+    document.getElementById('form-err').classList.remove('show');
+    
+    // Switch panels
+    document.querySelectorAll('.step-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('step-panel-' + stepNum).classList.add('active');
+    
+    currentOnbStep = stepNum;
+    updateProgressTracker();
+  }
+
+  // Quick Select Hub Cities
+  function quickSelectCity(cityName) {
+    document.getElementById('f-city').value = cityName;
+    
+    // Highlight active pill
+    document.querySelectorAll('.city-pill').forEach(function(p) {
+      if (p.textContent === cityName) {
+        p.classList.add('active');
+      } else {
+        p.classList.remove('active');
+      }
+    });
+
+    updatePreviewCard();
+  }
+
+  // Update Dynamic Profile Card Preview (MySpace card generator)
+  function updatePreviewCard() {
+    var name = document.getElementById('f-name').value.trim();
+    var city = document.getElementById('f-city').value.trim();
+    
+    // Update Name & Age
+    var namePreview = document.getElementById('preview-name');
+    var tickPreview = document.getElementById('preview-tick');
+    if (name) {
+      namePreview.textContent = name;
+      tickPreview.style.display = 'inline-flex';
+    } else {
+      namePreview.textContent = 'Your Name';
+      tickPreview.style.display = 'none';
+    }
+
+    // Update City
+    var cityPreview = document.getElementById('preview-city');
+    cityPreview.textContent = city ? city : 'Your City';
+
+    // Update "Looking For" Tags
+    var lookingForSec = document.getElementById('preview-looking-for-sec');
+    var lookingForTags = document.getElementById('preview-looking-for-tags');
+    var lookingForChecked = Array.from(document.querySelectorAll('input[name=lookingfor]:checked')).map(function(i) { return i.value; });
+    
+    lookingForTags.innerHTML = '';
+    if (lookingForChecked.length > 0) {
+      lookingForSec.style.display = 'block';
+      lookingForChecked.forEach(function(val) {
+        var icon = '💡';
+        if (val === 'Friends') icon = '👥';
+        if (val === 'Dating') icon = '❤️';
+        if (val === 'Activity Partners') icon = '🏃';
+        if (val === 'Networking') icon = '💼';
+        if (val === 'Creative Collaborations') icon = '🎨';
+        
+        var tagEl = document.createElement('span');
+        tagEl.className = 'preview-tag-pill';
+        tagEl.textContent = icon + ' ' + val.split(' ')[0]; // shorten
+        lookingForTags.appendChild(tagEl);
+      });
+    } else {
+      lookingForSec.style.display = 'none';
+    }
+
+    // Update Interests Tags
+    var interestsSec = document.getElementById('preview-interests-sec');
+    var interestsTags = document.getElementById('preview-interests-tags');
+    var interestsChecked = Array.from(document.querySelectorAll('input[name=interests]:checked')).map(function(i) { return i.value; });
+    
+    interestsTags.innerHTML = '';
+    if (interestsChecked.length > 0) {
+      interestsSec.style.display = 'block';
+      interestsChecked.forEach(function(val) {
+        var tagEl = document.createElement('span');
+        tagEl.className = 'preview-tag-pill';
+        tagEl.style.background = 'rgba(242,0,28,0.1)';
+        tagEl.style.borderColor = 'rgba(242,0,28,0.2)';
+        tagEl.textContent = val;
+        interestsTags.appendChild(tagEl);
+      });
+    } else {
+      interestsSec.style.display = 'none';
+    }
+  }
+
+  // Toast and Form Error helpers
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 3500);
+  }
+
+  function showErr(msg, el) {
+    var err = document.getElementById('form-err');
+    err.textContent = msg; err.classList.add('show');
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
+
+  // Onboarding Form Submit Handler
+  document.getElementById('cta-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('form-err').classList.remove('show');
+
+    // Final checks
+    var name = document.getElementById('f-name').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var city = document.getElementById('f-city').value.trim();
+    
+    if (!name) { return showErr('Please enter your full name.', document.getElementById('f-name')); }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { return showErr('Please enter a valid email address.', document.getElementById('f-email')); }
+    if (!city) { return showErr('Please select your city.', document.getElementById('f-city')); }
+
+    var lookingfor = Array.from(document.querySelectorAll('input[name=lookingfor]:checked')).map(function(i) { return i.value; });
+    if (lookingfor.length === 0) { return showErr('Pick at least one thing you’re looking for.'); }
+
+    var challengeEl = document.querySelector('input[name=challenge]:checked');
+    if (!challengeEl) { return showErr('Please select your biggest challenge.'); }
+
+    var data = {
+      name: name,
+      email: email,
+      city: city,
+      lookingFor: lookingfor,
+      interests: Array.from(document.querySelectorAll('input[name=interests]:checked')).map(function(i) { return i.value; }),
+      challenge: challengeEl.value,
+      earlyAccess: document.querySelector('input[name=earlyaccess]:checked').value,
+      featureIdea: document.getElementById('f-feature').value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+
+    console.log('Waitlist signup completed:', data);
+    
+    // Generate custom verification ID
+    var randId = Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('success-id').textContent = 'VERIFICATION ID: #KNRD-' + randId;
+
+    // Display success panel inside onboarding card
+    document.getElementById('cta-form').style.display = 'none';
+    document.getElementById('onb-success').style.display = 'flex';
+
+    // Highlight preview card as verified
+    document.getElementById('preview-lock-overlay').innerHTML = '<svg viewBox="0 0 24 24" style="fill:#3DDC84; width:16px; height:16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span style="color:#3DDC84;">Photos Secured</span>';
+    document.getElementById('my-preview-card').style.borderColor = '#3DDC84';
+
+    showToast("Profile created successfully! 🎉");
+  });
+</script>
+</body>
+</html>
