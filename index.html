@@ -96,13 +96,14 @@
   .nav { display: flex; align-items: center; justify-content: space-between; height: 80px; }
   .brand { display: flex; align-items: center; gap: 12px; }
   .brand .mark {
-    width: 42px; height: 42px; background: var(--red); border-radius: 12px;
+    width: 44px; height: 44px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
-    box-shadow: 0 8px 20px -6px rgba(242, 0, 28, 0.4); transition: var(--transition-fast);
+    box-shadow: 0 8px 24px -6px rgba(233, 94, 53, 0.35); transition: var(--transition-fast);
+    background: #fff;
   }
-  .brand:hover .mark { transform: rotate(-5deg) scale(1.05); }
-  .brand .mark svg { transform: rotate(-16deg); margin-top: 1px; }
-  .brand .name { font-family: var(--head); font-weight: 800; font-size: 25px; letter-spacing: -0.02em; color: var(--ink); }
+  .brand .mark img { width: 100%; height: 100%; object-fit: contain; object-position: center top; padding: 2px; }
+  .brand:hover .mark { transform: rotate(-4deg) scale(1.06); box-shadow: 0 12px 28px -6px rgba(233, 94, 53, 0.5); }
+  .brand .name { font-family: var(--body); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink); }
   
   .nav-links { display: flex; align-items: center; gap: 32px; }
   .nav-links a.link { font-weight: 700; font-size: 15px; color: var(--muted); position: relative; padding: 6px 0; }
@@ -179,17 +180,17 @@
   }
 
   .radar-center {
-    width: 56px; height: 56px; border-radius: 18px;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--red) 100%);
+    width: 60px; height: 60px; border-radius: 18px;
+    background: #fff;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 28px rgba(233, 94, 53, 0.55); z-index: 10; position: relative;
+    box-shadow: 0 0 0 4px rgba(233, 94, 53, 0.18), 0 0 28px rgba(233, 94, 53, 0.45); z-index: 10; position: relative;
     animation: pulseCenter 2.5s infinite;
   }
-  .radar-center .k-label { font-family: var(--head); font-weight: 900; font-size: 26px; color: #fff; line-height: 1; letter-spacing: -0.04em; }
+  .radar-center img { width: 52px; height: 52px; object-fit: contain; object-position: center top; border-radius: 12px; }
   @keyframes pulseCenter {
-    0% { transform: scale(1); box-shadow: 0 0 20px rgba(233,94,53,0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 38px rgba(233,94,53,0.7); }
-    100% { transform: scale(1); box-shadow: 0 0 20px rgba(233,94,53,0.4); }
+    0% { transform: scale(1); box-shadow: 0 0 0 4px rgba(233,94,53,0.18), 0 0 20px rgba(233,94,53,0.4); }
+    50% { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(233,94,53,0.10), 0 0 38px rgba(233,94,53,0.65); }
+    100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(233,94,53,0.18), 0 0 20px rgba(233,94,53,0.4); }
   }
 
   /* Radar Floating User Nodes and Orbiting Redesign */
@@ -974,7 +975,7 @@
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top">
-      <span class="mark" style="background: linear-gradient(135deg, var(--accent) 0%, var(--red) 100%);"><span style="font-family:var(--head);font-weight:900;font-size:22px;color:#fff;letter-spacing:-0.04em;">K</span></span>
+      <span class="mark"><img src="assets/logo.jpeg" alt="Kinnred logo mark" loading="eager"></span>
       <span class="name">kinnred</span>
     </a>
     <nav class="nav-links">
@@ -1024,7 +1025,7 @@
         
         <!-- Center node (You) -->
         <div class="radar-center">
-          <span class="k-label">K</span>
+          <img src="assets/logo.jpeg" alt="You" style="width:44px;height:44px;object-fit:contain;object-position:center top;border-radius:10px;">
         </div>
         
         <!-- Orbiting Nodes Group -->
@@ -1807,7 +1808,7 @@
     <div class="footer-top">
       <div class="footer-brand-col">
         <a class="brand" href="#top">
-          <span class="mark" style="background: linear-gradient(135deg, var(--accent) 0%, var(--red) 100%);"><span style="font-family:var(--head);font-weight:900;font-size:20px;color:#fff;letter-spacing:-0.04em;">K</span></span>
+          <span class="mark"><img src="assets/logo.jpeg" alt="Kinnred logo mark" loading="lazy"></span>
           <span class="name">kinnred</span>
         </a>
         <p class="brand-desc">People. Nearby. On your wavelength. A proximity-based social discovery app designed for real-world connections.</p>
