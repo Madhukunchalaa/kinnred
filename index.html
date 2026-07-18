@@ -17,27 +17,25 @@
 
 <style>
   :root {
-    /* === Exact Logo Color Match === */
-    --red: #C42B18;          /* kinnred text + K bottom-red */
-    --red-hover: #A82213;    /* darker on hover */
-    --accent: #E8572A;       /* K mid-orange (primary CTA) */
-    --gold: #F5A623;         /* K top-amber */
-    --accent-glow: rgba(232, 87, 42, 0.14);
-    --cream: #FAF8F5;
-    --ink: #0E0204;
-    --maroon: #1C0404;
-    --maroon-2: #2A0808;
-    --muted: rgba(14, 2, 4, 0.6);
-    --line: rgba(14, 2, 4, 0.08);
+    /* === Logo Color System: amber-gold → warm orange → tomato-red === */
+    --red: #C42B18;
+    --red-hover: #A82213;
+    --accent: #E8572A;
+    --gold: #F5A623;
+    --accent-glow: rgba(232, 87, 42, 0.16);
+    --cream: #FFF8F3;          /* warm peach-cream */
+    --ink: #1A0503;
+    --maroon: #200705;
+    --maroon-2: #300C08;
+    --muted: rgba(26, 5, 3, 0.55);
+    --line: rgba(26, 5, 3, 0.08);
     --radius: 24px;
     --radius-lg: 32px;
     --radius-sm: 16px;
-    --shadow: 0 32px 80px -20px rgba(14, 2, 4, 0.12);
-    --shadow-premium: 0 40px 90px -25px rgba(232, 87, 42, 0.20);
+    --shadow: 0 32px 80px -20px rgba(26, 5, 3, 0.12);
+    --shadow-premium: 0 40px 90px -25px rgba(232, 87, 42, 0.28);
     --head: 'Fraunces', Georgia, serif;
     --body: 'Inter', system-ui, sans-serif;
-    
-    /* Animation Speeds */
     --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -70,22 +68,65 @@
     transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), background-color var(--transition-smooth);
     user-select: none;
   }
-  .btn-red { background: linear-gradient(135deg, var(--accent) 0%, var(--red) 100%); color: #fff; box-shadow: 0 12px 28px -8px rgba(233, 94, 53, 0.35); }
-  .btn-red:hover { background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%); transform: translateY(-3px); box-shadow: 0 16px 36px -10px rgba(233, 94, 53, 0.5); }
+  /* Buttons — full logo gradient: gold → orange → red */
+  .btn-red {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    color: #fff;
+    box-shadow: 0 12px 32px -8px rgba(232, 87, 42, 0.5);
+  }
+  .btn-red:hover {
+    background: linear-gradient(135deg, #FFD166 0%, var(--gold) 40%, var(--accent) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px -10px rgba(232, 87, 42, 0.65);
+  }
   .btn-red:active { transform: translateY(-1px); }
   .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
   .btn-ghost:hover { border-color: var(--ink); background: rgba(14, 2, 4, 0.03); }
 
   .eyebrow { 
-    font-family: var(--head); font-weight: 800; font-size: 13px; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--red); display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--body); font-weight: 800; font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--gold), var(--accent));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    display: inline-flex; align-items: center; gap: 8px;
   }
-  .eyebrow::before { content: ""; width: 8px; height: 8px; background: var(--red); border-radius: 50%; display: inline-block; }
+  .eyebrow::before {
+    content: "";
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    -webkit-text-fill-color: unset;
+    box-shadow: 0 0 6px rgba(232,87,42,0.6);
+    animation: pulseDot 2s infinite;
+  }
 
   /* Glow Effects */
   .glow-container { position: relative; }
   .glow-orb {
-    position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.6; pointer-events: none;
+    position: absolute; border-radius: 50%; filter: blur(110px); z-index: 0; opacity: 0.7; pointer-events: none;
+  }
+
+  /* ======= FLOATING HEARTS & PEOPLE ORBITS ======= */
+  .hearts-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+  .fheart {
+    position: absolute; font-size: 20px; opacity: 0; user-select: none;
+    animation: heartFloat var(--fdur, 9s) var(--fdelay, 0s) ease-in-out infinite;
+  }
+  @keyframes heartFloat {
+    0%   { transform: translateY(0px) rotate(var(--frot,-8deg)) scale(0.7); opacity: 0; }
+    12%  { opacity: var(--fop, 0.22); }
+    85%  { opacity: var(--fop, 0.16); }
+    100% { transform: translateY(-110px) rotate(var(--frot2, 12deg)) scale(1.1); opacity: 0; }
+  }
+  /* Orbit ring — like the ellipse around the K in the logo */
+  .orbit-ring {
+    position: absolute; border-radius: 50%;
+    border: 1.5px solid rgba(232, 87, 42, 0.18);
+    pointer-events: none; z-index: 0;
+    animation: orbitPulse 4s ease-in-out infinite;
+  }
+  @keyframes orbitPulse {
+    0%, 100% { opacity: 0.25; transform: scale(1); }
+    50%       { opacity: 0.5;  transform: scale(1.04); }
   }
 
   /* ---- Header ---- */
@@ -137,7 +178,12 @@
     .hero-grid .badges { justify-content: center; }
   }
   .hero h1 { font-size: clamp(44px, 5.5vw, 72px); font-weight: 900; line-height: 0.98; margin-top: 16px; }
-  .hero h1 .em { color: var(--red); position: relative; display: inline-block; }
+  /* Gradient text matching the logo K icon: gold top → orange mid → red bottom */
+  .hero h1 .em {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+    position: relative; display: inline-block;
+  }
   .hero .lead { font-size: clamp(20px, 2.4vw, 24px); color: var(--ink); margin: 28px 0 12px; font-weight: 600; line-height: 1.3; }
   .hero .sub { font-size: 16.5px; color: var(--muted); max-width: 48ch; margin: 0 auto 32px; }
   @media(min-width:961px) { .hero .sub { margin-left: 0; } }
@@ -156,13 +202,14 @@
   .badges { display: flex; gap: 24px; margin-top: 44px; flex-wrap: wrap; }
   .badge { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 700; color: var(--ink); }
   .badge .dot {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none;
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
     box-shadow: 0 0 0 4px var(--accent-glow); animation: pulseDot 2s infinite;
   }
   @keyframes pulseDot { 
-    0% { box-shadow: 0 0 0 0 rgba(255, 62, 91, 0.4); } 
-    70% { box-shadow: 0 0 0 8px rgba(255, 62, 91, 0); } 
-    100% { box-shadow: 0 0 0 0 rgba(255, 62, 91, 0); } 
+    0%   { box-shadow: 0 0 0 0 rgba(232, 87, 42, 0.5); } 
+    70%  { box-shadow: 0 0 0 8px rgba(232, 87, 42, 0); } 
+    100% { box-shadow: 0 0 0 0 rgba(232, 87, 42, 0); } 
   }
 
   /* ---- Interactive Wavelength Radar Map ---- */
@@ -571,13 +618,24 @@
   /* ---- Section styles ---- */
   section { position: relative; }
   .band { padding: 100px 0; overflow: hidden; }
-  .band.ink { background: var(--ink); color: var(--cream); }
-  .band.maroon { background: linear-gradient(180deg, var(--maroon), #0E0204); color: var(--cream); }
+  /* Warm dark — deep burnt maroon, NOT cold black */
+  .band.ink {
+    background: linear-gradient(160deg, #250806 0%, #1A0503 40%, #200907 100%);
+    color: var(--cream);
+  }
+  .band.maroon {
+    background: linear-gradient(180deg, #2D0C07 0%, #1E0605 60%, #140302 100%);
+    color: var(--cream);
+  }
   .sec-head { max-width: 680px; margin-bottom: 60px; position: relative; z-index: 2; }
   .sec-head.center { margin-left: auto; margin-right: auto; text-align: center; }
   .sec-head h2 { font-size: clamp(32px, 4.5vw, 48px); font-weight: 900; margin-top: 16px; }
   .sec-head p { font-size: 18px; color: var(--muted); margin-top: 20px; font-weight: 500; }
-  .band.ink .sec-head p, .band.maroon .sec-head p { color: rgba(250, 248, 245, 0.65); }
+  .band.ink .sec-head p, .band.maroon .sec-head p { color: rgba(255, 248, 243, 0.65); }
+  /* Gradient heading in dark sections */
+  .band.ink .sec-head h2, .band.maroon .sec-head h2 { color: #fff; }
+  /* Accent eyebrow color override in dark sections */
+  .band.ink .eyebrow, .band.maroon .eyebrow { filter: brightness(1.3); }
 
   /* ---- Compare Section ---- */
   .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative; z-index: 2; }
@@ -585,7 +643,11 @@
   .compare-col { border-radius: var(--radius); padding: 40px; border: 1px solid var(--line); background: #fff; transition: var(--transition-smooth); }
   .compare-col:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
   .compare-col.them h3 { color: var(--muted); }
-  .compare-col.us { background: var(--red); color: #fff; border-color: transparent; box-shadow: var(--shadow-premium); }
+  /* Kinnred column: full logo gradient */
+  .compare-col.us {
+    background: linear-gradient(145deg, var(--gold) 0%, var(--accent) 50%, var(--red) 100%);
+    color: #fff; border-color: transparent; box-shadow: var(--shadow-premium);
+  }
   .compare-col h3 { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px; }
   .compare-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
   .compare-col li { display: flex; gap: 16px; padding-bottom: 16px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--line); }
@@ -603,21 +665,24 @@
   @media(max-width:960px) { .pillars { grid-template-columns: repeat(2, 1fr); } }
   @media(max-width:560px) { .pillars { grid-template-columns: 1fr; } }
   .pillar {
-    background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.07);
     border-radius: var(--radius); padding: 32px; transition: var(--transition-smooth);
   }
   .pillar:hover {
-    transform: translateY(-6px); border-color: var(--accent);
-    background: rgba(255, 255, 255, 0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    transform: translateY(-6px);
+    border-color: rgba(232, 87, 42, 0.45);
+    background: rgba(232, 87, 42, 0.06);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25), 0 0 30px rgba(232,87,42,0.12);
   }
   .pillar .pi {
-    width: 48px; height: 48px; border-radius: 14px; background: var(--red); display: flex;
+    width: 52px; height: 52px; border-radius: 16px; display: flex;
     align-items: center; justify-content: center; margin-bottom: 24px;
-    box-shadow: 0 6px 16px rgba(242, 0, 28, 0.3);
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 60%, var(--red) 100%);
+    box-shadow: 0 8px 20px rgba(232, 87, 42, 0.4);
   }
   .pillar .pi svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
   .pillar h3 { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #fff; }
-  .pillar p { font-size: 14.5px; color: rgba(250, 248, 245, 0.6); margin: 0; line-height: 1.55; }
+  .pillar p { font-size: 14.5px; color: rgba(255, 248, 243, 0.6); margin: 0; line-height: 1.55; }
 
   /* ---- Safety Sandbox & Feature ---- */
   .safety-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: center; position: relative; z-index: 2; }
@@ -688,12 +753,18 @@
     transition: var(--transition-smooth);
   }
   .stat:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.12); }
-  .stat .n { font-family: var(--head); font-weight: 900; font-size: 46px; color: var(--accent); line-height: 1; }
-  .stat .l { font-size: 15px; color: rgba(250, 248, 245, 0.65); margin-top: 10px; font-weight: 600; }
+  /* Stats numbers — gradient text matching logo */
+  .stat .n {
+    font-family: var(--head); font-weight: 900; font-size: 46px; line-height: 1;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 70%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .stat .l { font-size: 15px; color: rgba(255, 248, 243, 0.65); margin-top: 10px; font-weight: 600; }
 
-  /* ---- New Onboarding & Profile Card Section (Redesigned CTA Section) ---- */
+  /* ---- Waitlist / CTA Section — warm deep gradient ---- */
   .cta-section {
-    background: linear-gradient(180deg, var(--cream) 0%, var(--maroon) 16%, #090203 100%);
+    background: linear-gradient(165deg, var(--cream) 0%, #FDE8D8 8%, #2D0C07 22%, #1A0403 100%);
     color: #fff; padding: 120px 0; overflow: hidden; position: relative;
   }
   .cta-section .sec-head h2 { color: #fff; }
@@ -853,14 +924,13 @@
     border: 1px solid rgba(255,255,255,0.1); margin-top: 18px;
   }
 
-  /* ---- Footer Redesign ---- */
+  /* ---- Footer ---- */
   .footer-redesign {
-    background: #080102;
-    color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(165deg, #1E0604 0%, #0F0201 100%);
+    color: rgba(255, 245, 238, 0.5);
     padding: 80px 0 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative;
-    z-index: 5;
+    border-top: 1px solid rgba(232, 87, 42, 0.12);
+    position: relative; z-index: 5;
     font-family: var(--body);
   }
   .footer-top {
@@ -910,11 +980,11 @@
     fill: currentColor;
   }
   .social-icon:hover {
-    background: var(--red);
-    border-color: var(--red);
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    border-color: transparent;
     color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 0, 28, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(232, 87, 42, 0.45);
   }
 
   /* Links Column Layout */
@@ -1003,8 +1073,26 @@
 
 <a id="top"></a>
 <section class="hero glow-container">
-  <div class="glow-orb" style="width: 400px; height: 400px; background: radial-gradient(circle, rgba(242,0,28,0.12) 0%, transparent 70%); top: 10%; right: 5%;"></div>
-  <div class="glow-orb" style="width: 350px; height: 350px; background: radial-gradient(circle, rgba(255,62,91,0.08) 0%, transparent 70%); bottom: 10%; left: 5%;"></div>
+  <!-- Warm amber-orange glow matching logo gradient -->
+  <div class="glow-orb" style="width:560px;height:560px;background:radial-gradient(circle,rgba(245,166,35,0.18) 0%,rgba(232,87,42,0.10) 45%,transparent 70%);top:-5%;right:2%;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(232,87,42,0.14) 0%,transparent 70%);bottom:5%;left:-5%;"></div>
+  <div class="glow-orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(245,166,35,0.10) 0%,transparent 70%);bottom:20%;right:20%;"></div>
+
+  <!-- Floating hearts — matches logo's scattered heart motif -->
+  <div class="hearts-layer" aria-hidden="true">
+    <span class="fheart" style="left:8%;bottom:15%;font-size:18px;--fdur:8s;--fdelay:0s;--fop:0.22;--frot:-12deg;--frot2:8deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:18%;bottom:5%;font-size:14px;--fdur:11s;--fdelay:1.5s;--fop:0.18;--frot:6deg;--frot2:-10deg;">&#x1F9E1;</span>
+    <span class="fheart" style="left:32%;bottom:20%;font-size:22px;--fdur:9s;--fdelay:3s;--fop:0.15;--frot:-5deg;--frot2:14deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:55%;bottom:10%;font-size:16px;--fdur:12s;--fdelay:0.8s;--fop:0.20;--frot:10deg;--frot2:-8deg;">&#x1F9E1;</span>
+    <span class="fheart" style="left:68%;bottom:25%;font-size:20px;--fdur:7.5s;--fdelay:4s;--fop:0.18;--frot:-15deg;--frot2:6deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:80%;bottom:8%;font-size:13px;--fdur:10s;--fdelay:2s;--fop:0.20;--frot:8deg;--frot2:-12deg;">&#x1F49B;</span>
+    <span class="fheart" style="left:90%;bottom:40%;font-size:18px;--fdur:8.5s;--fdelay:5s;--fop:0.15;--frot:-6deg;--frot2:10deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:5%;bottom:50%;font-size:12px;--fdur:13s;--fdelay:6s;--fop:0.18;--frot:14deg;--frot2:-5deg;">&#x1F9E1;</span>
+    <span class="fheart" style="left:45%;bottom:60%;font-size:15px;--fdur:9.5s;--fdelay:2.5s;--fop:0.12;--frot:-9deg;--frot2:7deg;">&#x1F49B;</span>
+    <span class="fheart" style="left:75%;bottom:55%;font-size:11px;--fdur:11.5s;--fdelay:7s;--fop:0.15;--frot:5deg;--frot2:-13deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:25%;bottom:70%;font-size:17px;--fdur:14s;--fdelay:3.5s;--fop:0.10;--frot:-11deg;--frot2:9deg;">&#x1F49B;</span>
+    <span class="fheart" style="left:60%;bottom:75%;font-size:13px;--fdur:10.5s;--fdelay:8s;--fop:0.12;--frot:7deg;--frot2:-6deg;">&#x2764;&#xFE0F;</span>
+  </div>
   
   <div class="wrap hero-grid">
     <div>
@@ -1540,7 +1628,8 @@
 
 <!-- Section: Four pillars -->
 <section class="band ink glow-container">
-  <div class="glow-orb" style="width: 450px; height: 450px; background: radial-gradient(circle, rgba(242,0,28,0.1) 0%, transparent 70%); top: -10%; left: -10%;"></div>
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(245,166,35,0.12) 0%,rgba(232,87,42,0.07) 50%,transparent 70%);top:-15%;left:-10%;"></div>
+  <div class="glow-orb" style="width:350px;height:350px;background:radial-gradient(circle,rgba(196,43,24,0.10) 0%,transparent 70%);bottom:-10%;right:5%;"></div>
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow" style="color:var(--accent)">The whole app in four tabs</span>
@@ -1608,8 +1697,17 @@
 
 <!-- Section: One Grid, Any Intent -->
 <section class="band maroon glow-container" id="purpose">
-  <div class="glow-orb" style="width: 500px; height: 500px; background: radial-gradient(circle, rgba(233,94,53,0.09) 0%, transparent 70%); bottom: -20%; right: -10%;"></div>
-  <div class="glow-orb" style="width: 350px; height: 350px; background: radial-gradient(circle, rgba(247,168,35,0.06) 0%, transparent 70%); top: -10%; left: 5%;"></div>
+  <div class="glow-orb" style="width:550px;height:550px;background:radial-gradient(circle,rgba(232,87,42,0.14) 0%,rgba(196,43,24,0.08) 50%,transparent 70%);bottom:-20%;right:-10%;"></div>
+  <div class="glow-orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(245,166,35,0.10) 0%,transparent 70%);top:-10%;left:5%;"></div>
+  <!-- Floating hearts in the connections section -->
+  <div class="hearts-layer" aria-hidden="true">
+    <span class="fheart" style="left:6%;bottom:8%;font-size:22px;--fdur:10s;--fdelay:0s;--fop:0.20;--frot:-8deg;--frot2:12deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:20%;bottom:15%;font-size:16px;--fdur:8s;--fdelay:2s;--fop:0.18;--frot:10deg;--frot2:-6deg;">&#x1F9E1;</span>
+    <span class="fheart" style="left:40%;bottom:5%;font-size:13px;--fdur:12s;--fdelay:4s;--fop:0.14;--frot:-14deg;--frot2:8deg;">&#x1F49B;</span>
+    <span class="fheart" style="left:65%;bottom:20%;font-size:20px;--fdur:9s;--fdelay:1s;--fop:0.18;--frot:6deg;--frot2:-11deg;">&#x2764;&#xFE0F;</span>
+    <span class="fheart" style="left:82%;bottom:10%;font-size:15px;--fdur:11s;--fdelay:3s;--fop:0.16;--frot:-9deg;--frot2:14deg;">&#x1F9E1;</span>
+    <span class="fheart" style="left:92%;bottom:35%;font-size:18px;--fdur:7s;--fdelay:5s;--fop:0.14;--frot:12deg;--frot2:-8deg;">&#x1F49B;</span>
+  </div>
   <div class="wrap">
     <div class="sec-head center">
       <span class="eyebrow" style="color:var(--gold)">One grid. Any intent.</span>
