@@ -17,22 +17,23 @@
 
 <style>
   :root {
-    --red: #9E1B22;
-    --red-hover: #831319;
-    --accent: #E95E35;
-    --gold: #F7A823;
-    --accent-glow: rgba(233, 94, 53, 0.12);
+    /* === Exact Logo Color Match === */
+    --red: #C42B18;          /* kinnred text + K bottom-red */
+    --red-hover: #A82213;    /* darker on hover */
+    --accent: #E8572A;       /* K mid-orange (primary CTA) */
+    --gold: #F5A623;         /* K top-amber */
+    --accent-glow: rgba(232, 87, 42, 0.14);
     --cream: #FAF8F5;
     --ink: #0E0204;
-    --maroon: #1A0407;
-    --maroon-2: #2E0A0F;
+    --maroon: #1C0404;
+    --maroon-2: #2A0808;
     --muted: rgba(14, 2, 4, 0.6);
     --line: rgba(14, 2, 4, 0.08);
     --radius: 24px;
     --radius-lg: 32px;
     --radius-sm: 16px;
     --shadow: 0 32px 80px -20px rgba(14, 2, 4, 0.12);
-    --shadow-premium: 0 40px 90px -25px rgba(233, 94, 53, 0.18);
+    --shadow-premium: 0 40px 90px -25px rgba(232, 87, 42, 0.20);
     --head: 'Fraunces', Georgia, serif;
     --body: 'Inter', system-ui, sans-serif;
     
@@ -95,14 +96,22 @@
   }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 80px; }
   .brand { display: flex; align-items: center; gap: 12px; }
+  /* --- Brand Mark: logo shown directly, white JPEG bg removed via blend mode --- */
   .brand .mark {
-    width: 44px; height: 44px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
-    box-shadow: 0 8px 24px -6px rgba(233, 94, 53, 0.35); transition: var(--transition-fast);
-    background: #fff;
+    width: 46px; height: 46px; border-radius: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; box-shadow: none; overflow: visible;
+    transition: var(--transition-fast);
   }
-  .brand .mark img { width: 100%; height: 100%; object-fit: contain; object-position: center top; padding: 2px; }
-  .brand:hover .mark { transform: rotate(-4deg) scale(1.06); box-shadow: 0 12px 28px -6px rgba(233, 94, 53, 0.5); }
+  .brand .mark img {
+    width: 46px; height: 46px;
+    object-fit: contain; object-position: center top;
+    mix-blend-mode: multiply; /* makes white JPEG bg invisible on light cream header */
+    display: block;
+  }
+  /* On dark footer, use screen blend instead */
+  .footer-brand-col .brand .mark img { mix-blend-mode: screen; }
+  .brand:hover .mark { transform: rotate(-4deg) scale(1.08); }
   .brand .name { font-family: var(--body); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink); }
   
   .nav-links { display: flex; align-items: center; gap: 32px; }
@@ -181,16 +190,21 @@
 
   .radar-center {
     width: 60px; height: 60px; border-radius: 18px;
-    background: #fff;
+    background: transparent;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 0 4px rgba(233, 94, 53, 0.18), 0 0 28px rgba(233, 94, 53, 0.45); z-index: 10; position: relative;
+    box-shadow: 0 0 0 3px rgba(232, 87, 42, 0.25), 0 0 28px rgba(232, 87, 42, 0.5); z-index: 10; position: relative;
     animation: pulseCenter 2.5s infinite;
   }
-  .radar-center img { width: 52px; height: 52px; object-fit: contain; object-position: center top; border-radius: 12px; }
+  .radar-center img {
+    width: 58px; height: 58px;
+    object-fit: contain; object-position: center top;
+    border-radius: 14px;
+    mix-blend-mode: multiply; /* remove JPEG white on cream/light bg behind radar */
+  }
   @keyframes pulseCenter {
-    0% { transform: scale(1); box-shadow: 0 0 0 4px rgba(233,94,53,0.18), 0 0 20px rgba(233,94,53,0.4); }
-    50% { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(233,94,53,0.10), 0 0 38px rgba(233,94,53,0.65); }
-    100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(233,94,53,0.18), 0 0 20px rgba(233,94,53,0.4); }
+    0%  { box-shadow: 0 0 0 3px rgba(232,87,42,0.25), 0 0 20px rgba(232,87,42,0.45); }
+    50% { box-shadow: 0 0 0 7px rgba(232,87,42,0.10), 0 0 40px rgba(232,87,42,0.70); }
+    100%{ box-shadow: 0 0 0 3px rgba(232,87,42,0.25), 0 0 20px rgba(232,87,42,0.45); }
   }
 
   /* Radar Floating User Nodes and Orbiting Redesign */
