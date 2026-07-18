@@ -137,21 +137,21 @@
   }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 80px; }
   .brand { display: flex; align-items: center; gap: 12px; }
-  /* --- Brand Mark: logo shown directly, white JPEG bg removed via blend mode --- */
+  /* --- Brand Mark: logo only, no text in nav --- */
   .brand .mark {
-    width: 46px; height: 46px; border-radius: 0;
+    width: 56px; height: 56px; border-radius: 0;
     display: flex; align-items: center; justify-content: center;
     background: transparent; box-shadow: none; overflow: visible;
     transition: var(--transition-fast);
   }
   .brand .mark img {
-    width: 46px; height: 46px;
-    object-fit: contain; object-position: center top;
-    mix-blend-mode: multiply; /* makes white JPEG bg invisible on light cream header */
+    width: 56px; height: 56px;
+    object-fit: contain;
     display: block;
   }
-  /* On dark footer, use screen blend instead */
-  .footer-brand-col .brand .mark img { mix-blend-mode: screen; }
+  /* Footer logo: slightly smaller */
+  .footer-brand-col .brand .mark { width: 48px; height: 48px; }
+  .footer-brand-col .brand .mark img { width: 48px; height: 48px; }
   .brand:hover .mark { transform: rotate(-4deg) scale(1.08); }
   .brand .name { font-family: var(--body); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink); }
   
@@ -243,10 +243,8 @@
     animation: pulseCenter 2.5s infinite;
   }
   .radar-center img {
-    width: 58px; height: 58px;
-    object-fit: contain; object-position: center top;
-    border-radius: 14px;
-    mix-blend-mode: multiply; /* remove JPEG white on cream/light bg behind radar */
+    width: 56px; height: 56px;
+    object-fit: contain;
   }
   @keyframes pulseCenter {
     0%  { box-shadow: 0 0 0 3px rgba(232,87,42,0.25), 0 0 20px rgba(232,87,42,0.45); }
@@ -1059,8 +1057,7 @@
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top">
-      <span class="mark"><img src="assets/logo.jpeg" alt="Kinnred logo mark" loading="eager"></span>
-      <span class="name">kinnred</span>
+      <span class="mark"><img src="assets/logo.png" alt="Kinnred" loading="eager"></span>
     </a>
     <nav class="nav-links">
       <a class="link" href="#how">How it works</a>
@@ -1127,7 +1124,7 @@
         
         <!-- Center node (You) -->
         <div class="radar-center">
-          <img src="assets/logo.jpeg" alt="You" style="width:44px;height:44px;object-fit:contain;object-position:center top;border-radius:10px;">
+          <img src="assets/logo.png" alt="You" style="width:44px;height:44px;object-fit:contain;object-position:center top;border-radius:10px;">
         </div>
         
         <!-- Orbiting Nodes Group -->
@@ -1920,7 +1917,7 @@
     <div class="footer-top">
       <div class="footer-brand-col">
         <a class="brand" href="#top">
-          <span class="mark"><img src="assets/logo.jpeg" alt="Kinnred logo mark" loading="lazy"></span>
+          <span class="mark"><img src="assets/logo.png" alt="Kinnred logo mark" loading="lazy"></span>
           <span class="name">kinnred</span>
         </a>
         <p class="brand-desc">People. Nearby. On your wavelength. A proximity-based social discovery app designed for real-world connections.</p>
