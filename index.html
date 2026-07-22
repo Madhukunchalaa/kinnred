@@ -17,23 +17,24 @@
 
 <style>
   :root {
-    /* === Logo Color System: amber-gold → warm orange → tomato-red === */
-    --red: #C42B18;
-    --red-hover: #A82213;
-    --accent: #E8572A;
-    --gold: #F5A623;
-    --accent-glow: rgba(232, 87, 42, 0.16);
-    --cream: #FFF8F3;          /* warm peach-cream */
-    --ink: #1A0503;
-    --maroon: #200705;
-    --maroon-2: #300C08;
-    --muted: rgba(26, 5, 3, 0.55);
-    --line: rgba(26, 5, 3, 0.08);
+    /* === New Brand Logo Color System === */
+    --red: #E0250E;            /* Primary Red */
+    --red-hover: #BC0A12;      /* Dark Red */
+    --accent: #F55A09;         /* Primary Orange */
+    --gold: #FC8A02;           /* Bright Orange */
+    --peach: #F5AC94;          /* Light Peach */
+    --accent-glow: rgba(245, 90, 9, 0.16);
+    --cream: #FFFBF9;          /* soft warm peach-white */
+    --ink: #1F0402;            /* rich warm dark ink */
+    --maroon: #2D0502;
+    --maroon-2: #470804;
+    --muted: rgba(31, 4, 2, 0.55);
+    --line: rgba(31, 4, 2, 0.08);
     --radius: 24px;
     --radius-lg: 32px;
     --radius-sm: 16px;
-    --shadow: 0 32px 80px -20px rgba(26, 5, 3, 0.12);
-    --shadow-premium: 0 40px 90px -25px rgba(232, 87, 42, 0.28);
+    --shadow: 0 32px 80px -20px rgba(31, 4, 2, 0.12);
+    --shadow-premium: 0 40px 90px -25px rgba(245, 90, 9, 0.28);
     --head: 'Fraunces', Georgia, serif;
     --body: 'Inter', system-ui, sans-serif;
     --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -139,19 +140,27 @@
   .brand { display: flex; align-items: center; gap: 12px; }
   /* --- Brand Mark: logo only, no text in nav --- */
   .brand .mark {
-    width: 124px; height: 124px; border-radius: 0;
+    width: 124px; height: 124px; border-radius: 28px;
     display: flex; align-items: center; justify-content: center;
-    background: transparent; box-shadow: none; overflow: visible;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    box-shadow: 0 12px 32px -8px rgba(245, 90, 9, 0.4);
+    overflow: hidden;
+    padding: 16px;
     transition: var(--transition-fast);
   }
   .brand .mark img {
-    width: 124px; height: 124px;
+    width: 100%; height: 100%;
     object-fit: contain;
     display: block;
   }
   /* Footer logo: slightly smaller */
-  .footer-brand-col .brand .mark { width: 48px; height: 48px; }
-  .footer-brand-col .brand .mark img { width: 48px; height: 48px; }
+  .footer-brand-col .brand .mark {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    box-shadow: 0 6px 16px -4px rgba(245, 90, 9, 0.4);
+    padding: 6px;
+  }
+  .footer-brand-col .brand .mark img { width: 100%; height: 100%; }
   .brand:hover .mark { transform: rotate(-4deg) scale(1.08); }
   .brand .name { font-family: var(--body); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink); }
   
@@ -249,20 +258,21 @@
 
   .radar-center {
     width: 60px; height: 60px; border-radius: 18px;
-    background: #fff;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 0 3px rgba(232, 87, 42, 0.25), 0 0 28px rgba(232, 87, 42, 0.5);
+    box-shadow: 0 0 0 3px rgba(245, 90, 9, 0.25), 0 0 28px rgba(245, 90, 9, 0.5);
     z-index: 10;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotateX(-40deg) rotateY(5deg);
     transform-style: preserve-3d;
+    padding: 8px;
     animation: pulseCenter 2.5s infinite;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .radar-center img {
-    width: 56px; height: 56px;
+    width: 100%; height: 100%;
     object-fit: contain;
   }
   @keyframes pulseCenter {
@@ -1177,7 +1187,7 @@
         
         <!-- Center node (You) -->
         <div class="radar-center">
-          <img src="assets/logo.png" alt="You" style="width:44px;height:44px;object-fit:contain;object-position:center top;border-radius:10px;">
+          <img src="assets/logo.png" alt="You">
         </div>
         
         <!-- Orbiting Nodes Group -->
