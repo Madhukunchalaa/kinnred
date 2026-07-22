@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinnred Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #E0250E;
+      --red-hover: #BC0A12;
+      --accent: #F55A09;
+      --gold: #FC8A02;
+      --peach: #F5AC94;
+      --cream: #FFFBF9;
+      --ink: #1F0402;
+      --muted: rgba(31, 4, 2, 0.55);
+      --line: rgba(31, 4, 2, 0.08);
+      --radius: 24px;
+      --radius-sm: 12px;
+      --head: 'Fraunces', Georgia, serif;
+      --body: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--cream); color: var(--ink);
+      font-family: var(--body); -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+      padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+    }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-family: var(--head); font-weight: 800; font-size: 24px; display: flex; align-items: center; gap: 8px; }
+    .brand img { height: 40px; }
+    .logout-btn { background: rgba(255,255,255,0.15); border: none; padding: 8px 16px; border-radius: 99px; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .logout-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* Login Screen */
+    #login-overlay {
+      position: fixed; inset: 0; background: var(--ink); z-index: 1000;
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+    }
+    .login-card {
+      background: #fff; border-radius: var(--radius); width: 100%; max-width: 400px;
+      padding: 40px; box-shadow: 0 40px 90px -25px rgba(245, 90, 9, 0.28);
+      border: 1.5px solid var(--line); text-align: center;
+    }
+    .login-card h2 { font-family: var(--head); font-size: 32px; font-weight: 900; margin-bottom: 12px; }
+    .login-card p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+    .login-input {
+      width: 100%; padding: 14px 20px; border-radius: var(--radius-sm);
+      border: 1.5px solid var(--line); font-size: 15px; margin-bottom: 20px;
+      outline: none; transition: 0.2s; text-align: center;
+    }
+    .login-input:focus { border-color: var(--red); }
+    .login-btn {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, var(--gold), var(--accent));
+      color: #fff; font-weight: bold; font-size: 15px; border: none;
+      border-radius: var(--radius-sm); cursor: pointer; transition: 0.2s;
+    }
+    .login-btn:hover { transform: translateY(-2px); }
+    .err-msg { color: var(--red); font-size: 13.5px; font-weight: 600; margin-top: 12px; display: none; }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 32px; margin-top: 24px; }
+    .stat-card {
+      background: #fff; border: 1.5px solid var(--line); border-radius: var(--radius);
+      padding: 24px; box-shadow: 0 10px 30px rgba(31, 4, 2, 0.03);
+    }
+    .stat-card .label { font-size: 14px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-card .value { font-size: 36px; font-family: var(--head); font-weight: 900; margin-top: 8px; color: var(--red); }
+
+    /* Analytics Section */
+    .dashboard-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; margin-bottom: 48px; }
+    @media(max-width: 960px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: #fff; border: 1.5px solid var(--line); border-radius: var(--radius);
+      padding: 32px; box-shadow: 0 10px 30px rgba(31, 4, 2, 0.03);
+    }
+    .panel h3 { font-family: var(--head); font-size: 22px; font-weight: 900; margin-bottom: 24px; border-bottom: 2.5px solid var(--line); padding-bottom: 8px; }
+
+    /* Progress bar styling */
+    .prog-item { margin-bottom: 20px; }
+    .prog-item .info { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .prog-track { width: 100%; height: 10px; background: rgba(31, 4, 2, 0.06); border-radius: 99px; overflow: hidden; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--accent)); border-radius: 99px; width: 0%; transition: width 0.8s ease; }
+
+    /* Data Table Section */
+    .table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    .search-box {
+      padding: 10px 16px; border: 1.5px solid var(--line); border-radius: 99px;
+      font-size: 14px; outline: none; width: 100%; max-width: 300px; transition: 0.2s;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .action-btn { background: var(--red); color: #fff; border: none; padding: 10px 20px; border-radius: 99px; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .action-btn:hover { background: var(--red-hover); }
+
+    .table-container { overflow-x: auto; width: 100%; border: 1.5px solid var(--line); border-radius: var(--radius-sm); }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; background: #fff; }
+    th { background: rgba(31, 4, 2, 0.03); padding: 14px 18px; font-weight: 700; border-bottom: 1.5px solid var(--line); }
+    td { padding: 14px 18px; border-bottom: 1px solid var(--line); color: rgba(31, 4, 2, 0.85); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(245, 90, 9, 0.02); }
+  </style>
+</head>
+<body>
+
+  <!-- Login Overlay -->
+  <div id="login-overlay">
+    <div class="login-card">
+      <div style="display:flex; justify-content:center; margin-bottom:16px;">
+        <img src="assets/logo.png" alt="Kinnred" style="height: 60px; filter: drop-shadow(0 4px 12px rgba(245, 90, 9, 0.3));">
+      </div>
+      <h2>Admin Login</h2>
+      <p>Secure portal to review waitlist entries & marketing analytics.</p>
+      <form id="login-form">
+        <input type="password" id="admin-pass" class="login-input" placeholder="Enter Admin Password" required autofocus>
+        <button type="submit" class="login-btn">Authenticate</button>
+      </form>
+      <p class="err-msg" id="login-err">Invalid password. Please try again.</p>
+    </div>
+  </div>
+
+  <!-- Authenticated Header -->
+  <header>
+    <div class="wrap header-content">
+      <div class="brand">
+        <img src="assets/logo.png" alt="Kinnred">
+        <span>Kinnred Analytics Dashboard</span>
+      </div>
+      <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total Submissions</div>
+        <div class="value" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Active Hub Cities</div>
+        <div class="value" id="stat-cities">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Early Access Rate</div>
+        <div class="value" id="stat-access-rate">0%</div>
+      </div>
+    </div>
+
+    <!-- Analytics Dashboard Layout -->
+    <div class="dashboard-layout">
+      <!-- Left Panel: Intent category breakdown -->
+      <div class="panel">
+        <h3>Category-Wise Intent Breakdown</h3>
+        <div id="intent-progress-bars">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Right Panel: Biggest social challenges -->
+      <div class="panel">
+        <h3>Social Challenges Breakdown</h3>
+        <div id="challenge-progress-bars">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table Panel -->
+    <div class="panel" style="margin-bottom:60px;">
+      <div class="table-header">
+        <h3>Raw Submissions Log</h3>
+        <div style="display:flex; gap:12px; align-items:center; flex:1; justify-content:flex-end;">
+          <input type="text" id="table-search" class="search-box" placeholder="Search by name, email, or city…" oninput="filterTable()">
+          <button class="action-btn" onclick="exportCSV()">Export to CSV</button>
+        </div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>City</th>
+              <th>Intents</th>
+              <th>Social Challenge</th>
+              <th>Joined Date</th>
+            </tr>
+          </thead>
+          <tbody id="submissions-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    var submissionsData = [];
+
+    // On Load Check Authentication
+    document.addEventListener('DOMContentLoaded', function() {
+      var token = localStorage.getItem('adminToken');
+      if (token) {
+        document.getElementById('login-overlay').style.display = 'none';
+        loadDashboardData(token);
+      }
+    });
+
+    // Handle Login Form Submit
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var pass = document.getElementById('admin-pass').value.trim();
+      var errMsg = document.getElementById('login-err');
+      errMsg.style.display = 'none';
+
+      fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pass })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem('adminToken', data.token);
+          document.getElementById('login-overlay').style.display = 'none';
+          loadDashboardData(data.token);
+        } else {
+          errMsg.style.display = 'block';
+        }
+      })
+      .catch(() => {
+        errMsg.textContent = 'Server connection error. Is serve.js running?';
+        errMsg.style.display = 'block';
+      });
+    });
+
+    // Load Data
+    function loadDashboardData(token) {
+      fetch('/api/admin/submissions', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(res => {
+        if (res.status === 401 || res.status === 403) {
+          logoutAdmin();
+          return;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (!data) return;
+        submissionsData = data.submissions || [];
+        populateDashboard(submissionsData);
+      });
+    }
+
+    // Populate UI dashboard items
+    function populateDashboard(data) {
+      // Total count
+      document.getElementById('stat-total').textContent = data.length;
+
+      // Unique Cities count
+      var citiesSet = new Set(data.map(item => item.city ? item.city.toLowerCase().trim() : ''));
+      citiesSet.delete('');
+      document.getElementById('stat-cities').textContent = citiesSet.size;
+
+      // Early access rate (percentage answering "Yes")
+      var earlyYes = data.filter(item => item.earlyAccess === 'Yes').length;
+      var accessRate = data.length > 0 ? Math.round((earlyYes / data.length) * 100) : 0;
+      document.getElementById('stat-access-rate').textContent = accessRate + '%';
+
+      // Computes Intent category breakdown
+      var intentCounts = { 'Dating': 0, 'Friends': 0, 'Activities': 0, 'Networking': 0, 'Creative': 0 };
+      var totalIntentsCount = 0;
+      data.forEach(item => {
+        var lf = item.lookingFor || [];
+        lf.forEach(val => {
+          var matched = false;
+          if (val.toLowerCase().includes('date')) { intentCounts['Dating']++; matched = true; }
+          if (val.toLowerCase().includes('friend')) { intentCounts['Friends']++; matched = true; }
+          if (val.toLowerCase().includes('activit')) { intentCounts['Activities']++; matched = true; }
+          if (val.toLowerCase().includes('network')) { intentCounts['Networking']++; matched = true; }
+          if (val.toLowerCase().includes('creative') || val.toLowerCase().includes('collab')) { intentCounts['Creative']++; matched = true; }
+          if (matched) totalIntentsCount++;
+        });
+      });
+
+      var intentBars = document.getElementById('intent-progress-bars');
+      intentBars.innerHTML = '';
+      Object.keys(intentCounts).forEach(key => {
+        var count = intentCounts[key];
+        var pct = data.length > 0 ? Math.round((count / data.length) * 100) : 0;
+        intentBars.appendChild(createProgressBarMarkup(key, pct, count));
+      });
+
+      // Computes Challenges breakdown
+      var challengeCounts = {};
+      data.forEach(item => {
+        if (item.challenge) {
+          challengeCounts[item.challenge] = (challengeCounts[item.challenge] || 0) + 1;
+        }
+      });
+      
+      var challengeBars = document.getElementById('challenge-progress-bars');
+      challengeBars.innerHTML = '';
+      Object.keys(challengeCounts).forEach(key => {
+        var count = challengeCounts[key];
+        var pct = data.length > 0 ? Math.round((count / data.length) * 100) : 0;
+        challengeBars.appendChild(createProgressBarMarkup(key, pct, count));
+      });
+
+      // Render Table
+      renderTableBody(data);
+    }
+
+    function createProgressBarMarkup(label, percentage, count) {
+      var itemDiv = document.createElement('div');
+      itemDiv.className = 'prog-item';
+      
+      var infoDiv = document.createElement('div');
+      infoDiv.className = 'info';
+      infoDiv.innerHTML = '<span>' + label + ' (' + count + ')</span><span>' + percentage + '%</span>';
+      
+      var trackDiv = document.createElement('div');
+      trackDiv.className = 'prog-track';
+      
+      var fillDiv = document.createElement('div');
+      fillDiv.className = 'prog-fill';
+      
+      itemDiv.appendChild(infoDiv);
+      itemDiv.appendChild(trackDiv);
+      trackDiv.appendChild(fillDiv);
+      
+      // Delay transition to trigger animation
+      setTimeout(function() { fillDiv.style.width = percentage + '%'; }, 100);
+      
+      return itemDiv;
+    }
+
+    function renderTableBody(data) {
+      var tbody = document.getElementById('submissions-table-body');
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--muted)">No submissions logged yet.</td></tr>';
+        return;
+      }
+
+      data.forEach(item => {
+        var tr = document.createElement('tr');
+        
+        var dateStr = '';
+        if (item.submittedAt) {
+          var dateObj = new Date(item.submittedAt);
+          dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        var intentsStr = (item.lookingFor || []).join(', ') || 'N/A';
+
+        tr.innerHTML = '<td><b>' + escapeHtml(item.name) + '</b></td>' +
+                       '<td>' + escapeHtml(item.email) + '</td>' +
+                       '<td>' + escapeHtml(item.city) + '</td>' +
+                       '<td>' + escapeHtml(intentsStr) + '</td>' +
+                       '<td>' + escapeHtml(item.challenge || 'N/A') + '</td>' +
+                       '<td>' + dateStr + '</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Search filter
+    function filterTable() {
+      var query = document.getElementById('table-search').value.toLowerCase().trim();
+      var filtered = submissionsData.filter(item => {
+        return (item.name || '').toLowerCase().includes(query) ||
+               (item.email || '').toLowerCase().includes(query) ||
+               (item.city || '').toLowerCase().includes(query) ||
+               (item.challenge || '').toLowerCase().includes(query);
+      });
+      renderTableBody(filtered);
+    }
+
+    // Export CSV utility
+    function exportCSV() {
+      if (submissionsData.length === 0) return;
+      var csvRows = [['Name', 'Email', 'City', 'Intents', 'Challenge', 'Submitted At']];
+      submissionsData.forEach(item => {
+        csvRows.push([
+          item.name,
+          item.email,
+          item.city,
+          (item.lookingFor || []).join('; '),
+          item.challenge || '',
+          item.submittedAt || ''
+        ]);
+      });
+
+      var csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.map(val => '"' + String(val).replace(/"/g, '""') + '"').join(",")).join("\n");
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "kinnred_submissions_" + new Date().toISOString().split('T')[0] + ".csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // HTML escape utility
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Logout
+    function logoutAdmin() {
+      localStorage.removeItem('adminToken');
+      document.getElementById('login-overlay').style.display = 'flex';
+      document.getElementById('admin-pass').value = '';
+    }
+  </script>
+</body>
+</html>

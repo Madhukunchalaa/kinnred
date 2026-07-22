@@ -4,11 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kinnred — People. Nearby. On your wavelength.</title>
-<meta name="description" content="Open the app. See real people around you. Tap anyone. Message or move on. No algorithm. No endless swiping. Kinnred is location-based social discovery for dating, friends, activities and networking.">
-<meta property="og:title" content="Kinnred — People. Nearby. On your wavelength.">
-<meta property="og:description" content="See real people around you. Tap anyone. Message or move on. No algorithm. No endless swiping.">
+<meta name="description" content="Open the app. See real people around you. Tap anyone. Message or move on. No algorithm. No endless swiping. Kinnred is location-based social discovery for dating, friends, activities, sports, and professional networking.">
+<meta name="keywords" content="social discovery, nearby app, proximity dating, local grid app, find friends nearby, activity partners, local run clubs, professional networking, location based networking">
+<link rel="canonical" href="https://kinnred.app/">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#F2001C">
+<meta property="og:url" content="https://kinnred.app/">
+<meta property="og:title" content="Kinnred — People. Nearby. On your wavelength.">
+<meta property="og:description" content="See real people around you. Tap anyone. Message or move on. No algorithm. No endless swiping. Join the next generation of social discovery.">
+<meta property="og:image" content="https://kinnred.app/assets/logo.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://kinnred.app/">
+<meta property="twitter:title" content="Kinnred — People. Nearby. On your wavelength.">
+<meta property="twitter:description" content="No algorithm. No endless swiping. Just a live grid of real people nearby — for friends, dating, activity partners, or networking.">
+<meta property="twitter:image" content="https://kinnred.app/assets/logo.png">
+
+<meta name="theme-color" content="#E0250E">
+
+<!-- Structured Schema Data (JSON-LD) for Search Engine Optimization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Kinnred",
+  "url": "https://kinnred.app/",
+  "description": "Kinnred is location-based social discovery for dating, friends, activity partners and networking.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://kinnred.app/?s={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -108,15 +139,15 @@
 
   /* ======= FLOATING HEARTS & PEOPLE ORBITS ======= */
   .hearts-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
-  .fheart {
-    position: absolute; font-size: 20px; opacity: 0; user-select: none;
-    animation: heartFloat var(--fdur, 9s) var(--fdelay, 0s) ease-in-out infinite;
+  .hero-heart {
+    position: absolute; bottom: -60px; opacity: 0;
+    animation: heartFly var(--fdur, 9s) var(--fdelay, 0s) linear infinite;
   }
-  @keyframes heartFloat {
-    0%   { transform: translateY(0px) rotate(var(--frot,-8deg)) scale(0.7); opacity: 0; }
-    12%  { opacity: var(--fop, 0.22); }
-    85%  { opacity: var(--fop, 0.16); }
-    100% { transform: translateY(-110px) rotate(var(--frot2, 12deg)) scale(1.1); opacity: 0; }
+  @keyframes heartFly {
+    0%   { transform: translateY(0) rotate(var(--frot, -12deg)); opacity: 0; }
+    15%  { opacity: var(--fop, 0.45); }
+    85%  { opacity: var(--fop, 0.45); }
+    100% { transform: translateY(-750px) rotate(var(--frot2, 18deg)); opacity: 0; }
   }
   /* Orbit ring — like the ellipse around the K in the logo */
   .orbit-ring {
@@ -138,18 +169,18 @@
     box-shadow: 0 8px 32px rgba(245, 90, 9, 0.15);
     transition: transform var(--transition-smooth);
   }
-  .nav { display: flex; align-items: center; justify-content: space-between; height: 90px; }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 110px; }
   .brand { display: flex; align-items: center; gap: 12px; }
   /* --- Brand Mark: transparent white logo sitting directly on gradient header --- */
   .brand .mark {
-    width: 60px; height: 60px; border-radius: 0;
+    width: 90px; height: 90px; border-radius: 0;
     display: flex; align-items: center; justify-content: center;
     background: transparent; box-shadow: none; overflow: visible;
     padding: 0;
     transition: var(--transition-fast);
   }
   .brand .mark img {
-    width: 60px; height: 60px;
+    width: 90px; height: 90px;
     object-fit: contain;
     display: block;
   }
@@ -187,7 +218,15 @@
   }
   
   @media(max-width:820px) {
-    .nav-links a.link { display: none; }
+    .nav { height: auto; padding: 16px 0; flex-direction: column; gap: 12px; align-items: center; }
+    .nav-links { gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .nav-links a.link { display: inline-flex; font-size: 13.5px; }
+    .nav-links .btn-red { padding: 10px 18px; font-size: 13.5px; }
+  }
+  @media(max-width:480px) {
+    .nav-links { gap: 12px; }
+    .nav-links a.link { font-size: 12px; }
+    .nav-links .btn-red { font-size: 12px; padding: 8px 14px; }
   }
 
   /* ---- Hero ---- */
@@ -446,7 +485,7 @@
     background: var(--ink); padding: 12px; box-shadow: var(--shadow-premium);
     border: 3px solid rgba(255, 255, 255, 0.08); transition: transform var(--transition-smooth);
   }
-  .phone-wrapper:hover { transform: translateY(-4px) scale(1.01); }
+  .phone-wrapper:hover { transform: none; }
   
   .phone-screen {
     width: 100%; height: 100%; border-radius: 38px; background: var(--maroon);
@@ -498,12 +537,12 @@
   }
   .app-filter-chip.active { background: var(--red); color: #fff; border-color: var(--red); }
   
-  .grid-simulator { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .grid-simulator { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .sim-card {
-    border-radius: 18px; aspect-ratio: 3/4; position: relative; overflow: hidden;
-    color: #fff; display: flex; align-items: flex-end; padding: 12px;
+    border-radius: 12px; aspect-ratio: 3/4; position: relative; overflow: hidden;
+    color: #fff; display: flex; align-items: flex-end; padding: 6px;
     background-size: cover; background-position: center; transition: var(--transition-smooth);
-    box-shadow: inset 0 -40px 40px -10px rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: inset 0 -30px 30px -10px rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.05);
   }
   .sim-card::before {
     content: ""; position: absolute; inset: 0; background: rgba(29, 5, 9, 0.4);
@@ -511,27 +550,27 @@
   }
   .sim-card:hover::before { opacity: 1; }
   .sim-card .info { position: relative; z-index: 3; }
-  .sim-card .name-age { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
-  .sim-card .details { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 600; display: block; margin-top: 1px; }
+  .sim-card .name-age { font-size: 10.5px; font-weight: 800; display: flex; align-items: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sim-card .details { font-size: 7.5px; color: rgba(255,255,255,0.75); font-weight: 600; display: block; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sim-card .tag-pill {
-    display: inline-block; font-size: 8px; font-weight: 700; padding: 2px 6px;
-    background: rgba(255,255,255,0.15); border-radius: 4px; margin-top: 5px;
+    display: inline-block; font-size: 7px; font-weight: 700; padding: 1px 4px;
+    background: rgba(255,255,255,0.15); border-radius: 4px; margin-top: 3px;
   }
   
   .sim-card.locked-photo .blur-overlay {
-    position: absolute; inset: 0; backdrop-filter: blur(14px);
+    position: absolute; inset: 0; backdrop-filter: blur(10px);
     background: rgba(29, 5, 9, 0.45); z-index: 2; display: flex;
     flex-direction: column; align-items: center; justify-content: center;
     transition: opacity var(--transition-smooth), backdrop-filter var(--transition-smooth);
   }
   .sim-card.locked-photo .lock-icon {
-    width: 28px; height: 28px; border-radius: 50%; background: var(--red);
+    width: 20px; height: 20px; border-radius: 50%; background: var(--red);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 10px rgba(242,0,28,0.4); transition: transform 0.3s ease;
   }
   .sim-card.locked-photo:hover .lock-icon { transform: scale(1.1); }
-  .sim-card.locked-photo .lock-icon svg { width: 12px; height: 12px; fill: #fff; }
-  .sim-card.locked-photo .lock-label { font-size: 9px; font-weight: 700; margin-top: 6px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.05em; }
+  .sim-card.locked-photo .lock-icon svg { width: 9px; height: 9px; fill: #fff; }
+  .sim-card.locked-photo .lock-label { font-size: 7px; font-weight: 700; margin-top: 3px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.05em; }
 
   /* App Tab: Pings */
   .pings-tabs { display: flex; background: rgba(0,0,0,0.25); border-radius: 99px; padding: 3px; margin-bottom: 12px; }
@@ -1119,16 +1158,19 @@
   </symbol>
 </svg>
 
+
+
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top">
       <span class="mark"><img src="assets/logo.png" alt="Kinnred" loading="eager"></span>
+      <span class="name">Kinnred</span>
     </a>
     <nav class="nav-links">
       <a class="link" href="#how">How it works</a>
       <a class="link" href="#experience">Live Simulator</a>
       <a class="link" href="#safety">Safety</a>
-      <a class="btn btn-red" href="#waitlist">Join the waitlist</a>
+      <a class="btn btn-red" href="#waitlist">Get early access</a>
     </nav>
   </div>
 </header>
@@ -1140,25 +1182,28 @@
   <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(232,87,42,0.14) 0%,transparent 70%);bottom:5%;left:-5%;"></div>
   <div class="glow-orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(245,166,35,0.10) 0%,transparent 70%);bottom:20%;right:20%;"></div>
 
-  <!-- Floating hearts — matches logo's scattered heart motif -->
+  <!-- Floating hearts — matches logo's scattered heart motif and navbar gradient -->
   <div class="hearts-layer" aria-hidden="true">
-    <span class="fheart" style="left:8%;bottom:15%;font-size:18px;--fdur:8s;--fdelay:0s;--fop:0.22;--frot:-12deg;--frot2:8deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:18%;bottom:5%;font-size:14px;--fdur:11s;--fdelay:1.5s;--fop:0.18;--frot:6deg;--frot2:-10deg;">&#x1F9E1;</span>
-    <span class="fheart" style="left:32%;bottom:20%;font-size:22px;--fdur:9s;--fdelay:3s;--fop:0.15;--frot:-5deg;--frot2:14deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:55%;bottom:10%;font-size:16px;--fdur:12s;--fdelay:0.8s;--fop:0.20;--frot:10deg;--frot2:-8deg;">&#x1F9E1;</span>
-    <span class="fheart" style="left:68%;bottom:25%;font-size:20px;--fdur:7.5s;--fdelay:4s;--fop:0.18;--frot:-15deg;--frot2:6deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:80%;bottom:8%;font-size:13px;--fdur:10s;--fdelay:2s;--fop:0.20;--frot:8deg;--frot2:-12deg;">&#x1F49B;</span>
-    <span class="fheart" style="left:90%;bottom:40%;font-size:18px;--fdur:8.5s;--fdelay:5s;--fop:0.15;--frot:-6deg;--frot2:10deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:5%;bottom:50%;font-size:12px;--fdur:13s;--fdelay:6s;--fop:0.18;--frot:14deg;--frot2:-5deg;">&#x1F9E1;</span>
-    <span class="fheart" style="left:45%;bottom:60%;font-size:15px;--fdur:9.5s;--fdelay:2.5s;--fop:0.12;--frot:-9deg;--frot2:7deg;">&#x1F49B;</span>
-    <span class="fheart" style="left:75%;bottom:55%;font-size:11px;--fdur:11.5s;--fdelay:7s;--fop:0.15;--frot:5deg;--frot2:-13deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:25%;bottom:70%;font-size:17px;--fdur:14s;--fdelay:3.5s;--fop:0.10;--frot:-11deg;--frot2:9deg;">&#x1F49B;</span>
-    <span class="fheart" style="left:60%;bottom:75%;font-size:13px;--fdur:10.5s;--fdelay:8s;--fop:0.12;--frot:7deg;--frot2:-6deg;">&#x2764;&#xFE0F;</span>
+    <svg style="width:0; height:0; position:absolute;">
+      <defs>
+        <linearGradient id="hero-heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="var(--gold)" />
+          <stop offset="55%" stop-color="var(--accent)" />
+          <stop offset="100%" stop-color="var(--red)" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <svg class="hero-heart" style="left:6%; --fdur:8s; --fdelay:0s; --fop:0.45; --frot:-12deg; --frot2:15deg; width:36px; height:36px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-heart" style="left:18%; --fdur:11s; --fdelay:1.5s; --fop:0.5; --frot:8deg; --frot2:-10deg; width:28px; height:28px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-heart" style="left:32%; --fdur:9s; --fdelay:3s; --fop:0.4; --frot:-6deg; --frot2:12deg; width:42px; height:42px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-heart" style="left:50%; --fdur:12s; --fdelay:0.8s; --fop:0.55; --frot:10deg; --frot2:-8deg; width:24px; height:24px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-heart" style="left:68%; --fdur:7.5s; --fdelay:4s; --fop:0.48; --frot:-14deg; --frot2:16deg; width:38px; height:38px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-heart" style="left:82%; --fdur:10s; --fdelay:2s; --fop:0.52; --frot:6deg; --frot2:-12deg; width:32px; height:32px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-heart" style="left:92%; --fdur:8.5s; --fdelay:5s; --fop:0.46; --frot:-8deg; --frot2:10deg; width:26px; height:26px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
   </div>
-  
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow">Location-based social discovery</span>
+      <span class="eyebrow">The next generation of social discovery</span>
       <h1>People. Nearby.<br><span class="em">On your wavelength.</span></h1>
       <p class="lead">Open the app. See real people around you. Tap anyone. Message or move on.</p>
       <p class="sub">No algorithm. No endless swiping. Just a live grid of real people nearby — for friends, communities, dating, activity partners or networking.</p>
@@ -1166,6 +1211,10 @@
       <form class="waitlist" id="hero-form">
         <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
         <button class="btn btn-red" type="submit">Get early access</button>
+        <div class="consent-row" style="width: 100%; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-top: 4px;">
+          <input type="checkbox" id="hero-consent" required style="accent-color: var(--red); width: 15px; height: 15px; cursor: pointer; flex: none;">
+          <label for="hero-consent" style="cursor: pointer; font-weight: 500; text-align: left;">I agree to the <a href="terms.html" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: underline;">Terms</a> and <a href="privacy.html" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: underline;">Privacy Policy</a></label>
+        </div>
         <span class="note">Be first in your city. No spam — just a launch invite.</span>
       </form>
 
@@ -1376,7 +1425,7 @@
               </div>
               
               <div class="grid-simulator" id="sim-grid-container">
-                <!-- Aarav -->
+                <!-- Row 1 -->
                 <div class="sim-card" style="background-image: url('assets/avatar_aarav.jpg');" data-category="Networking">
                   <div class="info">
                     <span class="name-age">Aarav, 24</span>
@@ -1384,7 +1433,6 @@
                     <span class="tag-pill">💼 Networking</span>
                   </div>
                 </div>
-                <!-- Priya (unlocked by default) -->
                 <div class="sim-card" id="card-priya" style="background-image: url('assets/avatar_priya.jpg');" data-category="Friends">
                   <div class="blur-overlay" style="display: none;">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
@@ -1396,7 +1444,19 @@
                     <span class="tag-pill">👋 Friends</span>
                   </div>
                 </div>
-                <!-- Rohan -->
+                <div class="sim-card locked-photo" id="card-kiran" style="background-image: url('assets/avatar_aarav.jpg'); filter: hue-rotate(120deg);" data-category="Networking">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Kiran, 31</span>
+                    <span class="details">2.2 km · 20m ago</span>
+                    <span class="tag-pill">💼 Networking</span>
+                  </div>
+                </div>
+
+                <!-- Row 2 -->
                 <div class="sim-card" style="background-image: url('assets/avatar_rohan.jpg');" data-category="Activities">
                   <div class="info">
                     <span class="name-age">Rohan, 26</span>
@@ -1404,9 +1464,8 @@
                     <span class="tag-pill">🏃 Activities</span>
                   </div>
                 </div>
-                <!-- Sana (unlocked by default) -->
-                <div class="sim-card" id="card-sana" style="background-image: url('assets/avatar_sana.jpg');" data-category="Dating">
-                  <div class="blur-overlay" style="display: none;">
+                <div class="sim-card locked-photo" id="card-sana" style="background-image: url('assets/avatar_sana.jpg');" data-category="Dating">
+                  <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
                   </div>
@@ -1416,7 +1475,15 @@
                     <span class="tag-pill">💘 Dating</span>
                   </div>
                 </div>
-                <!-- Dev -->
+                <div class="sim-card" style="background-image: url('assets/avatar_meera.jpg'); filter: hue-rotate(180deg);" data-category="Dating">
+                  <div class="info">
+                    <span class="name-age">Nisha, 22</span>
+                    <span class="details">700 m · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+
+                <!-- Row 3 -->
                 <div class="sim-card" style="background-image: url('assets/avatar_dev.jpg');" data-category="Networking">
                   <div class="info">
                     <span class="name-age">Dev, 27</span>
@@ -1424,7 +1491,6 @@
                     <span class="tag-pill">💼 Networking</span>
                   </div>
                 </div>
-                <!-- Meera (unlocked by default) -->
                 <div class="sim-card" id="card-meera" style="background-image: url('assets/avatar_meera.jpg');" data-category="Dating">
                   <div class="blur-overlay" style="display: none;">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
@@ -1436,16 +1502,32 @@
                     <span class="tag-pill">💘 Dating</span>
                   </div>
                 </div>
-                <!-- Additional 6 profiles -->
-                <div class="sim-card" style="background-image: url('assets/avatar_rohan.jpg'); filter: hue-rotate(30deg);" data-category="Activities">
+                <div class="sim-card locked-photo" id="card-rajan" style="background-image: url('assets/avatar_dev.jpg'); filter: hue-rotate(240deg);" data-category="Activities">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Rajan, 28</span>
+                    <span class="details">3.0 km · 2h ago</span>
+                    <span class="tag-pill">🏋️ Activities</span>
+                  </div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="sim-card locked-photo" id="card-arjun" style="background-image: url('assets/avatar_rohan.jpg'); filter: hue-rotate(30deg);" data-category="Activities">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
                   <div class="info">
                     <span class="name-age">Arjun, 29</span>
                     <span class="details">900 m · Active now</span>
                     <span class="tag-pill">🏸 Activities</span>
                   </div>
                 </div>
-                <div class="sim-card" style="background-image: url('assets/avatar_sana.jpg'); filter: hue-rotate(60deg);" data-category="Friends">
-                  <div class="blur-overlay" style="display: none;">
+                <div class="sim-card locked-photo" id="card-kavya" style="background-image: url('assets/avatar_sana.jpg'); filter: hue-rotate(60deg);" data-category="Friends">
+                  <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
                   </div>
@@ -1455,33 +1537,8 @@
                     <span class="tag-pill">👋 Friends</span>
                   </div>
                 </div>
-                <div class="sim-card" style="background-image: url('assets/avatar_aarav.jpg'); filter: hue-rotate(120deg);" data-category="Networking">
-                  <div class="info">
-                    <span class="name-age">Kiran, 31</span>
-                    <span class="details">2.2 km · 20m ago</span>
-                    <span class="tag-pill">💼 Networking</span>
-                  </div>
-                </div>
-                <div class="sim-card" style="background-image: url('assets/avatar_meera.jpg'); filter: hue-rotate(180deg);" data-category="Dating">
-                  <div class="blur-overlay" style="display: none;">
-                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
-                    <span class="lock-label">Locked</span>
-                  </div>
-                  <div class="info">
-                    <span class="name-age">Nisha, 22</span>
-                    <span class="details">700 m · Active now</span>
-                    <span class="tag-pill">💘 Dating</span>
-                  </div>
-                </div>
-                <div class="sim-card" style="background-image: url('assets/avatar_dev.jpg'); filter: hue-rotate(240deg);" data-category="Activities">
-                  <div class="info">
-                    <span class="name-age">Rajan, 28</span>
-                    <span class="details">3.0 km · 2h ago</span>
-                    <span class="tag-pill">🏋️ Activities</span>
-                  </div>
-                </div>
-                <div class="sim-card" style="background-image: url('assets/avatar_priya.jpg'); filter: hue-rotate(300deg);" data-category="Friends">
-                  <div class="blur-overlay" style="display: none;">
+                <div class="sim-card locked-photo" id="card-ishita" style="background-image: url('assets/avatar_priya.jpg'); filter: hue-rotate(300deg);" data-category="Friends">
+                  <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
                   </div>
@@ -1503,7 +1560,7 @@
               
               <!-- Sub Pings: Chats -->
               <div class="ping-list" id="sub-pings-chats">
-                <div class="ping-item">
+                <div class="ping-item" onclick="showToast('Loading chat... 💬')">
                   <div class="ping-avatar" style="background-image: url('assets/avatar_rohan.jpg');"></div>
                   <div class="ping-info">
                     <div class="top">
@@ -1513,7 +1570,7 @@
                     <p class="msg">Sounds good, let's meet at Cubbon at 6 AM!</p>
                   </div>
                 </div>
-                <div class="ping-item">
+                <div class="ping-item" onclick="showToast('Loading chat... 💬')">
                   <div class="ping-avatar" style="background-image: url('assets/avatar_aarav.jpg');"></div>
                   <div class="ping-info">
                     <div class="top">
@@ -1568,9 +1625,9 @@
                     <span class="meta">342 members · Bangalore</span>
                     <p class="desc">Bouldering and lead climbing group. We meet every Saturday morning at different gyms.</p>
                     <div class="circle-join-btn" onclick="toggleJoinCircle(this)">Join Circle</div>
-                    <div class="circle-post-actions" style="display:none; margin-top:10px; display:none; gap:8px; flex-direction:row;">
-                      <span style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">📝 Post</span>
-                      <span style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">💬 Chat</span>
+                    <div class="circle-post-actions" style="display:none; margin-top:10px; gap:8px; flex-direction:row;">
+                      <span onclick="openCirclePost('Saturday Climbers')" style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">📝 Post</span>
+                      <span onclick="openCircleChat('Saturday Climbers')" style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">💬 Chat</span>
                     </div>
                   </div>
                 </div>
@@ -1581,9 +1638,9 @@
                     <span class="meta">520 members · Hyderabad</span>
                     <p class="desc">Early runners on weekdays. Helping you build consistency, runners of all paces welcome.</p>
                     <div class="circle-join-btn" onclick="toggleJoinCircle(this)">Join Circle</div>
-                    <div class="circle-post-actions" style="display:none; margin-top:10px; display:none; gap:8px; flex-direction:row;">
-                      <span style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">📝 Post</span>
-                      <span style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">💬 Chat</span>
+                    <div class="circle-post-actions" style="display:none; margin-top:10px; gap:8px; flex-direction:row;">
+                      <span onclick="openCirclePost('5AM Run Club')" style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">📝 Post</span>
+                      <span onclick="openCircleChat('5AM Run Club')" style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">💬 Chat</span>
                     </div>
                   </div>
                 </div>
@@ -1594,9 +1651,9 @@
                     <span class="meta">890 members · Pune</span>
                     <p class="desc">Brainstorming, building, and talking all things tech. Coffee meetups bi-weekly.</p>
                     <div class="circle-join-btn" onclick="toggleJoinCircle(this)">Join Circle</div>
-                    <div class="circle-post-actions" style="display:none; margin-top:10px; display:none; gap:8px; flex-direction:row;">
-                      <span style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">📝 Post</span>
-                      <span style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">💬 Chat</span>
+                    <div class="circle-post-actions" style="display:none; margin-top:10px; gap:8px; flex-direction:row;">
+                      <span onclick="openCirclePost('Tech &amp; AI Founders')" style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">📝 Post</span>
+                      <span onclick="openCircleChat('Tech &amp; AI Founders')" style="font-size:10px; font-weight:800; padding:5px 12px; border-radius:99px; background:rgba(255,255,255,0.12); color:#fff; cursor:pointer;">💬 Chat</span>
                     </div>
                   </div>
                 </div>
@@ -1682,6 +1739,39 @@
             </div>
           </div>
 
+          <!-- Chat Overlay View inside Simulator -->
+          <div class="app-chat-overlay" id="sim-chat-overlay" style="display:none; position:absolute; inset:0; background:var(--maroon); z-index:30; flex-direction:column; border-radius:38px; overflow:hidden;">
+            <div class="chat-header" style="height:50px; background:rgba(0,0,0,0.3); display:flex; align-items:center; padding:0 16px; border-bottom:1px solid rgba(255,255,255,0.06); justify-content:space-between; color:#fff;">
+              <div style="display:flex; align-items:center; gap:8px; cursor:pointer;" onclick="closeSimChat()">
+                <span style="font-size:16px;">←</span>
+                <span id="chat-title-name" style="font-weight:800; font-size:13px; font-family:var(--body);">Climbers Chat</span>
+              </div>
+              <span style="font-size:11px; opacity:0.7; cursor:pointer;" onclick="closeSimChat()">Close</span>
+            </div>
+            <div class="chat-messages" id="chat-messages-container" style="flex:1; padding:12px; display:flex; flex-direction:column; gap:8px; overflow-y:auto; font-size:12px; color:#fff; max-height:calc(100% - 100px);">
+              <!-- Messages get injected here -->
+            </div>
+            <div class="chat-input-area" style="padding:8px; border-top:1px solid rgba(255,255,255,0.06); display:flex; gap:6px; background:rgba(0,0,0,0.15); align-items:center;">
+              <input type="text" id="chat-input-field" placeholder="Type a message..." style="flex:1; background:rgba(0,0,0,0.3); border:1.5px solid rgba(255,255,255,0.08); border-radius:99px; padding:6px 12px; color:#fff; font-size:11.5px; outline:none;" onkeypress="handleChatEnter(event)">
+              <button onclick="sendSimChatMessage()" style="background:var(--accent); border:none; border-radius:50%; width:28px; height:28px; color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; font-size:12px; flex:none;">→</button>
+            </div>
+          </div>
+
+          <!-- Post Overlay View inside Simulator -->
+          <div class="app-chat-overlay" id="sim-post-overlay" style="display:none; position:absolute; inset:0; background:var(--maroon); z-index:30; flex-direction:column; border-radius:38px; overflow:hidden; padding:0;">
+            <div class="chat-header" style="height:50px; background:rgba(0,0,0,0.3); display:flex; align-items:center; padding:0 16px; border-bottom:1px solid rgba(255,255,255,0.06); justify-content:space-between; color:#fff;">
+              <div style="display:flex; align-items:center; gap:8px; cursor:pointer;" onclick="closeSimPost()">
+                <span style="font-size:16px;">←</span>
+                <span id="post-title-name" style="font-weight:800; font-size:13px; font-family:var(--body);">New Post</span>
+              </div>
+              <span style="font-size:11px; opacity:0.7; cursor:pointer;" onclick="closeSimPost()">Cancel</span>
+            </div>
+            <div style="flex:1; padding:12px; display:flex; flex-direction:column; gap:10px; background:rgba(0,0,0,0.1);">
+              <textarea id="post-text-field" placeholder="What's happening nearby?" style="width:100%; height:90px; background:rgba(0,0,0,0.3); border:1.5px solid rgba(255,255,255,0.08); border-radius:12px; padding:8px; color:#fff; font-size:12px; outline:none; resize:none; font-family:var(--body);"></textarea>
+              <button onclick="publishSimPost()" class="btn btn-red" style="padding:6px 14px; font-size:11px; align-self:flex-end; border-radius:99px; margin-top:2px;">Publish</button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1728,7 +1818,7 @@
     <div>
       <span class="eyebrow">The real product</span>
       <h2>Optional photo locking,<br>not profile locks.</h2>
-      <p style="font-size: 18px; margin-top: 18px; color: var(--muted); font-weight: 500;">Everyone sees every profile card — name, age, distance, bio, interests. Users can toggle photo lock mode in privacy settings. Photos stay blurred by default, and unlock automatically for that one person, the moment you accept their chat request.</p>
+      <p style="font-size: 18px; margin-top: 18px; color: var(--muted); font-weight: 500;">Everyone sees every profile card — name, age, distance, bio, and interests. Users can toggle photo lock mode in privacy settings. Locked photos stay blurred and unlock automatically the moment you accept their chat request.</p>
       <ul class="safe-list">
         <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>No "reveal" step to learn — the unlock <em>is</em> the accept</li>
         <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>OTP phone + selfie liveness verification</li>
@@ -1752,7 +1842,59 @@
       <div class="sandbox-btn-container">
         <button class="btn btn-red sandbox-btn" id="sandbox-toggle-btn" onclick="toggleSandboxAccept()">Simulate: Accept Request</button>
       </div>
-      <p class="caption">She accepts your request → your conversation opens <b style="color:var(--ink)">and</b> your photos unlock — for that one person, in a single tap.</p>
+      <p class="caption">You accept their request → your conversation opens <b style="color:var(--ink)">and</b> photos unlock in a single tap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Circles Explained -->
+<section class="band" id="circles-explained" style="background:#fff; border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line);">
+  <div class="wrap">
+    <div class="exp-grid">
+      <div class="exp-info">
+        <span class="eyebrow" style="color:var(--accent)">Local Communities</span>
+        <h2>What are Circles?</h2>
+        <p style="font-size: 18px; margin-top: 18px; color: var(--muted); font-weight: 500;">Circles are localized, topic-specific communities built right into your neighborhood. They replace disjointed WhatsApp groups and Facebook events with unified spaces to meet real people nearby who share your exact interests.</p>
+        
+        <div style="display:flex; flex-direction:column; gap:24px; margin-top:32px;">
+          <div style="display:flex; gap:16px; align-items:flex-start;">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--accent-glow); display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:bold; flex:none;">💬</div>
+            <div>
+              <h4 style="font-family:var(--body); font-weight:800; font-size:16px; margin:0 0 4px; color:var(--ink);">Proximity Group Chats</h4>
+              <p style="font-size:14px; color:var(--muted); margin:0;">Drop into instant live chat rooms centered around activities happening within 5 km of you. No phone number sharing required.</p>
+            </div>
+          </div>
+          
+          <div style="display:flex; gap:16px; align-items:flex-start;">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--accent-glow); display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:bold; flex:none;">📝</div>
+            <div>
+              <h4 style="font-family:var(--body); font-weight:800; font-size:16px; margin:0 0 4px; color:var(--ink);">Local Post Feeds</h4>
+              <p style="font-size:14px; color:var(--muted); margin:0;">Share meetups, ask local questions, post updates, or schedule events. A clean bulletin board for your local interest group.</p>
+            </div>
+          </div>
+          
+          <div style="display:flex; gap:16px; align-items:flex-start;">
+            <div style="width:40px; height:40px; border-radius:50%; background:var(--accent-glow); display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:bold; flex:none;">👥</div>
+            <div>
+              <h4 style="font-family:var(--body); font-weight:800; font-size:16px; margin:0 0 4px; color:var(--ink);">Create Your Own</h4>
+              <p style="font-size:14px; color:var(--muted); margin:0;">Start a custom Circle for your apartment complex, local run group, college club, or favorite board game. Growing your local community is a tap away.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Visual Card Showcase -->
+      <div style="display:flex; flex-direction:column; gap:20px; align-items:center; justify-content:center;">
+        <div class="circle-card" style="width:100%; max-width:380px; box-shadow:var(--shadow); background:#FFFBF9; border:1.5px solid var(--line); border-radius:var(--radius); overflow:hidden;">
+          <div class="circle-img" style="background-image: url('assets/circle_climbing.jpg'); height:200px; background-size:cover; background-position:center;"></div>
+          <div class="circle-body" style="padding:28px;">
+            <h5 style="font-family:var(--head); font-size:22px; font-weight:900; margin:0 0 8px; color:var(--ink);">Saturday Climbers</h5>
+            <span class="meta" style="font-size:13px; color:var(--muted); font-weight:700; display:block; margin-bottom:12px;">342 members · Bangalore</span>
+            <p class="desc" style="font-size:14.5px; color:var(--muted); margin-bottom:20px; line-height:1.55;">Bouldering and lead climbing group. We meet every Saturday morning at different gyms.</p>
+            <div class="circle-join-btn" style="text-align:center; padding:12px; border-radius:99px; background:linear-gradient(135deg, var(--gold), var(--accent)); color:#fff; font-weight:bold; cursor:pointer;">Join Circle</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1761,15 +1903,7 @@
 <section class="band maroon glow-container" id="purpose">
   <div class="glow-orb" style="width:550px;height:550px;background:radial-gradient(circle,rgba(232,87,42,0.14) 0%,rgba(196,43,24,0.08) 50%,transparent 70%);bottom:-20%;right:-10%;"></div>
   <div class="glow-orb" style="width:380px;height:380px;background:radial-gradient(circle,rgba(245,166,35,0.10) 0%,transparent 70%);top:-10%;left:5%;"></div>
-  <!-- Floating hearts in the connections section -->
-  <div class="hearts-layer" aria-hidden="true">
-    <span class="fheart" style="left:6%;bottom:8%;font-size:22px;--fdur:10s;--fdelay:0s;--fop:0.20;--frot:-8deg;--frot2:12deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:20%;bottom:15%;font-size:16px;--fdur:8s;--fdelay:2s;--fop:0.18;--frot:10deg;--frot2:-6deg;">&#x1F9E1;</span>
-    <span class="fheart" style="left:40%;bottom:5%;font-size:13px;--fdur:12s;--fdelay:4s;--fop:0.14;--frot:-14deg;--frot2:8deg;">&#x1F49B;</span>
-    <span class="fheart" style="left:65%;bottom:20%;font-size:20px;--fdur:9s;--fdelay:1s;--fop:0.18;--frot:6deg;--frot2:-11deg;">&#x2764;&#xFE0F;</span>
-    <span class="fheart" style="left:82%;bottom:10%;font-size:15px;--fdur:11s;--fdelay:3s;--fop:0.16;--frot:-9deg;--frot2:14deg;">&#x1F9E1;</span>
-    <span class="fheart" style="left:92%;bottom:35%;font-size:18px;--fdur:7s;--fdelay:5s;--fop:0.14;--frot:12deg;--frot2:-8deg;">&#x1F49B;</span>
-  </div>
+
   <div class="wrap">
     <div class="sec-head center">
       <span class="eyebrow" style="color:var(--gold)">One grid. Any intent.</span>
@@ -1920,6 +2054,11 @@
               <textarea id="f-feature" name="feature" placeholder="One feature you'd love to see in Kinnred…"></textarea>
             </div>
 
+            <div class="fq" style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+              <input type="checkbox" id="cta-consent" required style="accent-color:var(--red); width:18px; height:18px; cursor:pointer; flex:none;">
+              <label for="cta-consent" style="cursor:pointer; font-size:13.5px; color:rgba(255,255,255,0.85); font-weight:500;">I agree to the <a href="terms.html" target="_blank" style="color:var(--accent); font-weight:700; text-decoration:underline;">Terms of Service</a> and <a href="privacy.html" target="_blank" style="color:var(--accent); font-weight:700; text-decoration:underline;">Privacy Policy</a></label>
+            </div>
+
             <p class="err" id="form-err"></p>
             <div class="step-actions">
               <button class="btn btn-ghost" type="button" onclick="goToStep(2)">Back</button>
@@ -2017,9 +2156,9 @@
         </div>
         <div class="footer-link-group">
           <h5>Legal</h5>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Community Guidelines</a>
+          <a href="privacy.html" target="_blank">Privacy Policy</a>
+          <a href="terms.html" target="_blank">Terms of Service</a>
+          <a href="terms.html#conduct" target="_blank">Community Guidelines</a>
         </div>
       </div>
     </div>
@@ -2197,14 +2336,16 @@
 
   // 9. Toggling Safety Lock switch in MySpace updates the Grid tab (toggles blurred overlays)
   function toggleLockSwitch(cb) {
-    var lockedCards = document.querySelectorAll('.sim-card.locked-photo, .sim-card');
-    var femaleIds = ['card-priya', 'card-sana', 'card-meera'];
+    var targetIds = ['card-priya', 'card-sana', 'card-meera', 'card-kiran', 'card-rajan', 'card-arjun', 'card-kavya', 'card-ishita'];
     
-    femaleIds.forEach(function(id) {
+    targetIds.forEach(function(id) {
       var card = document.getElementById(id);
       if (!card) return;
       
-      if (cb.checked) {
+      var defaultLocked = (id === 'card-kiran' || id === 'card-sana' || id === 'card-rajan' || id === 'card-arjun' || id === 'card-kavya' || id === 'card-ishita');
+      var shouldBeLocked = cb.checked ? true : defaultLocked;
+      
+      if (shouldBeLocked) {
         card.classList.add('locked-photo');
         var overlay = card.querySelector('.blur-overlay');
         if (overlay) overlay.style.display = 'flex';
@@ -2242,14 +2383,21 @@
     }
   }
 
-  // 11. Form Logic: Email Carry-down
   document.getElementById('hero-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    var consent = document.getElementById('hero-consent');
+    if (consent && !consent.checked) {
+      showToast("Please agree to the Terms and Privacy Policy to continue.");
+      return;
+    }
     var email = e.target.querySelector('input[type=email]').value;
     if (email) { 
       document.getElementById('f-email').value = email; 
       updatePreviewCard();
     }
+    var ctaConsent = document.getElementById('cta-consent');
+    if (ctaConsent) ctaConsent.checked = true;
+    
     document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
     setTimeout(function() { 
       document.getElementById('f-name').focus(); 
@@ -2420,6 +2568,10 @@
     document.getElementById('form-err').classList.remove('show');
 
     // Final checks
+    var consent = document.getElementById('cta-consent');
+    if (consent && !consent.checked) {
+      return showErr('Please agree to the Terms of Service and Privacy Policy to continue.', consent);
+    }
     var name = document.getElementById('f-name').value.trim();
     var email = document.getElementById('f-email').value.trim();
     var city = document.getElementById('f-city').value.trim();
@@ -2448,22 +2600,169 @@
 
     console.log('Waitlist signup completed:', data);
     
-    // Generate custom verification ID
-    var randId = Math.floor(1000 + Math.random() * 9000);
-    document.getElementById('success-id').textContent = 'WAITLIST SPOT: #' + randId;
+    var submitBtn = e.target.querySelector('button[type=submit]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Securing Spot...";
+    }
 
-    // Display success panel inside onboarding card
-    document.getElementById('cta-form').style.display = 'none';
-    document.getElementById('onb-success').style.display = 'flex';
+    fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(resData => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join the Waitlist 🚀";
+      }
+      
+      if (resData.success) {
+        var randId = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('success-id').textContent = 'WAITLIST SPOT: #' + (resData.spotNumber || randId);
 
-    // Highlight preview card as verified
-    document.getElementById('preview-lock-overlay').innerHTML = '<svg viewBox="0 0 24 24" style="fill:#3DDC84; width:16px; height:16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span style="color:#3DDC84;">Photos Secured</span>';
-    document.getElementById('my-preview-card').style.borderColor = '#3DDC84';
+        document.getElementById('cta-form').style.display = 'none';
+        document.getElementById('onb-success').style.display = 'flex';
 
-    showToast("Profile created successfully! 🎉");
+        document.getElementById('preview-lock-overlay').innerHTML = '<svg viewBox="0 0 24 24" style="fill:#3DDC84; width:16px; height:16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span style="color:#3DDC84;">Photos Secured</span>';
+        document.getElementById('my-preview-card').style.borderColor = '#3DDC84';
+
+        showToast("Profile created successfully! 🎉");
+      } else {
+        showErr(resData.message || "Failed to save submission. Please try again.");
+      }
+    })
+    .catch(() => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join the Waitlist 🚀";
+      }
+      showErr("Connection error. Is serve.js running?");
+    });
   });
 
-  // 3D hover effects removed per request to keep hover flat and stable
+  // 14. Interactive Circle Chat & Post handlers for Simulator
+  var activeCircleName = "";
+  var defaultConversations = {
+    "Saturday Climbers": [
+      { sender: "Arav", msg: "Hey guys! Anyone planning to hit the gym this Saturday?" },
+      { sender: "Rohan", msg: "Yeah, I'm heading to Equinox climbing gym around 10 AM. Join in!" },
+      { sender: "Priya", msg: "Count me in! I've been wanting to try lead climbing there." }
+    ],
+    "5AM Run Club": [
+      { sender: "Rohan", msg: "Cubbon Park run tomorrow at 5 AM. Who is joining?" },
+      { sender: "Vikram", msg: "I am in! 5k or 10k pace?" },
+      { sender: "Sana", msg: "I'll join for 5k, keeping it light." }
+    ],
+    "Tech & AI Founders": [
+      { sender: "Dev", msg: "Any founders building in generative AI?" },
+      { sender: "Arjun", msg: "Building a localized coding copilot! Coffee tomorrow?" },
+      { sender: "Kiran", msg: "I am up. Let's do Starbucks Indiranagar at 4 PM." }
+    ]
+  };
+
+  function openCircleChat(circleName) {
+    activeCircleName = circleName;
+    document.getElementById('chat-title-name').textContent = circleName;
+    
+    var container = document.getElementById('chat-messages-container');
+    container.innerHTML = "";
+    
+    // Load default history
+    var msgs = defaultConversations[circleName] || [];
+    msgs.forEach(function(m) {
+      appendChatMessage(m.sender, m.msg, m.sender === "Aanya");
+    });
+    
+    document.getElementById('sim-chat-overlay').style.display = 'flex';
+  }
+
+  function closeSimChat() {
+    document.getElementById('sim-chat-overlay').style.display = 'none';
+  }
+
+  function openCirclePost(circleName) {
+    activeCircleName = circleName;
+    document.getElementById('post-title-name').textContent = circleName + " Post";
+    document.getElementById('post-text-field').value = "";
+    document.getElementById('sim-post-overlay').style.display = 'flex';
+  }
+
+  function closeSimPost() {
+    document.getElementById('sim-post-overlay').style.display = 'none';
+  }
+
+  function publishSimPost() {
+    var txt = document.getElementById('post-text-field').value.trim();
+    if (!txt) {
+      showToast("Please enter some text first.");
+      return;
+    }
+    showToast("Post published to " + activeCircleName + "! 📝");
+    closeSimPost();
+  }
+
+  function handleChatEnter(e) {
+    if (e.key === 'Enter') {
+      sendSimChatMessage();
+    }
+  }
+
+  function sendSimChatMessage() {
+    var input = document.getElementById('chat-input-field');
+    var txt = input.value.trim();
+    if (!txt) return;
+    
+    appendChatMessage("You", txt, true);
+    input.value = "";
+    
+    // Scroll container
+    var container = document.getElementById('chat-messages-container');
+    container.scrollTop = container.scrollHeight;
+
+    // Simulate reply
+    setTimeout(function() {
+      var replies = [
+        "That sounds awesome!",
+        "Perfect, let's coordinate this.",
+        "Nice! See you there.",
+        "Thanks for sharing!",
+        "Agreed! I'll ping you directly."
+      ];
+      var randReply = replies[Math.floor(Math.random() * replies.length)];
+      appendChatMessage("Member", randReply, false);
+      container.scrollTop = container.scrollHeight;
+    }, 1200);
+  }
+
+  function appendChatMessage(sender, text, isMe) {
+    var container = document.getElementById('chat-messages-container');
+    var msgDiv = document.createElement('div');
+    msgDiv.style.display = 'flex';
+    msgDiv.style.flexDirection = 'column';
+    msgDiv.style.alignItems = isMe ? 'flex-end' : 'flex-start';
+    msgDiv.style.margin = '4px 0';
+    
+    var senderSpan = document.createElement('span');
+    senderSpan.style.fontSize = '9px';
+    senderSpan.style.opacity = '0.6';
+    senderSpan.style.marginBottom = '2px';
+    senderSpan.textContent = sender;
+    
+    var textDiv = document.createElement('div');
+    textDiv.style.padding = '8px 12px';
+    textDiv.style.borderRadius = '14px';
+    textDiv.style.background = isMe ? 'var(--accent)' : 'rgba(255,255,255,0.08)';
+    textDiv.style.color = '#fff';
+    textDiv.style.maxWidth = '80%';
+    textDiv.style.lineHeight = '1.35';
+    textDiv.textContent = text;
+    
+    msgDiv.appendChild(senderSpan);
+    msgDiv.appendChild(textDiv);
+    container.appendChild(msgDiv);
+  }
 </script>
 </body>
 </html>

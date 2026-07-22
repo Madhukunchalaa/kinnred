@@ -1,0 +1,26 @@
+{
+  "name": "kinnred-landing",
+  "version": "1.0.0",
+  "description": "People. Nearby. On your wavelength. A premium location-based social discovery landing page with an interactive app simulator and radar map.",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madhukunchalaa/kinnred.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Madhukunchalaa/kinnred/issues"
+  },
+  "homepage": "https://github.com/Madhukunchalaa/kinnred#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "mongodb": "^7.5.0"
+  }
+}
