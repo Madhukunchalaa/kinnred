@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --red: #E0250E;
@@ -159,21 +160,29 @@
       </div>
     </div>
 
+    <!-- Timeline Chart Panel -->
+    <div class="panel" style="margin-bottom: 24px;">
+      <h3>Submissions Timeline</h3>
+      <div style="position: relative; height: 250px; width: 100%;">
+        <canvas id="timelineChart"></canvas>
+      </div>
+    </div>
+
     <!-- Analytics Dashboard Layout -->
     <div class="dashboard-layout">
       <!-- Left Panel: Intent category breakdown -->
       <div class="panel">
         <h3>Category-Wise Intent Breakdown</h3>
-        <div id="intent-progress-bars">
-          <!-- Dynamically populated -->
+        <div style="position: relative; height: 260px; display: flex; align-items: center; justify-content: center;">
+          <canvas id="intentChart"></canvas>
         </div>
       </div>
 
       <!-- Right Panel: Biggest social challenges -->
       <div class="panel">
         <h3>Social Challenges Breakdown</h3>
-        <div id="challenge-progress-bars">
-          <!-- Dynamically populated -->
+        <div style="position: relative; height: 260px; display: flex; align-items: center; justify-content: center;">
+          <canvas id="challengeChart"></canvas>
         </div>
       </div>
     </div>
@@ -266,6 +275,11 @@
       });
     }
 
+    // Global chart instances
+    var intentChartInstance = null;
+    var challengeChartInstance = null;
+    var timelineChartInstance = null;
+
     // Populate UI dashboard items
     function populateDashboard(data) {
       // Total count
@@ -281,72 +295,180 @@
       var accessRate = data.length > 0 ? Math.round((earlyYes / data.length) * 100) : 0;
       document.getElementById('stat-access-rate').textContent = accessRate + '%';
 
-      // Computes Intent category breakdown
+      // Render Charts
+      renderCharts(data);
+
+      // Render Table
+      renderTableBody(data);
+    }
+
+    function renderCharts(data) {
+      // 1. Prepare Intent Breakdown Data
       var intentCounts = { 'Dating': 0, 'Friends': 0, 'Activities': 0, 'Networking': 0, 'Creative': 0 };
-      var totalIntentsCount = 0;
       data.forEach(item => {
         var lf = item.lookingFor || [];
         lf.forEach(val => {
-          var matched = false;
-          if (val.toLowerCase().includes('date')) { intentCounts['Dating']++; matched = true; }
-          if (val.toLowerCase().includes('friend')) { intentCounts['Friends']++; matched = true; }
-          if (val.toLowerCase().includes('activit')) { intentCounts['Activities']++; matched = true; }
-          if (val.toLowerCase().includes('network')) { intentCounts['Networking']++; matched = true; }
-          if (val.toLowerCase().includes('creative') || val.toLowerCase().includes('collab')) { intentCounts['Creative']++; matched = true; }
-          if (matched) totalIntentsCount++;
+          if (val.toLowerCase().includes('date')) intentCounts['Dating']++;
+          if (val.toLowerCase().includes('friend')) intentCounts['Friends']++;
+          if (val.toLowerCase().includes('activit')) intentCounts['Activities']++;
+          if (val.toLowerCase().includes('network')) intentCounts['Networking']++;
+          if (val.toLowerCase().includes('creative') || val.toLowerCase().includes('collab')) intentCounts['Creative']++;
         });
       });
 
-      var intentBars = document.getElementById('intent-progress-bars');
-      intentBars.innerHTML = '';
-      Object.keys(intentCounts).forEach(key => {
-        var count = intentCounts[key];
-        var pct = data.length > 0 ? Math.round((count / data.length) * 100) : 0;
-        intentBars.appendChild(createProgressBarMarkup(key, pct, count));
+      var intentLabels = Object.keys(intentCounts);
+      var intentValues = Object.values(intentCounts);
+
+      // Render Intent Doughnut Chart
+      var ctxIntent = document.getElementById('intentChart').getContext('2d');
+      if (intentChartInstance) {
+        intentChartInstance.destroy();
+      }
+      intentChartInstance = new Chart(ctxIntent, {
+        type: 'doughnut',
+        data: {
+          labels: intentLabels,
+          datasets: [{
+            data: intentValues,
+            backgroundColor: [
+              '#FC8A02', // gold
+              '#F55A09', // accent
+              '#E0250E', // red
+              '#F5AC94', // peach
+              '#1F0402'  // ink
+            ],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                font: { family: 'Inter', weight: 'bold', size: 12 },
+                color: '#1F0402'
+              }
+            }
+          }
+        }
       });
 
-      // Computes Challenges breakdown
+      // 2. Prepare Challenges Data
       var challengeCounts = {};
       data.forEach(item => {
         if (item.challenge) {
           challengeCounts[item.challenge] = (challengeCounts[item.challenge] || 0) + 1;
         }
       });
-      
-      var challengeBars = document.getElementById('challenge-progress-bars');
-      challengeBars.innerHTML = '';
-      Object.keys(challengeCounts).forEach(key => {
-        var count = challengeCounts[key];
-        var pct = data.length > 0 ? Math.round((count / data.length) * 100) : 0;
-        challengeBars.appendChild(createProgressBarMarkup(key, pct, count));
+
+      var challengeLabels = Object.keys(challengeCounts);
+      var challengeValues = Object.values(challengeCounts);
+
+      // Render Challenges Bar Chart
+      var ctxChallenge = document.getElementById('challengeChart').getContext('2d');
+      if (challengeChartInstance) {
+        challengeChartInstance.destroy();
+      }
+      challengeChartInstance = new Chart(ctxChallenge, {
+        type: 'bar',
+        data: {
+          labels: challengeLabels.map(l => l.length > 25 ? l.substring(0, 25) + '...' : l),
+          datasets: [{
+            label: 'Submissions',
+            data: challengeValues,
+            backgroundColor: 'rgba(224, 37, 14, 0.85)',
+            hoverBackgroundColor: '#E0250E',
+            borderRadius: 8,
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { precision: 0, color: '#1F0402', font: { family: 'Inter' } }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: '#1F0402', font: { family: 'Inter', weight: '500' } }
+            }
+          }
+        }
       });
 
-      // Render Table
-      renderTableBody(data);
-    }
+      // 3. Prepare Timeline Data (Registrations by Date)
+      var timelineCounts = {};
+      data.forEach(item => {
+        if (item.submittedAt) {
+          var date = item.submittedAt.split('T')[0]; // Format: YYYY-MM-DD
+          timelineCounts[date] = (timelineCounts[date] || 0) + 1;
+        }
+      });
 
-    function createProgressBarMarkup(label, percentage, count) {
-      var itemDiv = document.createElement('div');
-      itemDiv.className = 'prog-item';
+      // Sort dates
+      var sortedDates = Object.keys(timelineCounts).sort();
+      var timelineValues = sortedDates.map(d => timelineCounts[d]);
+
+      // Render Timeline Line/Area Chart
+      var ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+      if (timelineChartInstance) {
+        timelineChartInstance.destroy();
+      }
       
-      var infoDiv = document.createElement('div');
-      infoDiv.className = 'info';
-      infoDiv.innerHTML = '<span>' + label + ' (' + count + ')</span><span>' + percentage + '%</span>';
-      
-      var trackDiv = document.createElement('div');
-      trackDiv.className = 'prog-track';
-      
-      var fillDiv = document.createElement('div');
-      fillDiv.className = 'prog-fill';
-      
-      itemDiv.appendChild(infoDiv);
-      itemDiv.appendChild(trackDiv);
-      trackDiv.appendChild(fillDiv);
-      
-      // Delay transition to trigger animation
-      setTimeout(function() { fillDiv.style.width = percentage + '%'; }, 100);
-      
-      return itemDiv;
+      // Create subtle gradient fill
+      var gradient = ctxTimeline.createLinearGradient(0, 0, 0, 200);
+      gradient.addColorStop(0, 'rgba(245, 90, 9, 0.35)');
+      gradient.addColorStop(1, 'rgba(245, 90, 9, 0.0)');
+
+      timelineChartInstance = new Chart(ctxTimeline, {
+        type: 'line',
+        data: {
+          labels: sortedDates.map(d => {
+            var dateObj = new Date(d);
+            return dateObj.toLocaleDateString([], { month: 'short', day: 'numeric' });
+          }),
+          datasets: [{
+            label: 'Daily Signups',
+            data: timelineValues,
+            borderColor: '#F55A09',
+            borderWidth: 3,
+            fill: true,
+            backgroundColor: gradient,
+            tension: 0.35,
+            pointBackgroundColor: '#E0250E',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: '#1F0402', font: { family: 'Inter' } }
+            },
+            y: {
+              grid: { color: 'rgba(31, 4, 2, 0.05)' },
+              ticks: { precision: 0, color: '#1F0402', font: { family: 'Inter' } }
+            }
+          }
+        }
+      });
     }
 
     function renderTableBody(data) {
