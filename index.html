@@ -24,6 +24,9 @@
 <meta property="twitter:image" content="https://kinnred.app/assets/logo.png">
 
 <meta name="theme-color" content="#E0250E">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="shortcut icon" type="image/png" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
 
 <!-- Structured Schema Data (JSON-LD) for Search Engine Optimization -->
 <script type="application/ld+json">
@@ -320,7 +323,6 @@
     transform: translate(-50%, -50%) rotateX(-40deg) rotateY(5deg);
     transform-style: preserve-3d;
     padding: 8px;
-    animation: pulseCenter 2.5s infinite;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .radar-center img {
@@ -343,7 +345,7 @@
     border-radius: 50%;
     background: conic-gradient(from 0deg, rgba(233, 94, 53, 0.18) 0deg, rgba(247, 168, 35, 0.06) 60deg, transparent 120deg, transparent 360deg);
     pointer-events: none;
-    animation: radarSweepSpin 12s linear infinite;
+    transform: rotate(45deg);
     z-index: 2;
     overflow: hidden;
   }
@@ -352,7 +354,6 @@
     position: absolute;
     inset: 0;
     z-index: 5;
-    animation: radarOrbitSpin 90s linear infinite;
     transform-origin: center;
     pointer-events: none;
     transform-style: preserve-3d;
@@ -364,7 +365,6 @@
     height: 48px;
     margin-left: -24px;
     margin-top: -24px;
-    animation: radarNodeCounterSpin 90s linear infinite;
     transform-origin: center;
     pointer-events: auto;
     transform-style: preserve-3d;
@@ -544,12 +544,27 @@
     background-size: cover; background-position: center; transition: var(--transition-smooth);
     box-shadow: inset 0 -30px 30px -10px rgba(0,0,0,0.85); border: 1px solid rgba(255,255,255,0.05);
   }
+  /* Premium card gloss/reflection sheen */
+  .sim-card::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 60%);
+    z-index: 3; pointer-events: none; transition: opacity var(--transition-smooth), transform 0.5s ease;
+  }
+  .sim-card:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 -30px 30px -10px rgba(0,0,0,0.85), 0 8px 24px rgba(245, 90, 9, 0.22);
+    border-color: rgba(245, 90, 9, 0.3);
+  }
+  .sim-card:hover::after {
+    transform: scale(1.05) translate(4px, 4px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 60%);
+  }
   .sim-card::before {
     content: ""; position: absolute; inset: 0; background: rgba(29, 5, 9, 0.4);
     opacity: 0; transition: opacity var(--transition-fast);
   }
   .sim-card:hover::before { opacity: 1; }
-  .sim-card .info { position: relative; z-index: 3; }
+  .sim-card .info { position: relative; z-index: 4; }
   .sim-card .name-age { font-size: 10.5px; font-weight: 800; display: flex; align-items: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sim-card .details { font-size: 7.5px; color: rgba(255,255,255,0.75); font-weight: 600; display: block; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sim-card .tag-pill {
@@ -720,28 +735,166 @@
   /* Accent eyebrow color override in dark sections */
   .band.ink .eyebrow, .band.maroon .eyebrow { filter: brightness(1.3); }
 
-  /* ---- Compare Section ---- */
-  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative; z-index: 2; }
-  @media(max-width:760px) { .compare { grid-template-columns: 1fr; } }
-  .compare-col { border-radius: var(--radius); padding: 40px; border: 1px solid var(--line); background: #fff; transition: var(--transition-smooth); }
-  .compare-col:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-  .compare-col.them h3 { color: var(--muted); }
-  /* Kinnred column: full logo gradient */
+  /* Unique Premium Compare Section Design */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    position: relative;
+    z-index: 2;
+    margin-top: 48px;
+  }
+  @media(max-width:760px) {
+    .compare { grid-template-columns: 1fr; gap: 24px; }
+  }
+  
+  .compare-col {
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  }
+  
+  /* Swipe Card (The old way) */
+  .compare-col.them {
+    background: #FAF6F4;
+    border: 2px solid rgba(31, 4, 2, 0.04);
+    box-shadow: 0 10px 30px rgba(31, 4, 2, 0.02);
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-col.them::before {
+    content: "THE OLD MODEL";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: rgba(31, 4, 2, 0.35);
+    background: rgba(31, 4, 2, 0.05);
+    padding: 4px 10px;
+    border-radius: 99px;
+  }
+
+  /* Kinnred Card (The premium new way) */
   .compare-col.us {
-    background: linear-gradient(145deg, var(--gold) 0%, var(--accent) 50%, var(--red) 100%);
-    color: #fff; border-color: transparent; box-shadow: var(--shadow-premium);
+    background: linear-gradient(135deg, #1F0402 0%, #3a0b07 100%);
+    border: 2px solid rgba(245, 90, 9, 0.25);
+    color: #fff;
+    box-shadow: var(--shadow-premium), inset 0 0 40px rgba(245, 90, 9, 0.08);
+    position: relative;
+    overflow: hidden;
   }
-  .compare-col h3 { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px; }
-  .compare-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
-  .compare-col li { display: flex; gap: 16px; padding-bottom: 16px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--line); }
-  .compare-col.us li { border-bottom-color: rgba(255, 255, 255, 0.12); }
-  .compare-col li:last-child { border-bottom: none; padding-bottom: 0; }
-  .compare-col li .ic {
-    flex: none; font-size: 18px; width: 24px; height: 24px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-weight: 800;
+  .compare-col.us::before {
+    content: "THE KINNRED MODEL";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #3DDC84;
+    background: rgba(61, 220, 132, 0.12);
+    padding: 4px 10px;
+    border-radius: 99px;
   }
-  .compare-col.them .ic { background: rgba(14,2,4,0.05); color: var(--muted); }
-  .compare-col.us .ic { background: rgba(255,255,255,0.18); color: #fff; }
+  
+  /* Inner glowing orb in Kinnred column */
+  .compare-col.us .glow-spot {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 90, 9, 0.15) 0%, transparent 70%);
+    bottom: -80px;
+    right: -80px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .compare-col:hover {
+    transform: translateY(-4px);
+  }
+  .compare-col.them:hover {
+    border-color: rgba(31, 4, 2, 0.08);
+    box-shadow: 0 15px 40px rgba(31, 4, 2, 0.05);
+  }
+  .compare-col.us:hover {
+    border-color: rgba(245, 90, 9, 0.45);
+    box-shadow: 0 30px 70px -15px rgba(245, 90, 9, 0.35), inset 0 0 40px rgba(245, 90, 9, 0.12);
+  }
+
+  .compare-col h3 {
+    font-family: var(--head);
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 28px;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 2;
+    text-transform: none;
+  }
+  .compare-col.them h3 {
+    color: var(--ink);
+  }
+  .compare-col.us h3 {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .compare-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .compare-col li {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 15.5px;
+    font-weight: 600;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(31, 4, 2, 0.05);
+  }
+  .compare-col.us li {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .compare-col li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* Beautiful SVG Icon Holders */
+  .compare-col li .ic-svg {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+  .compare-col.them li .ic-svg {
+    background: rgba(224, 37, 14, 0.08);
+    color: #E0250E;
+  }
+  .compare-col.us li .ic-svg {
+    background: rgba(61, 220, 132, 0.12);
+    color: #3DDC84;
+    box-shadow: 0 0 12px rgba(61, 220, 132, 0.15);
+  }
+  .compare-col li:hover .ic-svg {
+    transform: scale(1.12);
+  }
 
   /* ---- Pillars ---- */
   .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; z-index: 2; }
@@ -1203,20 +1356,14 @@
   </div>
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow">The next generation of social discovery</span>
+      <span class="eyebrow">The Next generation of social discovery</span>
       <h1>People. Nearby.<br><span class="em">On your wavelength.</span></h1>
       <p class="lead">Open the app. See real people around you. Tap anyone. Message or move on.</p>
       <p class="sub">No algorithm. No endless swiping. Just a live grid of real people nearby — for friends, communities, dating, activity partners or networking.</p>
 
-      <form class="waitlist" id="hero-form">
-        <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
-        <button class="btn btn-red" type="submit">Get early access</button>
-        <div class="consent-row" style="width: 100%; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-top: 4px;">
-          <input type="checkbox" id="hero-consent" required style="accent-color: var(--red); width: 15px; height: 15px; cursor: pointer; flex: none;">
-          <label for="hero-consent" style="cursor: pointer; font-weight: 500; text-align: left;">I agree to the <a href="terms.html" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: underline;">Terms</a> and <a href="privacy.html" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: underline;">Privacy Policy</a></label>
-        </div>
-        <span class="note">Be first in your city. No spam — just a launch invite.</span>
-      </form>
+      <div style="margin: 24px 0 32px; display: flex; flex-direction: column; gap: 8px;">
+        <a class="btn btn-red" href="#waitlist" style="font-size: 16.5px; padding: 16px 36px; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: fit-content; text-align: center; box-shadow: 0 12px 32px rgba(224, 37, 14, 0.35); text-decoration: none;">Get Started</a>
+      </div>
 
       <div class="badges">
         <span class="badge"><span class="dot"></span>Photos locked, not profiles</span>
@@ -1332,21 +1479,22 @@
       <div class="compare-col them">
         <h3>Swipe apps</h3>
         <ul>
-          <li><span class="ic">✕</span>One profile at a time</li>
-          <li><span class="ic">✕</span>An algorithm decides who you see</li>
-          <li><span class="ic">✕</span>You must match before you can message</li>
-          <li><span class="ic">✕</span>Dating only</li>
-          <li><span class="ic">✕</span>"Matched with 50, talked to 2"</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M18 6L6 18M6 6l12 12"/></svg></span>One profile at a time</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M18 6L6 18M6 6l12 12"/></svg></span>An algorithm decides who you see</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M18 6L6 18M6 6l12 12"/></svg></span>You must match before you can message</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M18 6L6 18M6 6l12 12"/></svg></span>Dating only</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M18 6L6 18M6 6l12 12"/></svg></span>"Matched with 50, talked to 2"</li>
         </ul>
       </div>
-      <div class="compare-col us tilt-3d">
-        <h3 class="pop-3d">Kinnred</h3>
-        <ul class="pop-3d">
-          <li><span class="ic">✓</span>Real people nearby, in a grid</li>
-          <li><span class="ic">✓</span>You browse freely — no algorithm</li>
-          <li><span class="ic">✓</span>Tap → view → decide for yourself</li>
-          <li><span class="ic">✓</span>Dating + friends + activities + networking</li>
-          <li><span class="ic">✓</span>One icebreaker to start — no ghost-piles</li>
+      <div class="compare-col us">
+        <div class="glow-spot"></div>
+        <h3>Kinnred</h3>
+        <ul>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M20 6L9 17l-5-5"/></svg></span>Real people nearby, in a grid</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M20 6L9 17l-5-5"/></svg></span>You browse freely — no algorithm</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M20 6L9 17l-5-5"/></svg></span>Tap → view → decide for yourself</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M20 6L9 17l-5-5"/></svg></span>Dating + friends + activities + networking</li>
+          <li><span class="ic-svg"><svg viewBox="0 0 24 24" style="width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:3; stroke-linecap:round;"><path d="M20 6L9 17l-5-5"/></svg></span>One icebreaker to start — no ghost-piles</li>
         </ul>
       </div>
     </div>
@@ -1396,8 +1544,8 @@
     <!-- Phone Simulator -->
     <div class="phone-stage">
       <div class="phone-glow"></div>
-      <div class="phone-wrapper tilt-3d">
-        <div class="phone-screen pop-3d">
+      <div class="phone-wrapper">
+        <div class="phone-screen">
           <div class="phone-island"></div>
           <div class="phone-status-bar">
             <span class="time" id="sim-time">09:41</span>
@@ -1426,6 +1574,7 @@
               
               <div class="grid-simulator" id="sim-grid-container">
                 <!-- Row 1 -->
+                <!-- Aarav -->
                 <div class="sim-card" style="background-image: url('assets/avatar_aarav.jpg');" data-category="Networking">
                   <div class="info">
                     <span class="name-age">Aarav, 24</span>
@@ -1433,6 +1582,29 @@
                     <span class="tag-pill">💼 Networking</span>
                   </div>
                 </div>
+                <!-- Sana (Locked) -->
+                <div class="sim-card locked-photo" id="card-sana" style="background-image: url('assets/avatar_sana.jpg');" data-category="Dating">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Sana, 25</span>
+                    <span class="details">2.1 km · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+                <!-- Dev -->
+                <div class="sim-card" style="background-image: url('assets/avatar_dev.jpg');" data-category="Networking">
+                  <div class="info">
+                    <span class="name-age">Dev, 27</span>
+                    <span class="details">2.5 km · 1h ago</span>
+                    <span class="tag-pill">💼 Networking</span>
+                  </div>
+                </div>
+
+                <!-- Row 2 -->
+                <!-- Priya (Unlocked) -->
                 <div class="sim-card" id="card-priya" style="background-image: url('assets/avatar_priya.jpg');" data-category="Friends">
                   <div class="blur-overlay" style="display: none;">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
@@ -1444,6 +1616,53 @@
                     <span class="tag-pill">👋 Friends</span>
                   </div>
                 </div>
+                <!-- Rohan -->
+                <div class="sim-card" style="background-image: url('assets/avatar_rohan.jpg');" data-category="Activities">
+                  <div class="info">
+                    <span class="name-age">Rohan, 26</span>
+                    <span class="details">1.8 km · Active now</span>
+                    <span class="tag-pill">🏃 Activities</span>
+                  </div>
+                </div>
+                <!-- Kavya (Locked) -->
+                <div class="sim-card locked-photo" id="card-kavya" style="background-image: url('assets/avatar_sana.jpg'); filter: hue-rotate(60deg);" data-category="Friends">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Kavya, 24</span>
+                    <span class="details">1.5 km · 5m ago</span>
+                    <span class="tag-pill">👋 Friends</span>
+                  </div>
+                </div>
+
+                <!-- Row 3 -->
+                <!-- Rajan (Locked) -->
+                <div class="sim-card locked-photo" id="card-rajan" style="background-image: url('assets/avatar_dev.jpg'); filter: hue-rotate(240deg);" data-category="Activities">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Rajan, 28</span>
+                    <span class="details">3.0 km · 2h ago</span>
+                    <span class="tag-pill">🏋️ Activities</span>
+                  </div>
+                </div>
+                <!-- Meera -->
+                <div class="sim-card" id="card-meera" style="background-image: url('assets/avatar_meera.jpg');" data-category="Dating">
+                  <div class="blur-overlay" style="display: none;">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Meera, 22</span>
+                    <span class="details">800 m · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+                <!-- Kiran (Locked) -->
                 <div class="sim-card locked-photo" id="card-kiran" style="background-image: url('assets/avatar_aarav.jpg'); filter: hue-rotate(120deg);" data-category="Networking">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
@@ -1456,65 +1675,20 @@
                   </div>
                 </div>
 
-                <!-- Row 2 -->
-                <div class="sim-card" style="background-image: url('assets/avatar_rohan.jpg');" data-category="Activities">
-                  <div class="info">
-                    <span class="name-age">Rohan, 26</span>
-                    <span class="details">1.8 km · Active now</span>
-                    <span class="tag-pill">🏃 Activities</span>
-                  </div>
-                </div>
-                <div class="sim-card locked-photo" id="card-sana" style="background-image: url('assets/avatar_sana.jpg');" data-category="Dating">
-                  <div class="blur-overlay">
-                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
-                    <span class="lock-label">Locked</span>
-                  </div>
-                  <div class="info">
-                    <span class="name-age">Sana, 25</span>
-                    <span class="details">2.1 km · Active now</span>
-                    <span class="tag-pill">💘 Dating</span>
-                  </div>
-                </div>
-                <div class="sim-card" style="background-image: url('assets/avatar_meera.jpg'); filter: hue-rotate(180deg);" data-category="Dating">
-                  <div class="info">
-                    <span class="name-age">Nisha, 22</span>
-                    <span class="details">700 m · Active now</span>
-                    <span class="tag-pill">💘 Dating</span>
-                  </div>
-                </div>
-
-                <!-- Row 3 -->
-                <div class="sim-card" style="background-image: url('assets/avatar_dev.jpg');" data-category="Networking">
-                  <div class="info">
-                    <span class="name-age">Dev, 27</span>
-                    <span class="details">2.5 km · 1h ago</span>
-                    <span class="tag-pill">💼 Networking</span>
-                  </div>
-                </div>
-                <div class="sim-card" id="card-meera" style="background-image: url('assets/avatar_meera.jpg');" data-category="Dating">
-                  <div class="blur-overlay" style="display: none;">
-                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
-                    <span class="lock-label">Locked</span>
-                  </div>
-                  <div class="info">
-                    <span class="name-age">Meera, 22</span>
-                    <span class="details">800 m · Active now</span>
-                    <span class="tag-pill">💘 Dating</span>
-                  </div>
-                </div>
-                <div class="sim-card locked-photo" id="card-rajan" style="background-image: url('assets/avatar_dev.jpg'); filter: hue-rotate(240deg);" data-category="Activities">
-                  <div class="blur-overlay">
-                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
-                    <span class="lock-label">Locked</span>
-                  </div>
-                  <div class="info">
-                    <span class="name-age">Rajan, 28</span>
-                    <span class="details">3.0 km · 2h ago</span>
-                    <span class="tag-pill">🏋️ Activities</span>
-                  </div>
-                </div>
-
                 <!-- Row 4 -->
+                <!-- Ishita (Locked) -->
+                <div class="sim-card locked-photo" id="card-ishita" style="background-image: url('assets/avatar_priya.jpg'); filter: hue-rotate(300deg);" data-category="Friends">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Ishita, 25</span>
+                    <span class="details">1.1 km · Active now</span>
+                    <span class="tag-pill">👋 Friends</span>
+                  </div>
+                </div>
+                <!-- Arjun (Locked) -->
                 <div class="sim-card locked-photo" id="card-arjun" style="background-image: url('assets/avatar_rohan.jpg'); filter: hue-rotate(30deg);" data-category="Activities">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
@@ -1526,26 +1700,12 @@
                     <span class="tag-pill">🏸 Activities</span>
                   </div>
                 </div>
-                <div class="sim-card locked-photo" id="card-kavya" style="background-image: url('assets/avatar_sana.jpg'); filter: hue-rotate(60deg);" data-category="Friends">
-                  <div class="blur-overlay">
-                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
-                    <span class="lock-label">Locked</span>
-                  </div>
+                <!-- Nisha -->
+                <div class="sim-card" style="background-image: url('assets/avatar_meera.jpg'); filter: hue-rotate(180deg);" data-category="Dating">
                   <div class="info">
-                    <span class="name-age">Kavya, 24</span>
-                    <span class="details">1.5 km · 5m ago</span>
-                    <span class="tag-pill">👋 Friends</span>
-                  </div>
-                </div>
-                <div class="sim-card locked-photo" id="card-ishita" style="background-image: url('assets/avatar_priya.jpg'); filter: hue-rotate(300deg);" data-category="Friends">
-                  <div class="blur-overlay">
-                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
-                    <span class="lock-label">Locked</span>
-                  </div>
-                  <div class="info">
-                    <span class="name-age">Ishita, 25</span>
-                    <span class="details">1.1 km · Active now</span>
-                    <span class="tag-pill">👋 Friends</span>
+                    <span class="name-age">Nisha, 22</span>
+                    <span class="details">700 m · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
                   </div>
                 </div>
               </div>
@@ -1742,11 +1902,14 @@
           <!-- Chat Overlay View inside Simulator -->
           <div class="app-chat-overlay" id="sim-chat-overlay" style="display:none; position:absolute; inset:0; background:var(--maroon); z-index:30; flex-direction:column; border-radius:38px; overflow:hidden;">
             <div class="chat-header" style="height:50px; background:rgba(0,0,0,0.3); display:flex; align-items:center; padding:0 16px; border-bottom:1px solid rgba(255,255,255,0.06); justify-content:space-between; color:#fff;">
-              <div style="display:flex; align-items:center; gap:8px; cursor:pointer;" onclick="closeSimChat()">
+              <div style="display:flex; align-items:center; gap:6px; cursor:pointer;" onclick="closeSimChat()">
                 <span style="font-size:16px;">←</span>
-                <span id="chat-title-name" style="font-weight:800; font-size:13px; font-family:var(--body);">Climbers Chat</span>
+                <span id="chat-title-name" style="font-weight:800; font-size:12px; font-family:var(--body); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:110px;">Climbers Chat</span>
               </div>
-              <span style="font-size:11px; opacity:0.7; cursor:pointer;" onclick="closeSimChat()">Close</span>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:10.5px; opacity:0.8; cursor:pointer; background:rgba(255,255,255,0.12); padding:3px 8px; border-radius:12px;" onclick="copyCircleLink('chat')">🔗 Share</span>
+                <span style="font-size:11px; opacity:0.7; cursor:pointer;" onclick="closeSimChat()">Close</span>
+              </div>
             </div>
             <div class="chat-messages" id="chat-messages-container" style="flex:1; padding:12px; display:flex; flex-direction:column; gap:8px; overflow-y:auto; font-size:12px; color:#fff; max-height:calc(100% - 100px);">
               <!-- Messages get injected here -->
@@ -1760,11 +1923,14 @@
           <!-- Post Overlay View inside Simulator -->
           <div class="app-chat-overlay" id="sim-post-overlay" style="display:none; position:absolute; inset:0; background:var(--maroon); z-index:30; flex-direction:column; border-radius:38px; overflow:hidden; padding:0;">
             <div class="chat-header" style="height:50px; background:rgba(0,0,0,0.3); display:flex; align-items:center; padding:0 16px; border-bottom:1px solid rgba(255,255,255,0.06); justify-content:space-between; color:#fff;">
-              <div style="display:flex; align-items:center; gap:8px; cursor:pointer;" onclick="closeSimPost()">
+              <div style="display:flex; align-items:center; gap:6px; cursor:pointer;" onclick="closeSimPost()">
                 <span style="font-size:16px;">←</span>
-                <span id="post-title-name" style="font-weight:800; font-size:13px; font-family:var(--body);">New Post</span>
+                <span id="post-title-name" style="font-weight:800; font-size:12px; font-family:var(--body); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:110px;">New Post</span>
               </div>
-              <span style="font-size:11px; opacity:0.7; cursor:pointer;" onclick="closeSimPost()">Cancel</span>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:10.5px; opacity:0.8; cursor:pointer; background:rgba(255,255,255,0.12); padding:3px 8px; border-radius:12px;" onclick="copyCircleLink('post')">🔗 Share</span>
+                <span style="font-size:11px; opacity:0.7; cursor:pointer;" onclick="closeSimPost()">Cancel</span>
+              </div>
             </div>
             <div style="flex:1; padding:12px; display:flex; flex-direction:column; gap:10px; background:rgba(0,0,0,0.1);">
               <textarea id="post-text-field" placeholder="What's happening nearby?" style="width:100%; height:90px; background:rgba(0,0,0,0.3); border:1.5px solid rgba(255,255,255,0.08); border-radius:12px; padding:8px; color:#fff; font-size:12px; outline:none; resize:none; font-family:var(--body);"></textarea>
@@ -1788,25 +1954,25 @@
       <h2>Built around how people<br>actually meet.</h2>
     </div>
     <div class="pillars">
-      <div class="pillar tilt-3d">
-        <div class="pi pop-3d"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
-        <h3 class="pop-3d">Grid</h3>
-        <p class="pop-3d">A live matrix of real people within 2.5 km — filter by age, distance, who's online now and what they're here for.</p>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <h3>Grid</h3>
+        <p>A live matrix of real people within 2.5 km — filter by age, distance, who's online now and what they're here for.</p>
       </div>
-      <div class="pillar tilt-3d">
-        <div class="pi pop-3d"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        <h3 class="pop-3d">Pings</h3>
-        <p class="pop-3d">No free-texting strangers. Every conversation starts with a single icebreaker the other person has to accept.</p>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Pings</h3>
+        <p>No free-texting strangers. Every conversation starts with a single icebreaker the other person has to accept.</p>
       </div>
-      <div class="pillar tilt-3d">
-        <div class="pi pop-3d"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20a5.5 5.5 0 0111 0M15 20a4.5 4.5 0 016 0"/></svg></div>
-        <h3 class="pop-3d">Circles</h3>
-        <p class="pop-3d">Nearby and topic-based communities across 20 categories — from Tech &amp; AI to Sports — each with its own QR to share.</p>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3.5 20a5.5 5.5 0 0111 0M15 20a4.5 4.5 0 016 0"/></svg></div>
+        <h3>Circles</h3>
+        <p>Nearby and topic-based communities across 20 categories — from Tech &amp; AI to Sports — each with its own QR to share.</p>
       </div>
-      <div class="pillar tilt-3d">
-        <div class="pi pop-3d"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg></div>
-        <h3 class="pop-3d">MySpace</h3>
-        <p class="pop-3d">Your profile as a canvas — photo carousel, interests, "I'm here for" preferences, and a full privacy panel you control.</p>
+      <div class="pillar">
+        <div class="pi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg></div>
+        <h3>MySpace</h3>
+        <p>Your profile as a canvas — photo carousel, interests, "I'm here for" preferences, and a full privacy panel you control.</p>
       </div>
     </div>
   </div>
@@ -2062,7 +2228,7 @@
             <p class="err" id="form-err"></p>
             <div class="step-actions">
               <button class="btn btn-ghost" type="button" onclick="goToStep(2)">Back</button>
-              <button class="btn btn-red" type="submit">Join the Waitlist 🚀</button>
+              <button class="btn btn-red" type="submit">Get early access</button>
             </div>
           </div>
 
@@ -2083,8 +2249,8 @@
         <div class="profile-preview-title">
           <span class="pulse"></span> Live Profile Card Preview
         </div>
-        <div class="preview-card tilt-3d" id="my-preview-card">
-          <div class="preview-photo-block pop-3d">
+        <div class="preview-card" id="my-preview-card">
+          <div class="preview-photo-block">
             <div class="preview-photo-bg" id="preview-photo" style="background-image: url('assets/avatar_priya.jpg');"></div>
             <div class="preview-photo-lock" id="preview-lock-overlay">
               <svg><use href="#lock"/></svg>
@@ -2383,27 +2549,6 @@
     }
   }
 
-  document.getElementById('hero-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var consent = document.getElementById('hero-consent');
-    if (consent && !consent.checked) {
-      showToast("Please agree to the Terms and Privacy Policy to continue.");
-      return;
-    }
-    var email = e.target.querySelector('input[type=email]').value;
-    if (email) { 
-      document.getElementById('f-email').value = email; 
-      updatePreviewCard();
-    }
-    var ctaConsent = document.getElementById('cta-consent');
-    if (ctaConsent) ctaConsent.checked = true;
-    
-    document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(function() { 
-      document.getElementById('f-name').focus(); 
-      goToStep(1);
-    }, 600);
-  });
 
   // 12. Form Checkbox Select Limits
   document.querySelectorAll('.fq[data-max]').forEach(function(group) {
@@ -2615,7 +2760,7 @@
     .then(resData => {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Join the Waitlist 🚀";
+        submitBtn.textContent = "Get early access";
       }
       
       if (resData.success) {
@@ -2636,7 +2781,7 @@
     .catch(() => {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Join the Waitlist 🚀";
+        submitBtn.textContent = "Get early access";
       }
       showErr("Connection error. Is serve.js running?");
     });
@@ -2662,6 +2807,35 @@
     ]
   };
 
+  function updateSimulatorUrl(circleName, view) {
+    var url = new URL(window.location);
+    if (circleName && view) {
+      url.searchParams.set('circle', circleName);
+      url.searchParams.set('view', view);
+    } else {
+      url.searchParams.delete('circle');
+      url.searchParams.delete('view');
+    }
+    window.history.pushState({}, '', url);
+  }
+
+  function copyCircleLink(view) {
+    if (!activeCircleName) return;
+    var link = window.location.origin + window.location.pathname + "?circle=" + encodeURIComponent(activeCircleName) + "&view=" + view;
+    navigator.clipboard.writeText(link).then(function() {
+      showToast("Link copied to clipboard! 🔗");
+    }).catch(function() {
+      // Fallback
+      var tempInput = document.createElement("input");
+      tempInput.value = link;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      showToast("Link copied! 🔗");
+    });
+  }
+
   function openCircleChat(circleName) {
     activeCircleName = circleName;
     document.getElementById('chat-title-name').textContent = circleName;
@@ -2676,10 +2850,12 @@
     });
     
     document.getElementById('sim-chat-overlay').style.display = 'flex';
+    updateSimulatorUrl(circleName, 'chat');
   }
 
   function closeSimChat() {
     document.getElementById('sim-chat-overlay').style.display = 'none';
+    updateSimulatorUrl(null, null);
   }
 
   function openCirclePost(circleName) {
@@ -2687,10 +2863,12 @@
     document.getElementById('post-title-name').textContent = circleName + " Post";
     document.getElementById('post-text-field').value = "";
     document.getElementById('sim-post-overlay').style.display = 'flex';
+    updateSimulatorUrl(circleName, 'post');
   }
 
   function closeSimPost() {
     document.getElementById('sim-post-overlay').style.display = 'none';
+    updateSimulatorUrl(null, null);
   }
 
   function publishSimPost() {
@@ -2763,6 +2941,43 @@
     msgDiv.appendChild(textDiv);
     container.appendChild(msgDiv);
   }
+
+  function initializeDeepLink() {
+    var params = new URLSearchParams(window.location.search);
+    var circle = params.get('circle');
+    var view = params.get('view');
+    
+    if (circle && (view === 'chat' || view === 'post')) {
+      // Switch to Circles tab
+      var circlesBtn = document.getElementById('tab-btn-circles');
+      if (circlesBtn) {
+        switchSimTab('circles', circlesBtn);
+      }
+      
+      // Find circle card and mark as joined/active
+      var cards = document.querySelectorAll('.circle-card');
+      cards.forEach(function(card) {
+        var title = card.querySelector('h5');
+        if (title && title.textContent.trim() === circle.trim()) {
+          var joinBtn = card.querySelector('.circle-join-btn');
+          var actions = card.querySelector('.circle-post-actions');
+          if (joinBtn && actions) {
+            joinBtn.style.display = 'none';
+            actions.style.display = 'flex';
+          }
+        }
+      });
+      
+      // Open overlay
+      if (view === 'chat') {
+        openCircleChat(circle);
+      } else if (view === 'post') {
+        openCirclePost(circle);
+      }
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', initializeDeepLink);
 </script>
 </body>
 </html>
