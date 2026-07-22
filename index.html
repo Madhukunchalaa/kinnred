@@ -1074,18 +1074,7 @@
     color: var(--red);
   }
 
-  /* ---- 3D Parallax & Premium Animation Effects ---- */
-  .tilt-3d {
-    transform-style: preserve-3d !important;
-    perspective: 1000px !important;
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease !important;
-    will-change: transform;
-  }
-  .pop-3d {
-    transform-style: preserve-3d !important;
-    transform: translateZ(0px);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
+
 
   /* Upgrade floating hearts to dynamic 3D swirling keyframe path */
   @keyframes heartFloat {
@@ -2461,98 +2450,7 @@
     showToast("Profile created successfully! 🎉");
   });
 
-  // 14. 3D Parallax Tilt Effect for tilt-3d elements
-  document.querySelectorAll('.tilt-3d').forEach(function(el) {
-    el.style.transformStyle = 'preserve-3d';
-    
-    // Ensure all children marked as pop-3d have dynamic transition & transform properties
-    el.querySelectorAll('.pop-3d').forEach(function(child) {
-      child.style.transform = 'translateZ(0px)';
-      child.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-    });
-
-    el.addEventListener('mousemove', function(e) {
-      var rect = el.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      var xc = rect.width / 2;
-      var yc = rect.height / 2;
-      var dx = (x - xc) / xc; // -1 to 1
-      var dy = (y - yc) / yc; // -1 to 1
-
-      // Scale down transform on smaller screens or specific elements
-      var maxTilt = el.classList.contains('phone-wrapper') ? 8 : 12;
-      var rotateY = dx * maxTilt;
-      var rotateX = -dy * maxTilt;
-
-      el.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
-      
-      el.querySelectorAll('.pop-3d').forEach(function(child) {
-        child.style.transform = 'translateZ(25px)';
-      });
-    });
-
-    el.addEventListener('mouseleave', function() {
-      el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-      el.querySelectorAll('.pop-3d').forEach(function(child) {
-        child.style.transform = 'translateZ(0px)';
-      });
-    });
-  });
-
-  // 15. Dynamic Interactive 3D Radar scanning tilt effect
-  var radarContainer = document.querySelector('.radar-container');
-  var radarStage = document.querySelector('.radar-stage');
-  if (radarContainer && radarStage) {
-    radarStage.addEventListener('mousemove', function(e) {
-      var rect = radarStage.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      var xc = rect.width / 2;
-      var yc = rect.height / 2;
-      var dx = (x - xc) / xc;
-      var dy = (y - yc) / yc;
-
-      // Base: rotateX(40deg) rotateY(-5deg)
-      var targetX = 40 + (dy * -12); // tilt X up/down
-      var targetY = -5 + (dx * 12);  // tilt Y left/right
-
-      radarContainer.style.transform = 'perspective(1200px) rotateX(' + targetX + 'deg) rotateY(' + targetY + 'deg)';
-      
-      // Calculate counter angles so center node and avatar billboard nodes remain upright
-      var counterX = -targetX;
-      var counterY = -targetY;
-
-      var centerNode = radarContainer.querySelector('.radar-center');
-      if (centerNode) {
-        centerNode.style.transform = 'translate(-50%, -50%) rotateX(' + counterX + 'deg) rotateY(' + counterY + 'deg)';
-      }
-
-      radarContainer.querySelectorAll('.radar-node-wrapper').forEach(function(node) {
-        var innerNode = node.querySelector('.radar-node');
-        if (innerNode) {
-          innerNode.style.transform = 'rotateX(' + counterX + 'deg) rotateY(' + counterY + 'deg)';
-        }
-      });
-    });
-
-    radarStage.addEventListener('mouseleave', function() {
-      // Return to baseline
-      radarContainer.style.transform = 'perspective(1200px) rotateX(40deg) rotateY(-5deg)';
-      
-      var centerNode = radarContainer.querySelector('.radar-center');
-      if (centerNode) {
-        centerNode.style.transform = 'translate(-50%, -50%) rotateX(-40deg) rotateY(5deg)';
-      }
-
-      radarContainer.querySelectorAll('.radar-node-wrapper').forEach(function(node) {
-        var innerNode = node.querySelector('.radar-node');
-        if (innerNode) {
-          innerNode.style.transform = 'rotateX(-40deg) rotateY(5deg)';
-        }
-      });
-    });
-  }
+  // 3D hover effects removed per request to keep hover flat and stable
 </script>
 </body>
 </html>
