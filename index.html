@@ -172,31 +172,31 @@
     box-shadow: 0 8px 32px rgba(245, 90, 9, 0.15);
     transition: transform var(--transition-smooth);
   }
-  .nav { display: flex; align-items: center; justify-content: space-between; height: 110px; }
-  .brand { display: flex; align-items: center; gap: 12px; }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
   /* --- Brand Mark: transparent white logo sitting directly on gradient header --- */
   .brand .mark {
-    width: 90px; height: 90px; border-radius: 0;
+    width: 44px; height: 44px; border-radius: 0;
     display: flex; align-items: center; justify-content: center;
     background: transparent; box-shadow: none; overflow: visible;
     padding: 0;
     transition: var(--transition-fast);
   }
   .brand .mark img {
-    width: 90px; height: 90px;
+    width: 44px; height: 44px;
     object-fit: contain;
     display: block;
   }
   /* Footer logo: kept on a small gradient card since footer has plain dark background */
   .footer-brand-col .brand .mark {
-    width: 48px; height: 48px; border-radius: 12px;
+    width: 44px; height: 44px; border-radius: 12px;
     background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
     box-shadow: 0 6px 16px -4px rgba(245, 90, 9, 0.4);
     padding: 6px;
   }
   .footer-brand-col .brand .mark img { width: 100%; height: 100%; }
   .brand:hover .mark { transform: rotate(-4deg) scale(1.08); }
-  .brand .name { font-family: var(--body); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: #fff; }
+  .brand .name { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #fff; }
   
   .nav-links { display: flex; align-items: center; gap: 32px; }
   .nav-links a.link { font-weight: 700; font-size: 15px; color: rgba(255, 255, 255, 0.85); position: relative; padding: 6px 0; }
@@ -2153,6 +2153,15 @@
               </div>
             </div>
 
+            <div class="fq">
+              <label class="q">4. Select your gender</label>
+              <div class="radios row">
+                <label class="rad"><input type="radio" name="gender" value="Male" onchange="updatePreviewCard()"><span>Male</span></label>
+                <label class="rad"><input type="radio" name="gender" value="Female" onchange="updatePreviewCard()" checked><span>Female</span></label>
+                <label class="rad"><input type="radio" name="gender" value="Other" onchange="updatePreviewCard()"><span>Other</span></label>
+              </div>
+            </div>
+
             <div class="step-actions">
               <button class="btn btn-red" type="button" onclick="goToStep(2)">Continue to Vibe ➔</button>
             </div>
@@ -2161,7 +2170,7 @@
           <!-- Step 2: Vibe & Interests -->
           <div class="step-panel" id="step-panel-2">
             <div class="fq" data-max="3" data-group="lookingfor">
-              <label class="q">4. What are you here for? <span class="hint">Select up to 3</span></label>
+              <label class="q">5. What are you here for? <span class="hint">Select up to 3</span></label>
               <div class="chips">
                 <label class="chip"><input type="checkbox" name="lookingfor" value="Friends" onchange="updatePreviewCard()"><span>👥 Friends</span></label>
                 <label class="chip"><input type="checkbox" name="lookingfor" value="Dating" onchange="updatePreviewCard()"><span>❤️ Dating</span></label>
@@ -2172,7 +2181,7 @@
             </div>
 
             <div class="fq" data-max="5" data-group="interests">
-              <label class="q">5. Select your interests <span class="hint">Select up to 5</span></label>
+              <label class="q">6. Select your interests <span class="hint">Select up to 5</span></label>
               <div class="chips">
                 <label class="chip"><input type="checkbox" name="interests" value="Fitness" onchange="updatePreviewCard()"><span>Fitness</span></label>
                 <label class="chip"><input type="checkbox" name="interests" value="Travel" onchange="updatePreviewCard()"><span>Travel</span></label>
@@ -2198,7 +2207,7 @@
           <!-- Step 3: Preferences & Submit -->
           <div class="step-panel" id="step-panel-3">
             <div class="fq">
-              <label class="q">6. What's your biggest social challenge today?</label>
+              <label class="q">7. What's your biggest social challenge today?</label>
               <div class="radios">
                 <label class="rad"><input type="radio" name="challenge" value="Making new friends" checked><span>Making new friends</span></label>
                 <label class="rad"><input type="radio" name="challenge" value="Finding genuine relationships"><span>Finding genuine relationships</span></label>
@@ -2208,7 +2217,7 @@
             </div>
 
             <div class="fq">
-              <label class="q">7. Select early access level</label>
+              <label class="q">8. Select early access level</label>
               <div class="radios row">
                 <label class="rad"><input type="radio" name="earlyaccess" value="Yes" checked><span>Yes 🚀</span></label>
                 <label class="rad"><input type="radio" name="earlyaccess" value="Notify me at launch"><span>Notify at launch</span></label>
@@ -2632,6 +2641,20 @@
     var name = document.getElementById('f-name').value.trim();
     var city = document.getElementById('f-city').value.trim();
     
+    // Update Photo based on selected gender
+    var genderChecked = document.querySelector('input[name=gender]:checked');
+    var photoBg = document.getElementById('preview-photo');
+    if (genderChecked && photoBg) {
+      var genderVal = genderChecked.value;
+      if (genderVal === 'Male') {
+        photoBg.style.backgroundImage = "url('assets/avatar_aarav.jpg')";
+      } else if (genderVal === 'Female') {
+        photoBg.style.backgroundImage = "url('assets/avatar_priya.jpg')";
+      } else {
+        photoBg.style.backgroundImage = "url('assets/avatar_meera.jpg')";
+      }
+    }
+
     // Update Name & Age
     var namePreview = document.getElementById('preview-name');
     var tickPreview = document.getElementById('preview-tick');
@@ -2735,6 +2758,7 @@
       name: name,
       email: email,
       city: city,
+      gender: document.querySelector('input[name=gender]:checked').value,
       lookingFor: lookingfor,
       interests: Array.from(document.querySelectorAll('input[name=interests]:checked')).map(function(i) { return i.value; }),
       challenge: challengeEl.value,
