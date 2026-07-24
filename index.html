@@ -2555,18 +2555,10 @@
 
           <!-- Step 3: Preferences & Submit -->
           <div class="step-panel" id="step-panel-3">
-            <div class="fq">
-              <label class="q">7. What's your biggest social challenge today?</label>
-              <div class="radios">
-                <label class="rad"><input type="radio" name="challenge" value="Making new friends" checked><span>Making new friends</span></label>
-                <label class="rad"><input type="radio" name="challenge" value="Finding genuine relationships"><span>Finding genuine relationships</span></label>
-                <label class="rad"><input type="radio" name="challenge" value="Meeting people with similar interests"><span>Meeting people with similar interests</span></label>
-                <label class="rad"><input type="radio" name="challenge" value="Networking in a new city"><span>Networking in a new city</span></label>
-              </div>
-            </div>
+
 
             <div class="fq">
-              <label class="q">8. Select early access level</label>
+              <label class="q">7. Select early access level</label>
               <div class="radios row">
                 <label class="rad"><input type="radio" name="earlyaccess" value="Yes" checked><span>Yes 🚀</span></label>
                 <label class="rad"><input type="radio" name="earlyaccess" value="Notify me at launch"><span>Notify at launch</span></label>
@@ -3100,8 +3092,7 @@
     var lookingfor = Array.from(document.querySelectorAll('input[name=lookingfor]:checked')).map(function(i) { return i.value; });
     if (lookingfor.length === 0) { return showErr('Pick at least one thing you’re looking for.'); }
 
-    var challengeEl = document.querySelector('input[name=challenge]:checked');
-    if (!challengeEl) { return showErr('Please select your biggest challenge.'); }
+
 
     var data = {
       name: name,
@@ -3110,7 +3101,7 @@
       gender: document.querySelector('input[name=gender]:checked').value,
       lookingFor: lookingfor,
       interests: Array.from(document.querySelectorAll('input[name=interests]:checked')).map(function(i) { return i.value; }),
-      challenge: challengeEl.value,
+
       earlyAccess: document.querySelector('input[name=earlyaccess]:checked').value,
       featureIdea: document.getElementById('f-feature').value.trim(),
       submittedAt: new Date().toISOString()
