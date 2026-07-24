@@ -6,7 +6,7 @@
   <title>Kinnred Admin Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
@@ -17,12 +17,12 @@
       --peach: #F5AC94;
       --cream: #FFFBF9;
       --ink: #1F0402;
-      --muted: rgba(31, 4, 2, 0.55);
+      --muted: rgba(31, 4, 2, 0.68);
       --line: rgba(31, 4, 2, 0.08);
       --radius: 24px;
       --radius-sm: 12px;
-      --head: 'Fraunces', Georgia, serif;
-      --body: 'Inter', system-ui, sans-serif;
+      --head: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --body: 'Inter', system-ui, -apple-system, sans-serif;
     }
     * { box-sizing: border-box; }
     body {
@@ -34,15 +34,22 @@
     
     /* Header */
     header {
-      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
-      padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
+      background: rgba(255, 251, 249, 0.88);
+      padding: 16px 0; border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 30px rgba(31, 4, 2, 0.03);
+      color: var(--ink);
     }
     .header-content { display: flex; align-items: center; justify-content: space-between; }
-    .brand { font-family: var(--head); font-weight: 800; font-size: 24px; display: flex; align-items: center; gap: 8px; }
-    .brand img { height: 40px; }
-    .logout-btn { background: rgba(255,255,255,0.15); border: none; padding: 8px 16px; border-radius: 99px; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    .logout-btn:hover { background: rgba(255,255,255,0.25); }
+    .brand { font-family: var(--body); font-weight: 700; font-size: 20px; display: flex; align-items: center; gap: 10px; color: var(--ink); }
+    .brand img {
+      height: 40px; width: 40px; border-radius: 10px;
+      object-fit: cover;
+    }
+    .logout-btn {
+      background: #fff; border: 1.5px solid var(--line); padding: 8px 16px;
+      border-radius: 99px; color: var(--ink); font-weight: bold; cursor: pointer; transition: 0.2s;
+    }
+    .logout-btn:hover { background: rgba(31, 4, 2, 0.03); border-color: var(--muted); color: var(--red); }
 
     /* Login Screen */
     #login-overlay {
@@ -136,7 +143,7 @@
   <header>
     <div class="wrap header-content">
       <div class="brand">
-        <img src="assets/logo.png" alt="Kinnred">
+        <img src="assets/newlogo.jpeg" alt="Kinnred">
         <span>Kinnred Analytics Dashboard</span>
       </div>
       <button class="logout-btn" onclick="logoutAdmin()">Logout</button>

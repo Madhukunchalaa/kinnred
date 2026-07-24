@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="assets/newlogo.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --red: #E0250E;
@@ -21,11 +21,12 @@
       --accent-glow: rgba(245, 90, 9, 0.16);
       --cream: #FFFBF9;
       --ink: #1F0402;
-      --muted: rgba(31, 4, 2, 0.55);
+      --muted: rgba(31, 4, 2, 0.68);
       --line: rgba(31, 4, 2, 0.08);
       --radius: 24px;
-      --head: 'Fraunces', Georgia, serif;
-      --body: 'Inter', system-ui, sans-serif;
+      --head: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --body: 'Inter', system-ui, -apple-system, sans-serif;
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     * { box-sizing: border-box; }
     body {
@@ -34,14 +35,19 @@
       padding: 0;
     }
     header {
-      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
-      padding: 24px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 251, 249, 0.88);
+      padding: 16px 0; border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 30px rgba(31, 4, 2, 0.03);
     }
     .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
     .header-content { display: flex; align-items: center; justify-content: space-between; }
-    .brand { font-family: var(--head); font-weight: 800; font-size: 24px; color: #fff; display: flex; align-items: center; gap: 8px; }
-    .brand img { height: 40px; object-fit: contain; }
-    .back-link { color: #fff; font-weight: 700; font-size: 14px; text-decoration: underline; }
+    .brand { font-family: var(--body); font-weight: 700; font-size: 20px; color: var(--ink); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand img {
+      height: 40px; width: 40px; border-radius: 10px;
+      object-fit: cover;
+    }
+    .back-link { color: var(--ink); font-weight: 700; font-size: 14.5px; text-decoration: none; transition: var(--transition-fast); }
+    .back-link:hover { color: var(--red); }
     
     .content-card {
       background: #fff; border: 1.5px solid var(--line); border-radius: var(--radius);
@@ -53,8 +59,8 @@
     h1 { font-family: var(--head); font-size: clamp(32px, 5vw, 48px); font-weight: 900; margin: 0 0 8px; line-height: 1.1; }
     .last-updated { font-size: 14px; color: var(--muted); margin-bottom: 32px; display: block; font-weight: 600; }
     h2 { font-family: var(--head); font-size: 24px; font-weight: 800; margin: 32px 0 16px; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
-    p { margin: 0 0 16px; color: rgba(31, 4, 2, 0.8); }
-    ul { margin: 0 0 24px; padding-left: 20px; color: rgba(31, 4, 2, 0.8); }
+    p { margin: 0 0 16px; color: rgba(31, 4, 2, 0.85); }
+    ul { margin: 0 0 24px; padding-left: 20px; color: rgba(31, 4, 2, 0.85); }
     li { margin-bottom: 8px; }
     
     footer {
@@ -68,7 +74,7 @@
   <header>
     <div class="container header-content">
       <a href="index.html" class="brand">
-        <img src="assets/logo.png" alt="Kinnred">
+        <img src="assets/newlogo.jpeg" alt="Kinnred">
         <span>Kinnred</span>
       </a>
       <a href="index.html" class="back-link">Back to Home</a>
