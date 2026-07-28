@@ -1927,7 +1927,7 @@
   /* ---- Full-Screen Brand Intro Preloader ---- */
   #intro-screen {
     position: fixed; inset: 0; z-index: 9999;
-    background: linear-gradient(135deg, #E0250E 0%, #F55A09 50%, #F5A623 100%);
+    background: linear-gradient(135deg, #F51A36 0%, #FF4D00 50%, #FF8800 100%);
     display: flex; align-items: center; justify-content: center;
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
     overflow: hidden;
@@ -1939,36 +1939,16 @@
   }
   .intro-content {
     position: relative; z-index: 2;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center;
-    transform: scale(0.95); opacity: 0;
-    animation: introFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    display: flex; align-items: center; justify-content: center;
+    animation: introStarPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
-  @keyframes introFadeIn {
-    to { transform: scale(1); opacity: 1; }
+  .intro-star-svg {
+    width: 110px; height: 110px;
+    filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.15));
   }
-  .intro-logo-container {
-    position: relative; width: 110px; height: 110px;
-    margin-bottom: 20px;
-  }
-  .intro-logo {
-    width: 100%; height: 100%; object-fit: cover;
-    border-radius: 26px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-    animation: introLogoPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-  @keyframes introLogoPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.06); }
-  }
-  .intro-brand-name {
-    font-family: var(--head); font-weight: 900; font-size: 34px;
-    color: #FFFFFF; margin-bottom: 8px;
-    letter-spacing: -0.02em;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.15);
-  }
-  .intro-subtitle {
-    font-size: 15px; color: rgba(255, 255, 255, 0.9); font-weight: 600;
+  @keyframes introStarPulse {
+    0%, 100% { transform: scale(1); opacity: 0.95; }
+    50% { transform: scale(1.08); opacity: 1; }
   }
   #intro-waves-canvas {
     position: absolute; inset: 0; z-index: 1;
@@ -2588,11 +2568,9 @@
 <!-- Full-Screen Brand Intro Loader -->
 <div id="intro-screen">
   <div class="intro-content">
-    <div class="intro-logo-container">
-      <img src="assets/newlogo.jpeg" alt="Kinnred logo" class="intro-logo">
-    </div>
-    <h2 class="intro-brand-name">Kinnred</h2>
-    <p class="intro-subtitle">Finding people on your wavelength...</p>
+    <svg viewBox="0 0 100 100" class="intro-star-svg" aria-label="Kinnred logo">
+      <path d="M50 10 C52 35 65 48 90 50 C65 52 52 65 50 90 C48 65 35 52 10 50 C35 48 48 35 50 10 Z" fill="#FFFFFF"/>
+    </svg>
   </div>
 </div>
 
