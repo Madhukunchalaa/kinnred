@@ -571,6 +571,77 @@
     .theme-toggle-pill {
       transform: scale(0.85);
     }
+  /* Waitlist Metrics Display */
+  .waitlist-metrics-bar {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .metrics-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 36px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.5px solid rgba(245, 90, 9, 0.25);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px -8px rgba(245, 90, 9, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .metrics-badge:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 14px 36px -6px rgba(245, 90, 9, 0.35);
+  }
+  .metrics-pulse {
+    width: 10px;
+    height: 10px;
+    background: #00E676;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #00E676;
+    animation: livePulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes livePulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(0, 230, 118, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+  }
+  .metrics-count {
+    font-family: var(--head);
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+  }
+  .metrics-label {
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: -0.01em;
+  }
+  @media(max-width: 600px) {
+    .metrics-badge {
+      padding: 12px 22px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .metrics-count {
+      font-size: 26px;
+    }
+    .metrics-label {
+      font-size: 15px;
+    }
   }
 
   /* ---- Hero ---- */
@@ -3188,6 +3259,16 @@
       </div>
 
     </div>
+
+    <!-- Waitlist Counter Metrics Display -->
+    <div class="waitlist-metrics-bar">
+      <div class="metrics-badge">
+        <span class="metrics-pulse"></span>
+        <span class="metrics-count">500+</span>
+        <span class="metrics-label">People joined the waitlist</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
