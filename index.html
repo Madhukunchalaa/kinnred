@@ -530,29 +530,18 @@
   }
 
   /* ---- Hero ---- */
-  .hero { position: relative; padding: 80px 0 100px; overflow: hidden; }
-  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
-  @media(max-width:960px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
-    .hero-grid .radar-stage-redesign { order: -1; height: 420px; }
-    .hero-grid .waitlist { justify-content: flex-start; margin-left: 0; margin-right: 0; }
-    .hero-grid .badges { justify-content: flex-start; }
-    .hero .sub { margin-left: 0; margin-right: 0; }
-    .waitlist .note { text-align: left; }
-  }
-  @media(max-width: 560px) {
-    .hero-grid .radar-stage-redesign { height: 320px; }
-  }
-  .hero h1 { font-size: clamp(44px, 5.5vw, 72px); font-weight: 900; line-height: 1.1; margin-top: 16px; }
+  .hero { position: relative; padding: 100px 0 100px; overflow: hidden; text-align: center; }
+  .hero-grid { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+  .hero-content-centered { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .hero h1 { font-size: clamp(44px, 5.5vw, 72px); font-weight: 900; line-height: 1.1; margin-top: 16px; text-align: center; }
   /* Gradient text matching the logo K icon: gold top → orange mid → red bottom */
   .hero h1 .em {
     background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
     position: relative; display: inline-block; padding-bottom: 0.08em;
   }
-  .hero .lead { font-size: clamp(20px, 2.4vw, 24px); color: var(--ink); margin: 28px 0 12px; font-weight: 600; line-height: 1.3; }
-  .hero .sub { font-size: 16.5px; color: var(--muted); max-width: 48ch; margin: 0 auto 32px; }
-  @media(min-width:961px) { .hero .sub { margin-left: 0; } }
+  .hero .lead { font-size: clamp(20px, 2.4vw, 24px); color: var(--ink); margin: 24px 0 12px; font-weight: 600; line-height: 1.3; text-align: center; }
+  .hero .sub { font-size: 16.5px; color: var(--muted); max-width: 60ch; margin: 0 auto 32px; text-align: center; }
 
   .waitlist { display: flex; gap: 12px; max-width: 480px; flex-wrap: wrap; position: relative; z-index: 10; }
   .waitlist input {
@@ -2472,113 +2461,21 @@
     <svg class="hero-heart" style="left:92%; --fdur:8.5s; --fdelay:5s; --fop:0.46; --frot:-8deg; --frot2:10deg; width:26px; height:26px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
   </div>
   <div class="wrap hero-grid">
-    <div>
+    <div class="hero-content-centered">
       <span class="eyebrow">The Next generation of social discovery</span>
       <h1>People. Nearby.<br><span class="em">On your wavelength.</span></h1>
       <p class="lead">Open the app. See real people around you. Tap anyone. Message or move on.</p>
       <p class="sub">No algorithm. No endless swiping. Just a live grid of real people nearby — for friends, communities, dating, activity partners or networking.</p>
 
-      <div style="margin: 24px 0 32px; display: flex; flex-direction: column; gap: 8px;">
-        <a class="btn btn-red" href="#waitlist" style="font-size: 16.5px; padding: 16px 36px; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; justify-content: center; width: fit-content; text-align: center; box-shadow: 0 12px 32px rgba(224, 37, 14, 0.35); text-decoration: none;">Get Started</a>
+      <div style="margin: 12px 0 32px; display: flex; justify-content: center;">
+        <a class="btn btn-red" href="#waitlist" style="font-size: 16.5px; padding: 16px 40px; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; justify-content: center; box-shadow: 0 12px 32px rgba(224, 37, 14, 0.35); text-decoration: none;">Get Started</a>
       </div>
 
-      <div class="badges">
+      <div class="badges" style="justify-content: center;">
         <span class="badge"><span class="dot"></span>Photos locked, not profiles</span>
         <span class="badge"><span class="dot"></span>OTP + selfie verified</span>
         <span class="badge"><span class="dot"></span>Approximate distance only</span>
         <span class="badge"><span class="dot"></span>Screenshot protection</span>
-      </div>
-    </div>
-
-    <!-- New Unique Hero Banner Showcase -->
-    <div class="hero-banner-new">
-      <div class="hero-aura-glow"></div>
-
-      <!-- Floating Badge Top Left -->
-      <div class="hero-float-card card-top-left">
-        <div class="icon-box">🛡️</div>
-        <div class="card-text">
-          <strong>Photo-Lock Active</strong>
-          <span>Distance approx · 800m</span>
-        </div>
-      </div>
-
-      <!-- Floating Card Top Right -->
-      <div class="hero-float-card card-top-right">
-        <div class="user-avatar" style="background-image: url('assets/avatar_aarav.jpg');">
-          <span class="live-dot"></span>
-        </div>
-        <div class="card-text">
-          <strong>Aarav, 24</strong>
-          <span>"Coffee in Indiranagar?"</span>
-        </div>
-      </div>
-
-      <!-- Central Mobile App Mockup Frame -->
-      <div class="hero-phone-frame">
-        <div class="phone-inner">
-          <div class="phone-dynamic-island"></div>
-          <div class="phone-header-mini">
-            <span class="pulse-indicator"></span>
-            <span class="header-title">Grid · Nearby Now</span>
-          </div>
-
-          <!-- Category Filter Pills inside Mockup -->
-          <div class="hero-filter-row">
-            <span class="hero-chip active">All</span>
-            <span class="hero-chip">Dating</span>
-            <span class="hero-chip">Friends</span>
-            <span class="hero-chip">Activities</span>
-          </div>
-
-          <!-- Live Cards Grid inside Mockup -->
-          <div class="hero-card-matrix">
-            <div class="hero-mini-card" style="background-image: url('assets/avatar_aarav.jpg');">
-              <div class="card-overlay">
-                <span class="c-name">Aarav, 24</span>
-                <span class="c-tag">💼 Network</span>
-              </div>
-            </div>
-            <div class="hero-mini-card locked" style="background-image: url('assets/avatar_sana.jpg');">
-              <div class="lock-shield">🔒</div>
-              <div class="card-overlay">
-                <span class="c-name">Sana, 25</span>
-                <span class="c-tag">💘 Dating</span>
-              </div>
-            </div>
-            <div class="hero-mini-card" style="background-image: url('assets/avatar_dev.jpg');">
-              <div class="card-overlay">
-                <span class="c-name">Dev, 27</span>
-                <span class="c-tag">💼 Network</span>
-              </div>
-            </div>
-            <div class="hero-mini-card locked" style="background-image: url('assets/avatar_priya.jpg');">
-              <div class="lock-shield">🔒</div>
-              <div class="card-overlay">
-                <span class="c-name">Priya, 23</span>
-                <span class="c-tag">🤝 Friends</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Floating Card Bottom Left -->
-      <div class="hero-float-card card-bottom-left">
-        <div class="radar-ping-icon">📡</div>
-        <div class="card-text">
-          <strong>14 People Nearby</strong>
-          <span>On your wavelength</span>
-        </div>
-      </div>
-
-      <!-- Floating Badge Bottom Right -->
-      <div class="hero-float-card card-bottom-right">
-        <div class="icon-box-accent">⚡</div>
-        <div class="card-text">
-          <strong>1-Tap Icebreaker</strong>
-          <span>Single ping to connect</span>
-        </div>
       </div>
     </div>
   </div>
