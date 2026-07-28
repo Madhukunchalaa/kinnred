@@ -1940,18 +1940,23 @@
   .intro-content {
     position: relative; z-index: 2;
     display: flex; align-items: center; justify-content: center;
-    animation: introStarPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
-  .intro-star-svg {
+  .intro-app-icon {
     width: 140px; height: 140px;
-    filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.15));
+    border-radius: 32px;
+    object-fit: cover;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+    animation: introIconPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
   @media(max-width: 600px) {
-    .intro-star-svg { width: 105px; height: 105px; }
+    .intro-app-icon {
+      width: 105px; height: 105px;
+      border-radius: 24px;
+    }
   }
-  @keyframes introStarPulse {
-    0%, 100% { transform: scale(1); opacity: 0.96; }
-    50% { transform: scale(1.06); opacity: 1; }
+  @keyframes introIconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
   }
   #intro-waves-canvas {
     position: absolute; inset: 0; z-index: 1;
@@ -2571,9 +2576,7 @@
 <!-- Full-Screen Brand Intro Loader -->
 <div id="intro-screen">
   <div class="intro-content">
-    <svg viewBox="0 0 100 100" class="intro-star-svg" aria-label="Kinnred logo">
-      <path d="M 54,8 C 53,24 64,36 86,40 C 64,48 54,64 46,92 C 45,74 34,60 14,54 C 36,46 45,30 54,8 Z" fill="#FFFFFF"/>
-    </svg>
+    <img src="assets/newlogo.jpeg" alt="Kinnred logo" class="intro-app-icon">
   </div>
 </div>
 
