@@ -1927,7 +1927,7 @@
   /* ---- Full-Screen Brand Intro Preloader ---- */
   #intro-screen {
     position: fixed; inset: 0; z-index: 9999;
-    background: linear-gradient(145deg, #F51A36 0%, #FF4D00 50%, #FF8800 100%);
+    background: linear-gradient(135deg, #F51A36 0%, #FF4D00 50%, #FF8800 100%);
     display: flex; align-items: center; justify-content: center;
     transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
     overflow: hidden;
@@ -1941,22 +1941,20 @@
     position: relative; z-index: 2;
     display: flex; align-items: center; justify-content: center;
   }
-  .intro-app-icon {
-    width: 140px; height: 140px;
-    border-radius: 32px;
-    object-fit: cover;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
-    animation: introIconPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  .intro-spark-logo {
+    width: 140px; height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
+    animation: introSparkPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
   @media(max-width: 600px) {
-    .intro-app-icon {
-      width: 105px; height: 105px;
-      border-radius: 24px;
+    .intro-spark-logo {
+      width: 105px;
     }
   }
-  @keyframes introIconPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+  @keyframes introSparkPulse {
+    0%, 100% { transform: scale(1); opacity: 0.96; }
+    50% { transform: scale(1.06); opacity: 1; }
   }
   #intro-waves-canvas {
     position: absolute; inset: 0; z-index: 1;
@@ -2576,7 +2574,7 @@
 <!-- Full-Screen Brand Intro Loader -->
 <div id="intro-screen">
   <div class="intro-content">
-    <img src="assets/newlogo.jpeg" alt="Kinnred logo" class="intro-app-icon">
+    <img src="assets/splash-logo.png" alt="Kinnred logo" class="intro-spark-logo">
   </div>
 </div>
 
