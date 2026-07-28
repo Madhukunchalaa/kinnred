@@ -674,19 +674,19 @@
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 36px;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 14px 32px;
+    background: #FFFFFF;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1.5px solid rgba(245, 90, 9, 0.25);
     border-radius: 999px;
-    box-shadow: 0 10px 30px -8px rgba(245, 90, 9, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px -8px rgba(245, 90, 9, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.8);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   }
   .metrics-badge:hover {
     transform: translateY(-2px);
     border-color: var(--accent);
-    box-shadow: 0 14px 36px -6px rgba(245, 90, 9, 0.35);
+    box-shadow: 0 14px 36px -6px rgba(245, 90, 9, 0.28);
   }
   .metrics-pulse {
     width: 10px;
@@ -705,7 +705,7 @@
   .metrics-count {
     font-family: var(--head);
     font-weight: 900;
-    font-size: 32px;
+    font-size: 30px;
     line-height: 1;
     background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
     -webkit-background-clip: text;
@@ -716,9 +716,17 @@
   .metrics-label {
     font-family: var(--body);
     font-weight: 700;
-    font-size: 17px;
-    color: rgba(255, 255, 255, 0.95);
+    font-size: 16px;
+    color: var(--ink);
     letter-spacing: -0.01em;
+  }
+  body.dark-theme .metrics-badge {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(245, 90, 9, 0.3) !important;
+    box-shadow: 0 10px 30px -8px rgba(245, 90, 9, 0.3) !important;
+  }
+  body.dark-theme .metrics-label {
+    color: #FFFFFF !important;
   }
   @media(max-width: 600px) {
     .metrics-badge {
@@ -731,7 +739,7 @@
       font-size: 26px;
     }
     .metrics-label {
-      font-size: 15px;
+      font-size: 14.5px;
     }
   }
 
