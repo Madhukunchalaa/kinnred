@@ -4083,6 +4083,12 @@
         document.getElementById('cta-form').style.display = 'none';
         document.getElementById('onb-success').style.display = 'flex';
 
+        // Bump the badge immediately. spotNumber is 1001 + the pre-insert count,
+        // so the new total is spotNumber - 1000.
+        if (resData.spotNumber) {
+          renderWaitlistCount(resData.spotNumber - 1000);
+        }
+
         showToast("Profile created successfully! 🎉");
       } else {
         showErr(resData.message || "Failed to save submission. Please try again.");
@@ -4652,6 +4658,25 @@
   // STICKY PREMIUM-OFFER DOCK
   // Appears once past the hero; hides at the form (the CTA is redundant there)
   // ==========================================
+  // ==========================================
+  // LIVE WAITLIST COUNT
+  // Displayed number = WAITLIST_BASE + real signups, so the first joiner shows 501.
+  // The hardcoded 500 in the markup stays as the fallback if the fetch fails.
+  // ==========================================
+  var WAITLIST_BASE = 500;
+
+  window.renderWaitlistCount = function(count) {
+    var el = document.querySelector('.metrics-count');
+    if (el && typeof count === 'number' && !isNaN(count)) {
+      el.textContent = WAITLIST_BASE + count;
+    }
+  };
+
+  fetch('/api/waitlist/count')
+    .then(function(r) { return r.json(); })
+    .then(function(d) { if (d && d.success) renderWaitlistCount(d.count); })
+    .catch(function() { /* keep the fallback already in the markup */ });
+
   (function initPromoDock() {
     var dock = document.getElementById('promo-dock');
     var waitlist = document.getElementById('waitlist');

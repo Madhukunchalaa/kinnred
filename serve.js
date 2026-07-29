@@ -110,6 +110,26 @@ http.createServer(async (req, res) => {
     return;
   }
 
+  // API Route: Public waitlist count (count only — never exposes joiner details)
+  if (method === 'GET' && url === '/api/waitlist/count') {
+    try {
+      let count;
+      if (db) {
+        count = await db.collection('waitlist').countDocuments();
+      } else {
+        const fileContent = fs.readFileSync(LOCAL_DB_PATH, 'utf8');
+        count = JSON.parse(fileContent || '[]').length;
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=30' });
+      res.end(JSON.stringify({ success: true, count }));
+    } catch (err) {
+      console.error('Waitlist count error:', err.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, message: 'Could not read count.' }));
+    }
+    return;
+  }
+
   // API Route: Admin Authentication Login
   if (method === 'POST' && url === '/api/admin/login') {
     try {
