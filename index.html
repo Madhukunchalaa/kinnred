@@ -211,14 +211,6 @@
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   }
-  .eyebrow::before {
-    content: "";
-    width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none;
-    background: linear-gradient(135deg, var(--gold), var(--accent));
-    -webkit-text-fill-color: unset;
-    box-shadow: 0 0 6px rgba(232,87,42,0.6);
-    animation: pulseDot 2s infinite;
-  }
 
   /* Glow Effects */
   .glow-container { position: relative; }
@@ -226,17 +218,27 @@
     position: absolute; border-radius: 50%; filter: blur(110px); z-index: 0; opacity: 0.7; pointer-events: none;
   }
 
-  /* ======= FLOATING HEARTS & PEOPLE ORBITS ======= */
-  .hearts-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
-  .hero-heart {
+  /* ======= FLOATING SPARKS & PEOPLE ORBITS ======= */
+  .sparks-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+  .hero-spark {
     position: absolute; bottom: -60px; opacity: 0;
-    animation: heartFly var(--fdur, 9s) var(--fdelay, 0s) linear infinite;
+    animation: sparkFly var(--fdur, 9s) var(--fdelay, 0s) linear infinite;
+    filter: drop-shadow(0 0 8px rgba(245, 166, 35, 0.65));
   }
-  @keyframes heartFly {
-    0%   { transform: translateY(0) rotate(var(--frot, -12deg)); opacity: 0; }
-    15%  { opacity: var(--fop, 0.45); }
-    85%  { opacity: var(--fop, 0.45); }
-    100% { transform: translateY(-750px) rotate(var(--frot2, 18deg)); opacity: 0; }
+  /* Narrow screens can't carry the full field — thin it out */
+  @media(max-width: 560px) {
+    .hero-spark:nth-child(2n) { display: none; }
+  }
+  /* Rises while spinning; opacity dips between stops so each spark twinkles */
+  @keyframes sparkFly {
+    0%   { transform: translateY(0) rotate(var(--frot, 0deg)) scale(0.35); opacity: 0; }
+    12%  { opacity: var(--fop, 0.5); }
+    26%  { transform: translateY(-200px) rotate(110deg) scale(1); opacity: 0.12; }
+    40%  { opacity: var(--fop, 0.5); }
+    58%  { transform: translateY(-440px) rotate(230deg) scale(0.72); opacity: 0.1; }
+    72%  { opacity: var(--fop, 0.5); }
+    88%  { opacity: 0.15; }
+    100% { transform: translateY(-750px) rotate(var(--frot2, 340deg)) scale(0.3); opacity: 0; }
   }
   /* Orbit ring — like the ellipse around the K in the logo */
   .orbit-ring {
@@ -282,7 +284,9 @@
   }
   .footer-brand-col .brand .mark img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
   .brand .name { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: var(--ink); }
-  
+  /* Header wordmark is set in all caps — needs positive tracking to breathe */
+  header .brand .name { font-weight: 800; letter-spacing: 0.06em; }
+
   .nav-links { display: flex; align-items: center; gap: 32px; }
   .nav-links a.link { font-weight: 700; font-size: 15px; color: var(--ink); opacity: 0.85; position: relative; padding: 6px 0; }
   .nav-links a.link::after {
@@ -483,7 +487,6 @@
   body.dark-theme .safety-card,
   body.dark-theme .hero-float-card,
   body.dark-theme .onboarding-card,
-  body.dark-theme .preview-card,
   body.dark-theme .circle-tabs-wrapper {
     background: #180609 !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
@@ -513,7 +516,7 @@
   }
   body.dark-theme .circles-showcase-container {
     background: #180609 !important;
-    border-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #2b2b30 !important;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
   }
   body.dark-theme .mock-window-header {
@@ -605,9 +608,7 @@
   body.dark-theme .sec-head h2,
   body.dark-theme .sec-head p,
   body.dark-theme label.q,
-  body.dark-theme .progress-step,
-  body.dark-theme #preview-name,
-  body.dark-theme #preview-city {
+  body.dark-theme .progress-step {
     color: #F7EFEA !important;
   }
 
@@ -710,7 +711,7 @@
       gap: 6px;
     }
     .brand .name {
-      display: none;
+      font-size: 15px;
     }
     .nav-links {
       gap: 8px;
@@ -1093,9 +1094,12 @@
     z-index: 0; pointer-events: none;
   }
   .phone-wrapper {
-    position: relative; z-index: 1; width: 330px; max-width: 100%; height: 620px; border-radius: 44px;
-    background: var(--ink); padding: 10px; box-shadow: var(--shadow-premium);
-    border: 3px solid rgba(255, 255, 255, 0.08); transition: transform var(--transition-smooth);
+    position: relative; z-index: 1; width: 380px; max-width: 100%; height: 720px; border-radius: 48px;
+    /* Literal frame colour, NOT var(--ink) — --ink flips to cream in dark theme
+       and turned the bezel into a thick white slab. */
+    background: linear-gradient(160deg, #2b2b30 0%, #121215 45%, #232328 100%);
+    padding: 5px; box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(255, 255, 255, 0.18); transition: transform var(--transition-smooth);
     box-sizing: border-box; margin: 0 auto;
   }
   .phone-wrapper:hover { transform: none; }
@@ -1108,14 +1112,14 @@
     }
     .phone-wrapper {
       width: 100% !important;
-      max-width: 310px !important;
-      height: 520px !important;
-      border-radius: 38px !important;
-      padding: 8px !important;
+      max-width: 340px !important;
+      height: 640px !important;
+      border-radius: 42px !important;
+      padding: 5px !important;
       margin: 0 auto !important;
     }
     .phone-screen {
-      border-radius: 30px !important;
+      border-radius: 37px !important;
     }
     .app-header h4 {
       font-size: 18px !important;
@@ -1127,17 +1131,17 @@
 
   @media(max-width: 380px) {
     .phone-wrapper {
-      max-width: 285px !important;
-      height: 490px !important;
-      padding: 6px !important;
+      max-width: 300px !important;
+      height: 570px !important;
+      padding: 4px !important;
     }
     .phone-screen {
-      border-radius: 26px !important;
+      border-radius: 34px !important;
     }
   }
   
   .phone-screen {
-    width: 100%; height: 100%; border-radius: 38px; background: var(--maroon);
+    width: 100%; height: 100%; border-radius: 43px; background: var(--maroon);
     overflow: hidden; display: flex; flex-direction: column; position: relative;
     border: 1px solid rgba(255,255,255,0.04);
   }
@@ -1713,12 +1717,8 @@
   .cta-section .sec-head p { color: var(--muted); }
   
   .onboarding-wrapper {
-    display: grid; grid-template-columns: 1fr 320px; gap: 32px;
-    align-items: start; max-width: 880px; margin: 28px auto 0; position: relative; z-index: 5;
-  }
-  @media(max-width: 960px) {
-    .onboarding-wrapper { grid-template-columns: 1fr; gap: 32px; max-width: 520px; }
-    .onboarding-wrapper .preview-sticky { order: -1; }
+    display: grid; grid-template-columns: 1fr; gap: 32px;
+    align-items: start; max-width: 560px; margin: 28px auto 0; position: relative; z-index: 5;
   }
   
   .onboarding-card {
@@ -1800,60 +1800,6 @@
   .step-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 24px; }
   .step-actions .btn { flex: 1; padding: 11px 18px; font-size: 14px; border-radius: 99px; }
 
-  /* Profile Card Preview Block */
-  .preview-sticky { position: sticky; top: 100px; z-index: 10; text-align: center; }
-  @media(max-width: 960px) {
-    .preview-sticky { position: static; margin-bottom: 20px; }
-  }
-  .profile-preview-title {
-    font-family: var(--head); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--accent); margin-bottom: 8px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .profile-preview-title .pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-  
-  .preview-card {
-    background: #fff; border: 1.5px solid var(--line);
-    border-radius: 20px; padding: 18px; box-shadow: var(--shadow); position: relative; overflow: hidden; text-align: left;
-    color: var(--ink);
-  }
-  @media(max-width: 560px) {
-    .preview-card { padding: 16px; }
-  }
-  .preview-card::after {
-    content: ""; position: absolute; top: -100px; right: -100px; width: 250px; height: 250px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 62, 91, 0.06) 0%, transparent 70%); z-index: 0; pointer-events: none;
-  }
-
-  .preview-photo-block {
-    width: 100%; aspect-ratio: 16/10; border-radius: 12px; background: rgba(31, 4, 2, 0.02);
-    border: 1px solid var(--line); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
-  }
-  @media(max-width: 560px) {
-    .preview-photo-block { aspect-ratio: 16/9; }
-  }
-  .preview-photo-bg {
-    position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(31,4,2,0.01), rgba(31,4,2,0.01) 10px, transparent 10px, transparent 20px);
-    background-size: cover; background-position: center; transition: filter 0.5s ease; filter: blur(16px);
-  }
-  .preview-photo-lock {
-    position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: rgba(14,2,4,0.7); padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px);
-  }
-  .preview-photo-lock svg { width: 12px; height: 12px; fill: #fff; }
-  .preview-photo-lock span { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; color: #fff; }
-  
-  .preview-info { margin-top: 14px; position: relative; z-index: 2; }
-  .preview-header { display: flex; justify-content: space-between; align-items: baseline; }
-  .preview-name-age { font-family: var(--head); font-weight: 900; font-size: 17px; display: flex; align-items: center; gap: 6px; color: var(--ink); }
-  .preview-ver-tick { width: 16px; height: 16px; border-radius: 50%; background: #4A90E2; display: flex; align-items: center; justify-content: center; }
-  .preview-ver-tick svg { width: 9px; height: 9px; fill: #fff; }
-  .preview-city { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
-  
-  .preview-tags-section { margin-top: 16px; }
-  .preview-tags-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; display: block; }
-  .preview-tags { display: flex; flex-wrap: wrap; gap: 6px; min-height: 24px; }
-  .preview-tag-pill { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; background: rgba(31, 4, 2, 0.04); color: var(--ink); border: 1px solid var(--line); }
-  
   /* Onboarding success state overlay */
   .onboarding-success { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 380px; }
   .success-ring {
@@ -2480,9 +2426,9 @@
 
   /* Right-side iPhone simulator wrapper */
   .circles-showcase-container {
-    width: 100%; max-width: 320px; height: 550px;
-    background: #000; border: 8px solid #222;
-    border-radius: 40px; box-shadow: var(--shadow-lg), 0 30px 60px rgba(31, 4, 2, 0.15);
+    width: 100%; max-width: 360px; height: 650px;
+    background: #000; border: 4px solid #232328;
+    border-radius: 46px; box-shadow: var(--shadow-lg), 0 30px 60px rgba(31, 4, 2, 0.15);
     overflow: hidden; display: flex; flex-direction: column;
     position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-sizing: border-box; margin: 0 auto;
@@ -2540,6 +2486,23 @@
   }
 
   /* Chat Simulator Layout */
+  /* Phone title bar for the Circles simulator. Needs generous top padding —
+     the container's 46px corner radius clips anything sitting flush at the top. */
+  .mock-window-header {
+    flex: none; position: relative; z-index: 20;
+    padding: 14px 18px 10px;
+    display: flex; flex-direction: column; align-items: center; gap: 9px;
+    background: #23080D; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .mock-phone-notch {
+    width: 74px; height: 15px; background: #000; border-radius: 99px; flex: none;
+  }
+  #mock-window-title {
+    font-family: var(--head); font-weight: 800; font-size: 12px;
+    color: #fff; text-align: center; line-height: 1.2;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
   .mock-chat-header {
     padding: 12px 16px; border-bottom: 1.5px solid var(--line);
     background: rgba(255, 251, 249, 0.5);
@@ -2577,6 +2540,15 @@
     flex: 1; background: var(--cream); border-radius: 99px;
     padding: 6px 14px; font-size: 12px; color: var(--muted); border: none; text-align: left;
   }
+  .mock-chat-send {
+    width: 30px; height: 30px; flex: none; padding: 0; border: none; cursor: pointer;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 55%, var(--red) 100%);
+    box-shadow: 0 4px 12px rgba(224, 37, 14, 0.35);
+    transition: transform var(--transition-fast);
+  }
+  .mock-chat-send:hover { transform: scale(1.08); }
+  .mock-chat-send svg { width: 14px; height: 14px; fill: #fff; display: block; }
 
   /* Feed Simulator Layout */
   .mock-feed-container {
@@ -2667,12 +2639,11 @@
   <div class="wrap nav">
     <a class="brand" href="#top">
       <span class="mark"><img src="assets/newlogo.jpeg" alt="Kinnred" loading="eager"></span>
-      <span class="name">Kinnred</span>
+      <span class="name">KINNRED</span>
     </a>
     <nav class="nav-links">
       <a class="link" href="#experience">Simulator</a>
       <a class="link" href="#safety">Safety</a>
-      <a class="btn btn-red" href="#waitlist">Get early access</a>
     </nav>
     <button id="theme-toggle-btn" class="theme-toggle-pill" aria-label="Toggle dark theme" onclick="toggleTheme()">
       <div class="theme-pill-track">
@@ -2693,24 +2664,31 @@
   <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(232,87,42,0.14) 0%,transparent 70%);bottom:5%;left:-5%;"></div>
   <div class="glow-orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(245,166,35,0.10) 0%,transparent 70%);bottom:20%;right:20%;"></div>
 
-  <!-- Floating hearts — matches logo's scattered heart motif and navbar gradient -->
-  <div class="hearts-layer" aria-hidden="true">
+  <!-- Floating sparks — four-point sparkles in the logo's gold→orange→red gradient -->
+  <div class="sparks-layer" aria-hidden="true">
     <svg style="width:0; height:0; position:absolute;">
       <defs>
-        <linearGradient id="hero-heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="hero-spark-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="var(--gold)" />
           <stop offset="55%" stop-color="var(--accent)" />
           <stop offset="100%" stop-color="var(--red)" />
         </linearGradient>
       </defs>
     </svg>
-    <svg class="hero-heart" style="left:6%; --fdur:8s; --fdelay:0s; --fop:0.45; --frot:-12deg; --frot2:15deg; width:36px; height:36px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <svg class="hero-heart" style="left:18%; --fdur:11s; --fdelay:1.5s; --fop:0.5; --frot:8deg; --frot2:-10deg; width:28px; height:28px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <svg class="hero-heart" style="left:32%; --fdur:9s; --fdelay:3s; --fop:0.4; --frot:-6deg; --frot2:12deg; width:42px; height:42px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <svg class="hero-heart" style="left:50%; --fdur:12s; --fdelay:0.8s; --fop:0.55; --frot:10deg; --frot2:-8deg; width:24px; height:24px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <svg class="hero-heart" style="left:68%; --fdur:7.5s; --fdelay:4s; --fop:0.48; --frot:-14deg; --frot2:16deg; width:38px; height:38px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <svg class="hero-heart" style="left:82%; --fdur:10s; --fdelay:2s; --fop:0.52; --frot:6deg; --frot2:-12deg; width:32px; height:32px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <svg class="hero-heart" style="left:92%; --fdur:8.5s; --fdelay:5s; --fop:0.46; --frot:-8deg; --frot2:10deg; width:26px; height:26px; fill:url(#hero-heart-gradient);" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <svg class="hero-spark" style="left:4%; --fdur:8s; --fdelay:0s; --fop:0.62; --frot:0deg; --frot2:340deg; width:34px; height:34px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:11%; --fdur:10.5s; --fdelay:3.4s; --fop:0.5; --frot:25deg; --frot2:-310deg; width:19px; height:19px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:18%; --fdur:11s; --fdelay:1.5s; --fop:0.55; --frot:45deg; --frot2:-320deg; width:24px; height:24px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:25%; --fdur:9.5s; --fdelay:5.2s; --fop:0.48; --frot:-15deg; --frot2:300deg; width:15px; height:15px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:32%; --fdur:9s; --fdelay:3s; --fop:0.52; --frot:20deg; --frot2:300deg; width:38px; height:38px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:40%; --fdur:12.5s; --fdelay:6.1s; --fop:0.58; --frot:70deg; --frot2:-350deg; width:21px; height:21px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:47%; --fdur:12s; --fdelay:0.8s; --fop:0.65; --frot:-30deg; --frot2:360deg; width:17px; height:17px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:55%; --fdur:8.8s; --fdelay:4.6s; --fop:0.55; --frot:10deg; --frot2:330deg; width:30px; height:30px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:62%; --fdur:10.8s; --fdelay:2.3s; --fop:0.47; --frot:-50deg; --frot2:-330deg; width:14px; height:14px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:68%; --fdur:7.5s; --fdelay:4s; --fop:0.6; --frot:60deg; --frot2:-340deg; width:33px; height:33px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:75%; --fdur:11.6s; --fdelay:6.8s; --fop:0.5; --frot:15deg; --frot2:310deg; width:20px; height:20px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:82%; --fdur:10s; --fdelay:2s; --fop:0.54; --frot:0deg; --frot2:320deg; width:26px; height:26px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:88%; --fdur:9.2s; --fdelay:5.7s; --fop:0.46; --frot:-40deg; --frot2:-360deg; width:16px; height:16px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
+    <svg class="hero-spark" style="left:94%; --fdur:8.5s; --fdelay:1.1s; --fop:0.6; --frot:35deg; --frot2:-300deg; width:29px; height:29px; fill:url(#hero-spark-gradient);" viewBox="0 0 24 24"><path d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/></svg>
   </div>
   <div class="wrap hero-grid">
     <div class="hero-content-centered">
@@ -2719,7 +2697,7 @@
       <p class="lead">Open the app. See real people around you. Tap anyone. Message or move on.</p>
 
       <div style="margin: 12px 0 32px; display: flex; justify-content: center;">
-        <a class="btn btn-red" href="#waitlist" style="font-size: 16.5px; padding: 16px 40px; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; justify-content: center; box-shadow: 0 12px 32px rgba(224, 37, 14, 0.35); text-decoration: none;">Get Started</a>
+        <a class="btn btn-red" href="#waitlist" style="font-size: 16.5px; padding: 16px 40px; border-radius: 99px; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; justify-content: center; box-shadow: 0 12px 32px rgba(224, 37, 14, 0.35); text-decoration: none;">Join the waitlist</a>
       </div>
 
       <div class="badges" style="justify-content: center;">
@@ -2738,7 +2716,13 @@
     <div class="sec-head center">
       <span class="eyebrow">Grid over swipe</span>
       <h2 style="font-size: clamp(24px, 3.4vw, 38px);">Swiping is a slot machine. Kinnred is a room full of people.</h2>
-      <p>An algorithm decides who you see, matches go silent, and it's dating-only even when you just wanted to make friends in a new city. So we threw the whole model out.</p>
+      <div class="waitlist-metrics-bar">
+        <div class="metrics-badge">
+          <span class="metrics-pulse"></span>
+          <span class="metrics-count">500+</span>
+          <span class="metrics-label">People joined the waitlist</span>
+        </div>
+      </div>
     </div>
     <div class="compare">
       <div class="compare-col them">
@@ -2772,8 +2756,7 @@
     <div class="exp-info">
       <span class="eyebrow">Interactive Simulator</span>
       <h2>Experience Kinnred in Action</h2>
-      <p style="font-size: 18px; margin-top: 18px; color: var(--muted); font-weight: 500;">We built a live simulator. Click the steps below to switch features and interact directly with the mockup on the right.</p>
-      
+
       <div class="exp-steps">
         <div class="exp-step active" id="step-grid" onclick="activateSimDemo('grid')">
           <div class="num">1</div>
@@ -2890,7 +2873,7 @@
                   </div>
                 </div>
                 <!-- Kavya (Locked) -->
-                <div class="sim-card locked-photo" id="card-kavya" style="background-image: url('assets/avatar_sana.jpg'); filter: hue-rotate(60deg);" data-category="Friends">
+                <div class="sim-card locked-photo" id="card-kavya" style="background-image: url('assets/avatar_kavya.jpg');" data-category="Friends">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
@@ -2904,7 +2887,7 @@
 
                 <!-- Row 3 -->
                 <!-- Rajan (Locked) -->
-                <div class="sim-card locked-photo" id="card-rajan" style="background-image: url('assets/avatar_dev.jpg'); filter: hue-rotate(240deg);" data-category="Activities">
+                <div class="sim-card locked-photo" id="card-rajan" style="background-image: url('assets/avatar_rajan.jpg');" data-category="Activities">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
@@ -2928,7 +2911,7 @@
                   </div>
                 </div>
                 <!-- Kiran (Locked) -->
-                <div class="sim-card locked-photo" id="card-kiran" style="background-image: url('assets/avatar_aarav.jpg'); filter: hue-rotate(120deg);" data-category="Networking">
+                <div class="sim-card locked-photo" id="card-kiran" style="background-image: url('assets/avatar_kiran.jpg');" data-category="Networking">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
@@ -2942,7 +2925,7 @@
 
                 <!-- Row 4 -->
                 <!-- Ishita (Locked) -->
-                <div class="sim-card locked-photo" id="card-ishita" style="background-image: url('assets/avatar_priya.jpg'); filter: hue-rotate(300deg);" data-category="Friends">
+                <div class="sim-card locked-photo" id="card-ishita" style="background-image: url('assets/avatar_ishita.jpg');" data-category="Friends">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
@@ -2954,7 +2937,7 @@
                   </div>
                 </div>
                 <!-- Arjun (Locked) -->
-                <div class="sim-card locked-photo" id="card-arjun" style="background-image: url('assets/avatar_rohan.jpg'); filter: hue-rotate(30deg);" data-category="Activities">
+                <div class="sim-card locked-photo" id="card-arjun" style="background-image: url('assets/avatar_arjun.jpg');" data-category="Activities">
                   <div class="blur-overlay">
                     <div class="lock-icon"><svg><use href="#lock"/></svg></div>
                     <span class="lock-label">Locked</span>
@@ -2966,11 +2949,71 @@
                   </div>
                 </div>
                 <!-- Nisha -->
-                <div class="sim-card" style="background-image: url('assets/avatar_meera.jpg'); filter: hue-rotate(180deg);" data-category="Dating">
+                <div class="sim-card" style="background-image: url('assets/avatar_nisha.jpg');" data-category="Dating">
                   <div class="info">
                     <span class="name-age">Nisha, 22</span>
                     <span class="details">700 m · Active now</span>
                     <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+
+                <!-- Row 5 -->
+                <!-- Tara -->
+                <div class="sim-card" style="background-image: url('assets/avatar_tara.jpg');" data-category="Friends">
+                  <div class="info">
+                    <span class="name-age">Tara, 26</span>
+                    <span class="details">1.5 km · 10m ago</span>
+                    <span class="tag-pill">👋 Friends</span>
+                  </div>
+                </div>
+                <!-- Vikram -->
+                <div class="sim-card" style="background-image: url('assets/avatar_vikram.jpg');" data-category="Networking">
+                  <div class="info">
+                    <span class="name-age">Vikram, 30</span>
+                    <span class="details">2.8 km · 1h ago</span>
+                    <span class="tag-pill">💼 Networking</span>
+                  </div>
+                </div>
+                <!-- Ananya (Locked) -->
+                <div class="sim-card locked-photo" style="background-image: url('assets/avatar_ananya.jpg');" data-category="Activities">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Ananya, 24</span>
+                    <span class="details">1.3 km · Active now</span>
+                    <span class="tag-pill">🏸 Activities</span>
+                  </div>
+                </div>
+
+                <!-- Row 6 -->
+                <!-- Karthik -->
+                <div class="sim-card" style="background-image: url('assets/avatar_karthik.jpg');" data-category="Friends">
+                  <div class="info">
+                    <span class="name-age">Karthik, 27</span>
+                    <span class="details">3.4 km · 3h ago</span>
+                    <span class="tag-pill">👋 Friends</span>
+                  </div>
+                </div>
+                <!-- Divya (Locked) -->
+                <div class="sim-card locked-photo" style="background-image: url('assets/avatar_divya.jpg');" data-category="Dating">
+                  <div class="blur-overlay">
+                    <div class="lock-icon"><svg><use href="#lock"/></svg></div>
+                    <span class="lock-label">Locked</span>
+                  </div>
+                  <div class="info">
+                    <span class="name-age">Divya, 23</span>
+                    <span class="details">600 m · Active now</span>
+                    <span class="tag-pill">💘 Dating</span>
+                  </div>
+                </div>
+                <!-- Neel -->
+                <div class="sim-card" style="background-image: url('assets/avatar_neel.jpg');" data-category="Networking">
+                  <div class="info">
+                    <span class="name-age">Neel, 28</span>
+                    <span class="details">2.0 km · 45m ago</span>
+                    <span class="tag-pill">💼 Networking</span>
                   </div>
                 </div>
               </div>
@@ -3217,8 +3260,7 @@
   <div class="wrap">
     <div class="sec-head center">
       <span class="eyebrow" style="color: var(--accent);">Create Your Profile</span>
-      <h2>Lock in your founding spot.</h2>
-      <p>We launch city by city. Create your virtual waitlist profile, customize your intent, and see how your card looks in the app.</p>
+      <h2>Join the waitlist now</h2>
     </div>
 
     <div class="onboarding-wrapper">
@@ -3240,7 +3282,7 @@
           <div class="step-panel active" id="step-panel-1">
             <div class="fq">
               <label class="q" for="f-name">1. What's your full name?</label>
-              <input type="text" id="f-name" name="name" placeholder="Your full name" autocomplete="name" oninput="updatePreviewCard()" required>
+              <input type="text" id="f-name" name="name" placeholder="Your full name" autocomplete="name" required>
             </div>
             
             <div class="fq">
@@ -3250,7 +3292,7 @@
 
             <div class="fq">
               <label class="q" for="f-city">3. Select your city</label>
-              <input type="text" id="f-city" name="city" list="cities" placeholder="Start typing your city…" autocomplete="address-level2" oninput="updatePreviewCard()" required>
+              <input type="text" id="f-city" name="city" list="cities" placeholder="Start typing your city…" autocomplete="address-level2" required>
               <datalist id="cities">
                 <option value="Hyderabad"><option value="Bangalore"><option value="Pune">
                 <option value="Mumbai"><option value="Delhi NCR"><option value="Chennai">
@@ -3273,9 +3315,9 @@
             <div class="fq">
               <label class="q">4. Select your gender</label>
               <div class="radios row">
-                <label class="rad"><input type="radio" name="gender" value="Male" onchange="updatePreviewCard()"><span>Male</span></label>
-                <label class="rad"><input type="radio" name="gender" value="Female" onchange="updatePreviewCard()" checked><span>Female</span></label>
-                <label class="rad"><input type="radio" name="gender" value="Other" onchange="updatePreviewCard()"><span>Other</span></label>
+                <label class="rad"><input type="radio" name="gender" value="Male"><span>Male</span></label>
+                <label class="rad"><input type="radio" name="gender" value="Female" checked><span>Female</span></label>
+                <label class="rad"><input type="radio" name="gender" value="Other"><span>Other</span></label>
               </div>
             </div>
 
@@ -3289,29 +3331,29 @@
             <div class="fq" data-max="3" data-group="lookingfor">
               <label class="q">5. What are you here for? <span class="hint">Select up to 3</span></label>
               <div class="chips">
-                <label class="chip"><input type="checkbox" name="lookingfor" value="Friends" onchange="updatePreviewCard()"><span>👥 Friends</span></label>
-                <label class="chip"><input type="checkbox" name="lookingfor" value="Dating" onchange="updatePreviewCard()"><span>❤️ Dating</span></label>
-                <label class="chip"><input type="checkbox" name="lookingfor" value="Activity Partners" onchange="updatePreviewCard()"><span>🏃 Activities</span></label>
-                <label class="chip"><input type="checkbox" name="lookingfor" value="Networking" onchange="updatePreviewCard()"><span>💼 Networking</span></label>
-                <label class="chip"><input type="checkbox" name="lookingfor" value="Creative Collaborations" onchange="updatePreviewCard()"><span>🎨 Creative</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Friends"><span>👥 Friends</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Dating"><span>❤️ Dating</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Activity Partners"><span>🏃 Activities</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Networking"><span>💼 Networking</span></label>
+                <label class="chip"><input type="checkbox" name="lookingfor" value="Creative Collaborations"><span>🎨 Creative</span></label>
               </div>
             </div>
 
             <div class="fq" data-max="5" data-group="interests">
               <label class="q">6. Select your interests <span class="hint">Select up to 5</span></label>
               <div class="chips">
-                <label class="chip"><input type="checkbox" name="interests" value="Fitness" onchange="updatePreviewCard()"><span>Fitness</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Travel" onchange="updatePreviewCard()"><span>Travel</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Music" onchange="updatePreviewCard()"><span>Music</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Food" onchange="updatePreviewCard()"><span>Food</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Gaming" onchange="updatePreviewCard()"><span>Gaming</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Tech" onchange="updatePreviewCard()"><span>Tech</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Art" onchange="updatePreviewCard()"><span>Art</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Movies" onchange="updatePreviewCard()"><span>Movies</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Photography" onchange="updatePreviewCard()"><span>Photography</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Reading" onchange="updatePreviewCard()"><span>Reading</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Startups" onchange="updatePreviewCard()"><span>Startups</span></label>
-                <label class="chip"><input type="checkbox" name="interests" value="Pets" onchange="updatePreviewCard()"><span>Pets</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Fitness"><span>Fitness</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Travel"><span>Travel</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Music"><span>Music</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Food"><span>Food</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Gaming"><span>Gaming</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Tech"><span>Tech</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Art"><span>Art</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Movies"><span>Movies</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Photography"><span>Photography</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Reading"><span>Reading</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Startups"><span>Startups</span></label>
+                <label class="chip"><input type="checkbox" name="interests" value="Pets"><span>Pets</span></label>
               </div>
             </div>
 
@@ -3362,49 +3404,6 @@
 
       </div>
 
-      <!-- Sticky Profile Preview Card (Right Column) -->
-      <div class="preview-sticky">
-        <div class="profile-preview-title">
-          <span class="pulse"></span> Live Profile Card Preview
-        </div>
-        <div class="preview-card" id="my-preview-card">
-          <div class="preview-photo-block">
-            <div class="preview-photo-bg" id="preview-photo" style="background-image: url('assets/avatar_priya.jpg');"></div>
-            <div class="preview-photo-lock" id="preview-lock-overlay">
-              <svg><use href="#lock"/></svg>
-              <span>Photos Locked</span>
-            </div>
-          </div>
-          
-          <div class="preview-info">
-            <div class="preview-header">
-              <span class="preview-name-age" id="preview-name">Your Name</span>
-              <span class="preview-ver-tick" id="preview-tick" style="display:none;"><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></span>
-            </div>
-            <div class="preview-city" id="preview-city">Your City</div>
-            
-            <div class="preview-tags-section" id="preview-looking-for-sec" style="display:none;">
-              <span class="preview-tags-title">I'm here for</span>
-              <div class="preview-tags" id="preview-looking-for-tags"></div>
-            </div>
-
-            <div class="preview-tags-section" id="preview-interests-sec" style="display:none;">
-              <span class="preview-tags-title">Interests</span>
-              <div class="preview-tags" id="preview-interests-tags"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Waitlist Counter Metrics Display -->
-    <div class="waitlist-metrics-bar">
-      <div class="metrics-badge">
-        <span class="metrics-pulse"></span>
-        <span class="metrics-count">500+</span>
-        <span class="metrics-label">People joined the waitlist</span>
-      </div>
     </div>
 
   </div>
@@ -3458,13 +3457,8 @@
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
         <div class="circles-showcase-container">
           <div class="mock-window-header">
-            <div class="mock-window-dots">
-              <div class="mock-window-dot red"></div>
-              <div class="mock-window-dot yellow"></div>
-              <div class="mock-window-dot green"></div>
-            </div>
-            <div id="mock-window-title" style="font-family: var(--head); font-weight: 800; font-size: 12px; color: var(--ink);">Saturday Climbers Chat</div>
-            <div style="width: 36px;"></div> <!-- spacer -->
+            <div class="mock-phone-notch"></div>
+            <div id="mock-window-title">Saturday Climbers Chat</div>
           </div>
           
           <!-- View 0: Proximity Group Chats -->
@@ -3491,7 +3485,9 @@
             </div>
             <div class="mock-chat-input-area">
               <div class="mock-chat-input-box">Send a message to climbers nearby...</div>
-              <div style="font-size: 16px; color: var(--accent); cursor: pointer; transform: scaleX(-1); display: inline-block;">✈️</div>
+              <button class="mock-chat-send" type="button" aria-label="Send message">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4l17.45-7.48a1 1 0 000-1.84L3.4 3.6a.99.99 0 00-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"/></svg>
+              </button>
             </div>
           </div>
 
@@ -3640,7 +3636,7 @@
           <h5>Company</h5>
           <a href="#">About Us</a>
           <a href="#">Careers</a>
-          <a href="mailto:hello@kinnred.com">Contact Support</a>
+          <a href="mailto:heykinnred@gmail.com">Contact Support</a>
         </div>
         <div class="footer-link-group">
           <h5>Legal</h5>
@@ -3947,88 +3943,6 @@
         p.classList.remove('active');
       }
     });
-
-    updatePreviewCard();
-  }
-
-  // Update Dynamic Profile Card Preview (MySpace card generator)
-  function updatePreviewCard() {
-    var name = document.getElementById('f-name').value.trim();
-    var city = document.getElementById('f-city').value.trim();
-    
-    // Update Photo based on selected gender
-    var genderChecked = document.querySelector('input[name=gender]:checked');
-    var photoBg = document.getElementById('preview-photo');
-    if (genderChecked && photoBg) {
-      var genderVal = genderChecked.value;
-      if (genderVal === 'Male') {
-        photoBg.style.backgroundImage = "url('assets/avatar_aarav.jpg')";
-      } else if (genderVal === 'Female') {
-        photoBg.style.backgroundImage = "url('assets/avatar_priya.jpg')";
-      } else {
-        photoBg.style.backgroundImage = "url('assets/avatar_meera.jpg')";
-      }
-    }
-
-    // Update Name & Age
-    var namePreview = document.getElementById('preview-name');
-    var tickPreview = document.getElementById('preview-tick');
-    if (name) {
-      namePreview.textContent = name;
-      tickPreview.style.display = 'inline-flex';
-    } else {
-      namePreview.textContent = 'Your Name';
-      tickPreview.style.display = 'none';
-    }
-
-    // Update City
-    var cityPreview = document.getElementById('preview-city');
-    cityPreview.textContent = city ? city : 'Your City';
-
-    // Update "Looking For" Tags
-    var lookingForSec = document.getElementById('preview-looking-for-sec');
-    var lookingForTags = document.getElementById('preview-looking-for-tags');
-    var lookingForChecked = Array.from(document.querySelectorAll('input[name=lookingfor]:checked')).map(function(i) { return i.value; });
-    
-    lookingForTags.innerHTML = '';
-    if (lookingForChecked.length > 0) {
-      lookingForSec.style.display = 'block';
-      lookingForChecked.forEach(function(val) {
-        var icon = '💡';
-        if (val === 'Friends') icon = '👥';
-        if (val === 'Dating') icon = '❤️';
-        if (val === 'Activity Partners') icon = '🏃';
-        if (val === 'Networking') icon = '💼';
-        if (val === 'Creative Collaborations') icon = '🎨';
-        
-        var tagEl = document.createElement('span');
-        tagEl.className = 'preview-tag-pill';
-        tagEl.textContent = icon + ' ' + val.split(' ')[0]; // shorten
-        lookingForTags.appendChild(tagEl);
-      });
-    } else {
-      lookingForSec.style.display = 'none';
-    }
-
-    // Update Interests Tags
-    var interestsSec = document.getElementById('preview-interests-sec');
-    var interestsTags = document.getElementById('preview-interests-tags');
-    var interestsChecked = Array.from(document.querySelectorAll('input[name=interests]:checked')).map(function(i) { return i.value; });
-    
-    interestsTags.innerHTML = '';
-    if (interestsChecked.length > 0) {
-      interestsSec.style.display = 'block';
-      interestsChecked.forEach(function(val) {
-        var tagEl = document.createElement('span');
-        tagEl.className = 'preview-tag-pill';
-        tagEl.style.background = 'rgba(242,0,28,0.1)';
-        tagEl.style.borderColor = 'rgba(242,0,28,0.2)';
-        tagEl.textContent = val;
-        interestsTags.appendChild(tagEl);
-      });
-    } else {
-      interestsSec.style.display = 'none';
-    }
   }
 
   // Toast and Form Error helpers
@@ -4107,9 +4021,6 @@
 
         document.getElementById('cta-form').style.display = 'none';
         document.getElementById('onb-success').style.display = 'flex';
-
-        document.getElementById('preview-lock-overlay').innerHTML = '<svg viewBox="0 0 24 24" style="fill:#3DDC84; width:16px; height:16px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span style="color:#3DDC84;">Photos Secured</span>';
-        document.getElementById('my-preview-card').style.borderColor = '#3DDC84';
 
         showToast("Profile created successfully! 🎉");
       } else {
