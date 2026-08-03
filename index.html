@@ -4097,10 +4097,10 @@
         document.getElementById('cta-form').style.display = 'none';
         document.getElementById('onb-success').style.display = 'flex';
 
-        // Bump the badge immediately. spotNumber is 1001 + the pre-insert count,
-        // so the new total is spotNumber - 1000.
+        // Bump the badge immediately. spotNumber is 501 + the pre-insert count,
+        // so the new total count is spotNumber - 500 (which makes the badge equal spotNumber).
         if (resData.spotNumber) {
-          renderWaitlistCount(resData.spotNumber - 1000);
+          renderWaitlistCount(resData.spotNumber - 500);
         }
 
         showToast("Profile created successfully! 🎉");

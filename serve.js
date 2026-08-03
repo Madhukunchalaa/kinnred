@@ -79,13 +79,13 @@ http.createServer(async (req, res) => {
       }
 
       data.submittedAt = data.submittedAt || new Date().toISOString();
-      let spotNumber = Math.floor(1000 + Math.random() * 9000);
+      let spotNumber = Math.floor(500 + Math.random() * 500);
 
       if (db) {
         // Save to MongoDB Atlas
         const collection = db.collection('waitlist');
         const count = await collection.countDocuments();
-        spotNumber = 1001 + count; // Serial spot number starting from #1001
+        spotNumber = 501 + count; // Serial spot number, matching the public "500+ joined" badge base
         data.spotNumber = spotNumber;
         await collection.insertOne(data);
         console.log(`Saved submission for ${data.name} to MongoDB Atlas.`);
@@ -93,7 +93,7 @@ http.createServer(async (req, res) => {
         // Save to Local JSON database file
         const fileContent = fs.readFileSync(LOCAL_DB_PATH, 'utf8');
         const list = JSON.parse(fileContent || '[]');
-        spotNumber = 1001 + list.length;
+        spotNumber = 501 + list.length; // Serial spot number, matching the public "500+ joined" badge base
         data.spotNumber = spotNumber;
         list.push(data);
         fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(list, null, 2));
