@@ -185,9 +185,9 @@
         </div>
       </div>
 
-      <!-- Right Panel: Biggest social challenges -->
+      <!-- Right Panel: Feature Ideas -->
       <div class="panel">
-        <h3>Social Challenges Breakdown</h3>
+        <h3>Feature Ideas Breakdown</h3>
         <div style="position: relative; height: 260px; display: flex; align-items: center; justify-content: center;">
           <canvas id="challengeChart"></canvas>
         </div>
@@ -211,7 +211,7 @@
               <th>Email</th>
               <th>City</th>
               <th>Intents</th>
-              <th>Social Challenge</th>
+              <th>Feature Idea</th>
               <th>Joined Date</th>
             </tr>
           </thead>
@@ -363,18 +363,20 @@
         }
       });
 
-      // 2. Prepare Challenges Data
-      var challengeCounts = {};
+      // 2. Prepare Features/Ideas Data
+      var featureCounts = {};
       data.forEach(item => {
-        if (item.challenge) {
-          challengeCounts[item.challenge] = (challengeCounts[item.challenge] || 0) + 1;
+        // Fallback to challenge if old data has it, otherwise use featureIdea
+        var feature = item.featureIdea || item.challenge;
+        if (feature) {
+          featureCounts[feature] = (featureCounts[feature] || 0) + 1;
         }
       });
 
-      var challengeLabels = Object.keys(challengeCounts);
-      var challengeValues = Object.values(challengeCounts);
+      var featureLabels = Object.keys(featureCounts);
+      var featureValues = Object.values(featureCounts);
 
-      // Render Challenges Bar Chart
+      // Render Features Bar Chart
       var ctxChallenge = document.getElementById('challengeChart').getContext('2d');
       if (challengeChartInstance) {
         challengeChartInstance.destroy();
@@ -382,10 +384,10 @@
       challengeChartInstance = new Chart(ctxChallenge, {
         type: 'bar',
         data: {
-          labels: challengeLabels.map(l => l.length > 25 ? l.substring(0, 25) + '...' : l),
+          labels: featureLabels.map(l => l.length > 25 ? l.substring(0, 25) + '...' : l),
           datasets: [{
             label: 'Submissions',
-            data: challengeValues,
+            data: featureValues,
             backgroundColor: 'rgba(224, 37, 14, 0.85)',
             hoverBackgroundColor: '#E0250E',
             borderRadius: 8,
@@ -498,11 +500,12 @@
 
         var intentsStr = (item.lookingFor || []).join(', ') || 'N/A';
 
+        var feature = item.featureIdea || item.challenge || 'N/A';
         tr.innerHTML = '<td><b>' + escapeHtml(item.name) + '</b></td>' +
                        '<td>' + escapeHtml(item.email) + '</td>' +
                        '<td>' + escapeHtml(item.city) + '</td>' +
                        '<td>' + escapeHtml(intentsStr) + '</td>' +
-                       '<td>' + escapeHtml(item.challenge || 'N/A') + '</td>' +
+                       '<td>' + escapeHtml(feature) + '</td>' +
                        '<td>' + dateStr + '</td>';
         tbody.appendChild(tr);
       });
@@ -523,14 +526,14 @@
     // Export CSV utility
     function exportCSV() {
       if (submissionsData.length === 0) return;
-      var csvRows = [['Name', 'Email', 'City', 'Intents', 'Challenge', 'Submitted At']];
+      var csvRows = [['Name', 'Email', 'City', 'Intents', 'Feature Idea', 'Submitted At']];
       submissionsData.forEach(item => {
         csvRows.push([
           item.name,
           item.email,
           item.city,
           (item.lookingFor || []).join('; '),
-          item.challenge || '',
+          item.featureIdea || item.challenge || '',
           item.submittedAt || ''
         ]);
       });
