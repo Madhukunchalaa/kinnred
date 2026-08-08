@@ -4098,9 +4098,9 @@
         document.getElementById('onb-success').style.display = 'flex';
 
         // Bump the badge immediately using the true count.
-        // spotNumber starts at 1001, so spotNumber - 1000 is the real total count.
+        // spotNumber is now exactly the total real count.
         if (resData.spotNumber) {
-          renderWaitlistCount(resData.spotNumber - 1000);
+          renderWaitlistCount(resData.spotNumber);
         }
 
         showToast("Profile created successfully! 🎉");

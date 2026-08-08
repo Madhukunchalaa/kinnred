@@ -85,7 +85,7 @@ http.createServer(async (req, res) => {
         // Save to MongoDB Atlas
         const collection = db.collection('waitlist');
         const count = await collection.countDocuments();
-        spotNumber = 501 + count; // Serial spot number, matching the public "500+ joined" badge base
+        spotNumber = 1 + count; // Exact serial spot number
         data.spotNumber = spotNumber;
         await collection.insertOne(data);
         console.log(`Saved submission for ${data.name} to MongoDB Atlas.`);
@@ -93,7 +93,7 @@ http.createServer(async (req, res) => {
         // Save to Local JSON database file
         const fileContent = fs.readFileSync(LOCAL_DB_PATH, 'utf8');
         const list = JSON.parse(fileContent || '[]');
-        spotNumber = 501 + list.length; // Serial spot number, matching the public "500+ joined" badge base
+        spotNumber = 1 + list.length; // Exact serial spot number
         data.spotNumber = spotNumber;
         list.push(data);
         fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(list, null, 2));
