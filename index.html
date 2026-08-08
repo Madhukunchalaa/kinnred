@@ -3320,7 +3320,7 @@
       <h2>Join the waitlist now</h2>
       <div class="waitlist-metrics-bar">
         <div class="metrics-badge">
-          <span class="metrics-count">500+</span>
+          <span class="metrics-count">0</span>
           <span class="metrics-label">People joined the waitlist</span>
         </div>
       </div>
@@ -4097,10 +4097,10 @@
         document.getElementById('cta-form').style.display = 'none';
         document.getElementById('onb-success').style.display = 'flex';
 
-        // Bump the badge immediately. spotNumber is 501 + the pre-insert count,
-        // so the new total count is spotNumber - 500 (which makes the badge equal spotNumber).
+        // Bump the badge immediately using the true count.
+        // spotNumber starts at 1001, so spotNumber - 1000 is the real total count.
         if (resData.spotNumber) {
-          renderWaitlistCount(resData.spotNumber - 500);
+          renderWaitlistCount(resData.spotNumber - 1000);
         }
 
         showToast("Profile created successfully! 🎉");
@@ -4674,10 +4674,10 @@
   // ==========================================
   // ==========================================
   // LIVE WAITLIST COUNT
-  // Displayed number = WAITLIST_BASE + real signups, so the first joiner shows 501.
-  // The hardcoded 500 in the markup stays as the fallback if the fetch fails.
+  // Displayed number = real signups in the database.
+  // The hardcoded 0 in the markup stays as the fallback if the fetch fails.
   // ==========================================
-  var WAITLIST_BASE = 500;
+  var WAITLIST_BASE = 0;
 
   window.renderWaitlistCount = function(count) {
     var el = document.querySelector('.metrics-count');
